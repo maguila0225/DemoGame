@@ -10,7 +10,7 @@ import MaterialComponents.MDCOutlinedTextField
 import FirebaseFirestore
 
 class RegistrationVC: UIViewController {
-
+    
     
     @IBOutlet weak var usernameRegistration: MDCOutlinedTextField!
     @IBOutlet weak var passwordRegistration: MDCOutlinedTextField!
@@ -31,7 +31,7 @@ class RegistrationVC: UIViewController {
         passwordConfirmation.label.text = "Password"
         passwordConfirmation.leadingAssistiveLabel.text = ""
         passwordConfirmation.isSecureTextEntry = true
-
+        
     }
     override func  viewWillAppear(_ animated: Bool) {
         usernameRegistration.text = ""
@@ -39,32 +39,42 @@ class RegistrationVC: UIViewController {
         passwordConfirmation.text = ""
         
     }
-    @IBAction func registerButton(_ sender: Any) {
-        NSLog("Register Attempt")
-    }
     
     @IBAction func exitButton(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
     @IBAction func registerUser(_ sender: Any) {
+        NSLog("User Registration Attempt")
         guard usernameRegistration.text?.isEmpty == false
                 && passwordConfirmation.text?.isEmpty == false
                 && passwordRegistration.text == passwordConfirmation.text
         else{
-            if usernameRegistration.text?.isEmpty == true{
-                usernameRegistration.leadingAssistiveLabel.text = "Invalid Username"
+            if usernameRegistration.text?.isEmpty == true
+                || passwordRegistration.text?.isEmpty == true{
+                NSLog("Username/Password is Empty")
             }
             if passwordConfirmation.text != passwordRegistration.text{
-                passwordRegistration.leadingAssistiveLabel.text = "Mismatch Password"
+                NSLog("Mismatch Password")
             }
-                    return
-            }
-    
+            return
+        }
         registerUser(username: usernameRegistration.text!, password: passwordConfirmation.text!)
+        
     }
     
     func registerUser(username: String, password: String){
-        let documentReference = firestoreDatabase.document("playerDatabase/\(username)")
-        documentReference.setData([username:password])
+        let documentReference = firestoreDatabase.document("playerDatabase/\(usernameRegistration.text!)")
+        documentReference.getDocument { snapshot, error in
+            if error == nil {
+                guard snapshot?.data() == nil else{
+                    print(snapshot?.data() as Any)
+                    NSLog("User Already Exists")
+                    return
+                }
+                NSLog("\(self.usernameRegistration.text!):\(self.passwordConfirmation.text!)Registered")
+                documentReference.setData([username:password])
+            }
+        }
     }
 }
+

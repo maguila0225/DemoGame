@@ -55,17 +55,18 @@ class LogInVC: UIViewController {
             NSLog("Empty username/password")
             return
         }
-        let documentReference = firestoreDatabase.document("playerDatabase/\(usernameTextField.text ?? "")")
+        let documentReference = firestoreDatabase.document("playerDatabase/\(usernameTextField.text!)")
         documentReference.getDocument{ snapshot, error in
             guard let data = snapshot?.data(), error == nil else{
                 NSLog("Invalid User")
                 return
             }
-            guard data[self.usernameTextField.text!] as! String == self.passwordTextField.text! else{
-                NSLog("Incorrect Password")
+            guard data[self.usernameTextField.text!] as! String == self.passwordTextField.text!
+            else{
+                    NSLog("Incorrect Password")
                 return
             }
-        NSLog("Successful Log In")
+            NSLog("Successful Log In")
         }
     }
     @IBAction func registerButton(_ sender: Any) {
