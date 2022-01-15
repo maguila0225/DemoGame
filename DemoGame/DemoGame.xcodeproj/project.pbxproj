@@ -116,12 +116,10 @@
 		5B99BFA02793020200E0F96E /* DemoGame */ = {
 			isa = PBXGroup;
 			children = (
-				5B99BFA12793020200E0F96E /* AppDelegate.swift */,
-				5B99BFA32793020200E0F96E /* SceneDelegate.swift */,
-				5B99BFA52793020200E0F96E /* ViewController.swift */,
-				5B99BFA72793020200E0F96E /* Main.storyboard */,
-				5B99BFAA2793020400E0F96E /* Assets.xcassets */,
-				5B99BFAC2793020400E0F96E /* LaunchScreen.storyboard */,
+				5B99BFD427930A9D00E0F96E /* Resources */,
+				5B99BFD327930A9200E0F96E /* Controllers */,
+				5B99BFD227930A8A00E0F96E /* Views */,
+				5B99BFD127930A8200E0F96E /* Models */,
 				5B99BFAF2793020400E0F96E /* Info.plist */,
 			);
 			path = DemoGame;
@@ -144,6 +142,40 @@
 			path = DemoGameUITests;
 			sourceTree = "<group>";
 		};
+		5B99BFD127930A8200E0F96E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		5B99BFD227930A8A00E0F96E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5B99BFA72793020200E0F96E /* Main.storyboard */,
+				5B99BFAC2793020400E0F96E /* LaunchScreen.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		5B99BFD327930A9200E0F96E /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				5B99BFA52793020200E0F96E /* ViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		5B99BFD427930A9D00E0F96E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5B99BFAA2793020400E0F96E /* Assets.xcassets */,
+				5B99BFA12793020200E0F96E /* AppDelegate.swift */,
+				5B99BFA32793020200E0F96E /* SceneDelegate.swift */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		7E7E771BE742C95BA61FB521 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -154,7 +186,6 @@
 				C97FA99C7B088ABA68553FCD /* Pods-DemoGameTests.debug.xcconfig */,
 				41CF5F2E470FCA644583CCF2 /* Pods-DemoGameTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -179,6 +210,7 @@
 				5B99BF9A2793020200E0F96E /* Sources */,
 				5B99BF9B2793020200E0F96E /* Frameworks */,
 				5B99BF9C2793020200E0F96E /* Resources */,
+				C60C6CEE597DF43D315EDC5C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -216,6 +248,7 @@
 				5B99BFBA2793020500E0F96E /* Sources */,
 				5B99BFBB2793020500E0F96E /* Frameworks */,
 				5B99BFBC2793020500E0F96E /* Resources */,
+				4F29CFDB4913CA4AB8E9C220 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -320,6 +353,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		4F29CFDB4913CA4AB8E9C220 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DemoGame-DemoGameUITests/Pods-DemoGame-DemoGameUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DemoGame-DemoGameUITests/Pods-DemoGame-DemoGameUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DemoGame-DemoGameUITests/Pods-DemoGame-DemoGameUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		C5403DB90CC08B54A6EB2355 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -340,6 +390,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C60C6CEE597DF43D315EDC5C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DemoGame/Pods-DemoGame-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DemoGame/Pods-DemoGame-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DemoGame/Pods-DemoGame-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E35DBD6C75F62330813DA03A /* [CP] Check Pods Manifest.lock */ = {
