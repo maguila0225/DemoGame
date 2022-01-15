@@ -9,13 +9,14 @@
 /* Begin PBXBuildFile section */
 		5B99BFA22793020200E0F96E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B99BFA12793020200E0F96E /* AppDelegate.swift */; };
 		5B99BFA42793020200E0F96E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B99BFA32793020200E0F96E /* SceneDelegate.swift */; };
-		5B99BFA62793020200E0F96E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B99BFA52793020200E0F96E /* ViewController.swift */; };
+		5B99BFA62793020200E0F96E /* LogInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B99BFA52793020200E0F96E /* LogInVC.swift */; };
 		5B99BFA92793020200E0F96E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B99BFA72793020200E0F96E /* Main.storyboard */; };
 		5B99BFAB2793020400E0F96E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B99BFAA2793020400E0F96E /* Assets.xcassets */; };
 		5B99BFAE2793020400E0F96E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B99BFAC2793020400E0F96E /* LaunchScreen.storyboard */; };
 		5B99BFB92793020400E0F96E /* DemoGameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B99BFB82793020400E0F96E /* DemoGameTests.swift */; };
 		5B99BFC32793020500E0F96E /* DemoGameUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B99BFC22793020500E0F96E /* DemoGameUITests.swift */; };
 		5B99BFC52793020500E0F96E /* DemoGameUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B99BFC42793020500E0F96E /* DemoGameUITestsLaunchTests.swift */; };
+		5B99BFD82793187000E0F96E /* RegistrationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B99BFD72793186F00E0F96E /* RegistrationVC.swift */; };
 		645F0B47E0A233E09D115A87 /* Pods_DemoGame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BA35738BBAEDC0F00A4B2D0 /* Pods_DemoGame.framework */; };
 		81D1EB68627C23E73C769155 /* Pods_DemoGameTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D963144C23AACED17781DC97 /* Pods_DemoGameTests.framework */; };
 		8A1996ADB283D3A627593555 /* Pods_DemoGame_DemoGameUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C78E7534066E8A3BBC2E866 /* Pods_DemoGame_DemoGameUITests.framework */; };
@@ -45,7 +46,7 @@
 		5B99BF9E2793020200E0F96E /* DemoGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B99BFA12793020200E0F96E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5B99BFA32793020200E0F96E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		5B99BFA52793020200E0F96E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		5B99BFA52793020200E0F96E /* LogInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInVC.swift; sourceTree = "<group>"; };
 		5B99BFA82793020200E0F96E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5B99BFAA2793020400E0F96E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5B99BFAD2793020400E0F96E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -55,6 +56,7 @@
 		5B99BFBE2793020500E0F96E /* DemoGameUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoGameUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B99BFC22793020500E0F96E /* DemoGameUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoGameUITests.swift; sourceTree = "<group>"; };
 		5B99BFC42793020500E0F96E /* DemoGameUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoGameUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		5B99BFD72793186F00E0F96E /* RegistrationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationVC.swift; sourceTree = "<group>"; };
 		862FA88F4E986AF597559C75 /* Pods-DemoGame-DemoGameUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoGame-DemoGameUITests.debug.xcconfig"; path = "Target Support Files/Pods-DemoGame-DemoGameUITests/Pods-DemoGame-DemoGameUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		AF60AF34563E0A6A6997FA9B /* Pods-DemoGame-DemoGameUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoGame-DemoGameUITests.release.xcconfig"; path = "Target Support Files/Pods-DemoGame-DemoGameUITests/Pods-DemoGame-DemoGameUITests.release.xcconfig"; sourceTree = "<group>"; };
 		C51BBE39A794E2F9B9C9F54F /* Pods-DemoGame.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoGame.release.xcconfig"; path = "Target Support Files/Pods-DemoGame/Pods-DemoGame.release.xcconfig"; sourceTree = "<group>"; };
@@ -161,7 +163,8 @@
 		5B99BFD327930A9200E0F96E /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				5B99BFA52793020200E0F96E /* ViewController.swift */,
+				5B99BFA52793020200E0F96E /* LogInVC.swift */,
+				5B99BFD72793186F00E0F96E /* RegistrationVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -438,9 +441,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B99BFA62793020200E0F96E /* ViewController.swift in Sources */,
+				5B99BFA62793020200E0F96E /* LogInVC.swift in Sources */,
 				5B99BFA22793020200E0F96E /* AppDelegate.swift in Sources */,
 				5B99BFA42793020200E0F96E /* SceneDelegate.swift in Sources */,
+				5B99BFD82793187000E0F96E /* RegistrationVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
