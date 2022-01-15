@@ -108,6 +108,7 @@
                                 </buttonConfiguration>
                                 <connections>
                                     <action selector="registerButton:" destination="tjv-ZJ-itj" eventType="touchUpInside" id="qAi-o0-cqO"/>
+                                    <action selector="registerUser:" destination="tjv-ZJ-itj" eventType="touchUpInside" id="4IG-zT-aZR"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YQX-yN-pbF" customClass="MDCOutlinedTextField">

@@ -8,6 +8,7 @@
 import UIKit
 import MaterialComponents.MaterialTextControls_OutlinedTextFields
 import MaterialComponents.MaterialButtons
+import Firebase
 // MARK: - Global Log functions
 func GlobalLog_Load (vc_Log: String){
     NSLog("View Controller \(vc_Log) Loaded")
@@ -28,6 +29,8 @@ class LogInVC: UIViewController {
     @IBOutlet weak var usernameTextField: MDCOutlinedTextField!
     @IBOutlet weak var passwordTextField: MDCOutlinedTextField!
     
+    let firestoreDatabase = Firestore.firestore()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -46,12 +49,29 @@ class LogInVC: UIViewController {
     }
     @IBAction func logInAttempt(_ sender: Any) {
         NSLog("Log in Attempted")
+        guard usernameTextField.text?.isEmpty == false
+                && passwordTextField.text?.isEmpty == false
+        else{
+            NSLog("Empty username/password")
+            return
+        }
+        let documentReference = firestoreDatabase.document("playerDatabase/\(usernameTextField.text ?? "")")
+        documentReference.getDocument{ snapshot, error in
+            guard let data = snapshot?.data(), error == nil else{
+                NSLog("Invalid User")
+                return
+            }
+            guard data[self.usernameTextField.text!] as! String == self.passwordTextField.text! else{
+                NSLog("Incorrect Password")
+                return
+            }
+        NSLog("Successful Log In")
+        }
     }
     @IBAction func registerButton(_ sender: Any) {
         screenTransition(vcIdentifier: "RegistrationVC",isFullScreen: true)
     }
 }
-
 extension LogInVC{
     public func screenTransition (vcIdentifier: String, isFullScreen: Bool) {
         let sb = UIStoryboard(name: "Main", bundle: nil)
@@ -61,5 +81,6 @@ extension LogInVC{
         }
         self.present(vc, animated: true, completion: nil)
     }
+    
 }
 
