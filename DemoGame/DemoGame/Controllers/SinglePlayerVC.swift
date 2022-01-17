@@ -7,6 +7,7 @@
 
 import UIKit
 import MaterialComponents.MaterialAppBar
+import MaterialComponents.MaterialDialogs
 
 // MARK: - SinglePlayerVC
 class SinglePlayerVC: UIViewController {
@@ -20,6 +21,7 @@ class SinglePlayerVC: UIViewController {
     @IBOutlet weak var playerName_Score: UILabel!
     @IBOutlet weak var playerScore: UILabel!
     @IBOutlet weak var botScore: UILabel!
+    @IBOutlet weak var roundNumber: UILabel!
     
     // MARK: - User Input Declaration
     @IBOutlet weak var rockButton: UIImageView!
@@ -38,7 +40,8 @@ class SinglePlayerVC: UIViewController {
     var playerScoreValue: Int = 0
     var botScoreValue: Int = 0
     var roundCounter: Int = 0
-    
+    var matchResult: String = ""
+    var closeGame: Bool = false
     // MARK: - SinglePlayerVC life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,10 +87,12 @@ class SinglePlayerVC: UIViewController {
     }
     // MARK: - SinglePlayerVC IBAction
     @IBAction func startFightButton(_ sender: Any) {
-        let botSelectionDigit = Int.random(in: 0...4)
-        botSelection = selectionDictionary[botSelectionDigit]!
-        p2SelectedImage.image = UIImage(named: "\(botSelection).png")
+        botEngine()
         gameEngine(playerInput: playerSelection, botInput: botSelection)
+        matchEnd(counter: roundCounter)
+        if closeGame == true {
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
 }
@@ -128,6 +133,11 @@ extension SinglePlayerVC{
         p1SelectedImage.image = UIImage(named: "Spock.png")
     }
     
+    func botEngine(){
+        let botSelectionDigit = Int.random(in: 0...4)
+        botSelection = selectionDictionary[botSelectionDigit]!
+        p2SelectedImage.image = UIImage(named: "\(botSelection).png")
+    }
     func gameEngine(playerInput: String, botInput: String){
         switch playerSelection {
         case "Rock":
@@ -226,8 +236,38 @@ extension SinglePlayerVC{
         NSLog("Player: \(playerSelection) \n Bot: \(botSelection) \n Result: \(result)")
         playerScore.text = String(playerScoreValue)
         botScore.text = String(botScoreValue)
+        roundNumber.text = String(roundCounter)
         resultLabel.text = result
     }
-    
+    func winnerSelect() -> String{
+        switch playerScoreValue{
+        case botScoreValue:
+            matchResult = "Draw"
+        default:
+            if playerScoreValue > botScoreValue{
+                matchResult = "Player Wins"
+            }
+            else{
+                matchResult = "RSPLS Bot Wins"
+            }
+        }
+        return matchResult
+    }
+    func matchEnd(counter: Int){
+        if counter == 10{
+            matchResult = winnerSelect()
+            let alertController = MDCAlertController(title: "Match Ended", message: matchResult)
+            let action1 = MDCAlertAction(title:"Rematch") { (action) in (self.playerScoreValue = 0,
+                                                                        self.roundCounter = 0,
+                                                                        self.botScoreValue = 0,
+                                                                        self.playerScore.text = String(self.playerScoreValue),
+                                                                        self.botScore.text = String(self.botScoreValue),
+                                                                        self.roundNumber.text = String(self.roundCounter)) }
+            let action2 = MDCAlertAction(title:"Exit") { (action) in (self.dismiss(animated: false, completion: nil))}
+            alertController.addAction(action2)
+            alertController.addAction(action1)
+            self.present(alertController, animated:true, completion: nil)
+        }
+    }
 }
 
