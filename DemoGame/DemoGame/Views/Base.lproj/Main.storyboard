@@ -218,7 +218,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleAspectFill" misplaced="YES" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="erl-iG-0Op">
-                                <rect key="frame" x="20" y="72" width="374" height="295"/>
+                                <rect key="frame" x="20" y="72" width="374" height="281"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="center" distribution="fillEqually" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="xcm-f1-lOM">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="20.5"/>
@@ -249,16 +249,13 @@
                                         </subviews>
                                     </stackView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Result" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RIU-JI-u1z">
-                                        <rect key="frame" x="81" y="144.5" width="212.5" height="50"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="0Vm-oD-YLF"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="70"/>
+                                        <rect key="frame" x="140.5" y="144.5" width="93.5" height="36"/>
+                                        <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="30"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="cMB-7X-bpC">
-                                        <rect key="frame" x="0.0" y="214.5" width="374" height="80.5"/>
+                                        <rect key="frame" x="0.0" y="200.5" width="374" height="80.5"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="TMQ-Be-EqV">
                                                 <rect key="frame" x="0.0" y="0.0" width="187" height="80.5"/>
@@ -340,6 +337,9 @@
                                             <fontDescription key="titleFontDescription" type="system" weight="heavy" pointSize="30"/>
                                             <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <action selector="startFightButton:" destination="2Cl-cV-rog" eventType="touchUpInside" id="MBN-DH-uZC"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -359,7 +359,6 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="ScissorsButton" destination="5Ti-fn-TKw" id="aEz-JY-8zQ"/>
                         <outlet property="botScore" destination="pxk-cE-W1h" id="MHd-vK-23v"/>
                         <outlet property="fightButton" destination="WGa-j6-LQg" id="Idf-Jc-mOW"/>
                         <outlet property="lizardButton" destination="mhA-j1-sNc" id="gxQ-Ze-bQu"/>
@@ -371,6 +370,7 @@
                         <outlet property="playerScore" destination="PFT-VY-j9o" id="pGb-QR-8Wm"/>
                         <outlet property="resultLabel" destination="RIU-JI-u1z" id="6LA-Al-PYE"/>
                         <outlet property="rockButton" destination="QZn-pW-PFa" id="ggN-Ij-hWv"/>
+                        <outlet property="scissorsButton" destination="5Ti-fn-TKw" id="aEz-JY-8zQ"/>
                         <outlet property="spockButton" destination="z3a-QO-jlZ" id="ZPG-bR-rhJ"/>
                     </connections>
                 </viewController>
