@@ -5,20 +5,20 @@
 //  Created by OPSolutions on 1/15/22.
 //
 
-// MARK: - RegistrationVC imported libraries
 import UIKit
 import MaterialComponents.MDCOutlinedTextField
 import MaterialComponents.MaterialButtons
 import FirebaseFirestore
 import IQKeyboardManager
 
-// MARK: - RegistrationVC
 class RegistrationVC: UIViewController {
     
-// MARK: - RegistrationVC variable declaration
+// MARK: - RegistrationVC IBOutlet Declaration
     @IBOutlet weak var usernameRegistration: MDCOutlinedTextField!
     @IBOutlet weak var passwordRegistration: MDCOutlinedTextField!
     @IBOutlet weak var passwordConfirmation: MDCOutlinedTextField!
+
+// MARK: - Variable/Constant Declaration
     let vcIdentifier = "RegistrationVC"
     let firestoreDatabase = Firestore.firestore()
 
@@ -26,30 +26,18 @@ class RegistrationVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         GlobalLog_Load(vc_Log: vcIdentifier)
-        usernameRegistration.label.text = "Username"
-        usernameRegistration.leadingAssistiveLabel.text = ""
-        
-        passwordRegistration.label.text = "Password"
-        passwordRegistration.leadingAssistiveLabel.text = ""
-        passwordRegistration.isSecureTextEntry = true
-        
-        passwordConfirmation.label.text = "Password"
-        passwordConfirmation.leadingAssistiveLabel.text = ""
-        passwordConfirmation.isSecureTextEntry = true
-        
+        initializeScreenElements()
     }
     
     override func  viewWillAppear(_ animated: Bool) {
         GlobalLog_Display(vc_Log: vcIdentifier)
-        usernameRegistration.text = ""
-        passwordRegistration.text = ""
-        passwordConfirmation.text = ""
-        
+        pageClear()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         GlobalLog_Dismiss(vc_Log: vcIdentifier)
     }
+    
 // MARK: - RegistrationVC IBAction
     @IBAction func registerUser(_ sender: Any) {
         NSLog("User Registration Attempt")
@@ -79,7 +67,26 @@ class RegistrationVC: UIViewController {
 
 // MARK: - RegistrationVC functions
 extension RegistrationVC{
-
+// MARK: - Screen Initialization Functions
+    func initializeScreenElements(){
+        usernameRegistration.label.text = "Username"
+        usernameRegistration.leadingAssistiveLabel.text = ""
+        
+        passwordRegistration.label.text = "Password"
+        passwordRegistration.leadingAssistiveLabel.text = ""
+        passwordRegistration.isSecureTextEntry = true
+        
+        passwordConfirmation.label.text = "Password"
+        passwordConfirmation.leadingAssistiveLabel.text = ""
+        passwordConfirmation.isSecureTextEntry = true
+    }
+// MARK: - Page Clear Functions
+    func pageClear(){
+        usernameRegistration.text = ""
+        passwordRegistration.text = ""
+        passwordConfirmation.text = ""
+    }
+// MARK: - Screen Transition Function
     func registerUser(username: String, password: String){
         let documentReference = firestoreDatabase.document("playerDatabase/\(usernameRegistration.text!)")
         documentReference.getDocument { snapshot, error in
@@ -95,7 +102,7 @@ extension RegistrationVC{
             }
         }
     }
-
+// MARK: - Alert Function
     func registrationAlert(alertTitle: String, alertMessage: String){
         let alertController = MDCAlertController(title: alertTitle, message: alertMessage)
         let action = MDCAlertAction(title:"OK") { (action) in print("OK") }

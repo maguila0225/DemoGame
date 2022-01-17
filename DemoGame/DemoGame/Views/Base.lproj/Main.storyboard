@@ -3,7 +3,6 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
-        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -20,7 +19,7 @@
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="26b-lg-QTA" customClass="MDCButton">
                                 <rect key="frame" x="10" y="782" width="394" height="30"/>
-                                <color key="backgroundColor" name="AccentColor"/>
+                                <color key="backgroundColor" red="0.2353312373" green="0.32384532690000001" blue="0.53335624930000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="8Lx-Gw-UMq"/>
                                 </constraints>
@@ -117,7 +116,7 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ugv-dL-hkj" customClass="MDCButton">
                                 <rect key="frame" x="10" y="782" width="394" height="30"/>
-                                <color key="backgroundColor" name="AccentColor"/>
+                                <color key="backgroundColor" red="0.2353312373" green="0.32384532690000001" blue="0.53335624930000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="Q4v-Ms-xUF"/>
                                 </constraints>
@@ -192,12 +191,21 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Auf-bT-ifz">
-                                <rect key="frame" x="174" y="783" width="67" height="31"/>
+                                <rect key="frame" x="154" y="537" width="108" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Single Player"/>
                                 <connections>
                                     <action selector="singlePlayerButton:" destination="3ap-CW-QR8" eventType="touchUpInside" id="SEA-fw-Or8"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aTP-Ok-3Ql">
+                                <rect key="frame" x="161" y="585" width="96" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Multiplayer"/>
+                                <connections>
+                                    <action selector="multiplayerButton:" destination="3ap-CW-QR8" eventType="touchUpInside" id="Wqo-sp-P0M"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -209,10 +217,10 @@
             </objects>
             <point key="canvasLocation" x="1610" y="72"/>
         </scene>
-        <!--Single PlayerVC-->
+        <!--Game ScreenVC-->
         <scene sceneID="r1A-TP-kch">
             <objects>
-                <viewController storyboardIdentifier="SinglePlayerVC" id="2Cl-cV-rog" customClass="SinglePlayerVC" customModule="DemoGame" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GameScreenVC" id="2Cl-cV-rog" customClass="GameScreenVC" customModule="DemoGame" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="7cZ-RF-dOK">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -348,7 +356,7 @@
                                     </stackView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WGa-j6-LQg" customClass="MDCButton">
                                         <rect key="frame" x="0.0" y="86" width="374" height="50"/>
-                                        <color key="backgroundColor" name="AccentColor"/>
+                                        <color key="backgroundColor" red="0.2353312373" green="0.32384532690000001" blue="0.53335624930000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Fight!">
                                             <fontDescription key="titleFontDescription" type="system" weight="heavy" pointSize="30"/>
@@ -376,20 +384,22 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="botScore" destination="pxk-cE-W1h" id="MHd-vK-23v"/>
                         <outlet property="fightButton" destination="WGa-j6-LQg" id="Idf-Jc-mOW"/>
-                        <outlet property="lizardButton" destination="mhA-j1-sNc" id="gxQ-Ze-bQu"/>
-                        <outlet property="p1SelectedImage" destination="PIj-W9-6mf" id="esE-Of-5bs"/>
-                        <outlet property="p2SelectedImage" destination="jij-M3-Uid" id="bsc-Bx-WiV"/>
-                        <outlet property="paperButton" destination="5Gl-12-SXs" id="MaZ-ea-BdH"/>
-                        <outlet property="playerName" destination="XUz-Np-p1z" id="BIg-qD-Qvh"/>
-                        <outlet property="playerName_Score" destination="aca-a0-wrl" id="bsJ-XP-g9g"/>
-                        <outlet property="playerScore" destination="PFT-VY-j9o" id="pGb-QR-8Wm"/>
-                        <outlet property="resultLabel" destination="RIU-JI-u1z" id="6LA-Al-PYE"/>
-                        <outlet property="rockButton" destination="QZn-pW-PFa" id="ggN-Ij-hWv"/>
-                        <outlet property="roundNumber" destination="yQg-S9-rof" id="thc-zn-8j5"/>
-                        <outlet property="scissorsButton" destination="5Ti-fn-TKw" id="aEz-JY-8zQ"/>
-                        <outlet property="spockButton" destination="z3a-QO-jlZ" id="ZPG-bR-rhJ"/>
+                        <outlet property="lizardButton" destination="mhA-j1-sNc" id="Rj8-4v-6dk"/>
+                        <outlet property="p1SelectedImage" destination="PIj-W9-6mf" id="fHz-Rz-kFM"/>
+                        <outlet property="p2SelectedImage" destination="jij-M3-Uid" id="KBr-pA-Nt5"/>
+                        <outlet property="paperButton" destination="5Gl-12-SXs" id="k4y-za-Ak8"/>
+                        <outlet property="player2Name" destination="TDx-td-FJr" id="kMT-DP-7Pm"/>
+                        <outlet property="player2Name_Score" destination="aMh-Ax-pJ6" id="mYF-5y-XcN"/>
+                        <outlet property="player2Score" destination="pxk-cE-W1h" id="EsN-QL-m8g"/>
+                        <outlet property="playerName" destination="XUz-Np-p1z" id="LER-fl-PX9"/>
+                        <outlet property="playerName_Score" destination="aca-a0-wrl" id="06O-5k-2PL"/>
+                        <outlet property="playerScore" destination="PFT-VY-j9o" id="3Hz-Qw-9cg"/>
+                        <outlet property="resultLabel" destination="RIU-JI-u1z" id="qxx-iV-RyR"/>
+                        <outlet property="rockButton" destination="QZn-pW-PFa" id="H5f-Xq-64I"/>
+                        <outlet property="roundNumber" destination="yQg-S9-rof" id="dLx-xj-ikb"/>
+                        <outlet property="scissorsButton" destination="5Ti-fn-TKw" id="PPf-qb-xnA"/>
+                        <outlet property="spockButton" destination="z3a-QO-jlZ" id="Rc1-Up-Ahf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SRL-nN-pA1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -398,9 +408,6 @@
         </scene>
     </scenes>
     <resources>
-        <namedColor name="AccentColor">
-            <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
