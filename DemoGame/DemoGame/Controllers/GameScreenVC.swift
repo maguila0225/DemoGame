@@ -24,7 +24,7 @@ class GameScreenVC: UIViewController {
     
     @IBOutlet weak var resultLabel: UILabel!
     @IBOutlet weak var roundNumber: UILabel!
-   
+    
     // MARK: - User Input Declaration
     @IBOutlet weak var rockButton: UIImageView!
     @IBOutlet weak var paperButton: UIImageView!
@@ -34,8 +34,14 @@ class GameScreenVC: UIViewController {
     @IBOutlet weak var fightButton: MDCButton!
     
     // MARK: -  Variables/Constants
+    
+    //MARK: - Variables Passed in
+    var gameMode: String = ""
+    var usernameDataPass_GS = "Default Username"
+    var multiplayerP2Name = "Default Username"
+    
+    //MARK: - Class variables
     let vcIdentifier = "SinglePlayerVC"
-    let selectionDictionary = [0:"Rock", 1:"Paper", 2:"Scissors", 3:"Lizard", 4:"Spock"]
     var playerSelection: String = "Rock"
     var botSelection: String = "Rock"
     var roundResult: String = "Player Wins"
@@ -43,9 +49,13 @@ class GameScreenVC: UIViewController {
     var botScoreValue: Int = 0
     var roundCounter: Int = 0
     var matchResult: String = ""
-    var gameMode: String = ""
-    var usernameDataPass_GS = "Default Username"
-    var multiplayerP2Name = "Default Username"
+
+    // MARK: - Gesture Recognizers
+    var rockSelect = UIGestureRecognizer()
+    var paperSelect = UIGestureRecognizer()
+    var scissorsSelect = UIGestureRecognizer()
+    var lizardSelect = UIGestureRecognizer()
+    var spockSelect = UIGestureRecognizer()
     
     // MARK: - SinglePlayerVC life cycle
     override func viewDidLoad() {
@@ -67,8 +77,8 @@ class GameScreenVC: UIViewController {
     @IBAction func startFightButton(_ sender: Any) {
         
         if gameMode == "Single Player"{
-        botEngine()
-        gameEngine(playerInput: playerSelection, botInput: botSelection)
+            botEngine()
+            gameEngine(playerInput: playerSelection, botInput: botSelection)
             matchEnd(counter: roundCounter)
         }
         else if gameMode == "Multiplayer"{
@@ -80,97 +90,96 @@ class GameScreenVC: UIViewController {
 // MARK: - SinglePlayerVC functions
 extension GameScreenVC{
     // MARK: - Screen Initialize Functions
-        func initializeImages(){
-            p1SelectedImage.image = UIImage(named: "Rock.png")
-            p2SelectedImage.image = UIImage(named: "Rock.png")
-            rockButton.image = UIImage(named: "Rock.png")
-            paperButton.image = UIImage(named: "Paper.png")
-            scissorsButton.image = UIImage(named: "Scissors.png")
-            lizardButton.image = UIImage(named: "Lizard.png")
-            spockButton.image = UIImage(named: "Spock.png")
-        }
-        
-        func initializePlayerNames(){
-            playerName.text = usernameDataPass_GS
-            playerName_Score.text = usernameDataPass_GS
-            switch gameMode{
-            case "Single Player":
-                player2Name.text = "RPSLS Bot"
-                player2Name_Score.text = "RPSLS Bot"
-            case "Multiplayer":
-                player2Name.text = multiplayerP2Name
-                player2Name_Score.text = multiplayerP2Name
-            default:
-                player2Name.text = "Player 2"
-                player2Name_Score.text = "Player 2"
-            }
-        }
-        
-        func initializeImageTapGestures(){
-            let rockSelect = UITapGestureRecognizer(target: self, action: #selector(rockTapped(tapGestureRecognizer:)))
-            rockButton.isUserInteractionEnabled = true
-            rockButton.addGestureRecognizer(rockSelect)
-            
-            let paperSelect = UITapGestureRecognizer(target: self, action: #selector(paperTapped(tapGestureRecognizer:)))
-            paperButton.isUserInteractionEnabled = true
-            paperButton.addGestureRecognizer(paperSelect)
-            
-            let scissorsSelect = UITapGestureRecognizer(target: self, action: #selector(scissorsTapped(tapGestureRecognizer:)))
-            scissorsButton.isUserInteractionEnabled = true
-            scissorsButton.addGestureRecognizer(scissorsSelect)
-            
-            let lizardSelect = UITapGestureRecognizer(target: self, action: #selector(lizardTapped(tapGestureRecognizer:)))
-            lizardButton.isUserInteractionEnabled = true
-            lizardButton.addGestureRecognizer(lizardSelect)
-            
-            let spockSelect = UITapGestureRecognizer(target: self, action: #selector(spockTapped(tapGestureRecognizer:)))
-            spockButton.isUserInteractionEnabled = true
-            spockButton.addGestureRecognizer(spockSelect)
-        }
-
-    // MARK: - Tap Gesture Functions
-    @objc func rockTapped(tapGestureRecognizer: UITapGestureRecognizer)
-    {
-        playerSelection = "Rock"
+    func initializeImages(){
         p1SelectedImage.image = UIImage(named: "Rock.png")
+        p2SelectedImage.image = UIImage(named: "Rock.png")
+        rockButton.image = UIImage(named: "Rock.png")
+        paperButton.image = UIImage(named: "Paper.png")
+        scissorsButton.image = UIImage(named: "Scissors.png")
+        lizardButton.image = UIImage(named: "Lizard.png")
+        spockButton.image = UIImage(named: "Spock.png")
     }
-    @objc func paperTapped(tapGestureRecognizer: UITapGestureRecognizer)
-    {
-        playerSelection = "Paper"
-        p1SelectedImage.image = UIImage(named: "Paper.png")
+    
+    func initializePlayerNames(){
+        playerName.text = usernameDataPass_GS
+        playerName_Score.text = usernameDataPass_GS
+        switch gameMode{
+        case "Single Player":
+            player2Name.text = "RPSLS Bot"
+            player2Name_Score.text = "RPSLS Bot"
+        case "Multiplayer":
+            player2Name.text = multiplayerP2Name
+            player2Name_Score.text = multiplayerP2Name
+        default:
+            player2Name.text = "Player 2"
+            player2Name_Score.text = "Player 2"
+        }
     }
-    @objc func scissorsTapped(tapGestureRecognizer: UITapGestureRecognizer)
-    {
-        playerSelection = "Scissors"
-        p1SelectedImage.image = UIImage(named: "Scissors.png")
+    
+    func initializeImageTapGestures(){
+        rockSelect = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
+        rockButton.isUserInteractionEnabled = true
+        rockButton.addGestureRecognizer(rockSelect)
+        
+        paperSelect = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
+        paperButton.isUserInteractionEnabled = true
+        paperButton.addGestureRecognizer(paperSelect)
+        
+        scissorsSelect = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
+        scissorsButton.isUserInteractionEnabled = true
+        scissorsButton.addGestureRecognizer(scissorsSelect)
+        
+        lizardSelect = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
+        lizardButton.isUserInteractionEnabled = true
+        lizardButton.addGestureRecognizer(lizardSelect)
+        
+        spockSelect = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
+        spockButton.isUserInteractionEnabled = true
+        spockButton.addGestureRecognizer(spockSelect)
     }
-    @objc func lizardTapped(tapGestureRecognizer: UITapGestureRecognizer)
+    
+    // MARK: - Tap Gesture Functions
+    @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer)
     {
-        playerSelection = "Lizard"
-        p1SelectedImage.image = UIImage(named: "Lizard.png")
-    }
-    @objc func spockTapped(tapGestureRecognizer: UITapGestureRecognizer)
-    {
-        playerSelection = "Spock"
-        p1SelectedImage.image = UIImage(named: "Spock.png")
+        switch tapGestureRecognizer{
+        case rockSelect:
+            playerSelection = "Rock"
+            p1SelectedImage.image = UIImage(named: "Rock.png")
+        case paperSelect:
+            playerSelection = "Paper"
+            p1SelectedImage.image = UIImage(named: "Paper.png")
+        case scissorsSelect:
+            playerSelection = "Scissors"
+            p1SelectedImage.image = UIImage(named: "Scissors.png")
+        case lizardSelect:
+            playerSelection = "Lizard"
+            p1SelectedImage.image = UIImage(named: "Lizard.png")
+        case spockSelect:
+            playerSelection = "Spock"
+            p1SelectedImage.image = UIImage(named: "Spock.png")
+        default:
+            print("Unrecognized Gesture")
+        }
     }
     
     // MARK: - Single Player Game Logic
     func botEngine(){
+        let selectionDictionary = [0:"Rock", 1:"Paper", 2:"Scissors", 3:"Lizard", 4:"Spock"]
         let botSelectionDigit = Int.random(in: 0...4)
         botSelection = selectionDictionary[botSelectionDigit]!
         p2SelectedImage.image = UIImage(named: "\(botSelection).png")
     }
+    
     func gameEngine(playerInput: String, botInput: String){
         switch playerSelection {
         case "Rock":
             switch botSelection{
             case "Scissors":
-                roundResult = "Player Wins"
+                roundResult = "\(usernameDataPass_GS) Wins"
                 playerScoreValue += 1
                 roundCounter += 1
             case "Lizard":
-                roundResult = "Player Wins"
+                roundResult = "\(usernameDataPass_GS) Wins"
                 playerScoreValue += 1
                 roundCounter += 1
             case "Rock":
@@ -183,11 +192,11 @@ extension GameScreenVC{
         case "Paper":
             switch botSelection{
             case "Rock":
-                roundResult = "Player Wins"
+                roundResult = "\(usernameDataPass_GS) Wins"
                 playerScoreValue += 1
                 roundCounter += 1
             case "Spock":
-                roundResult = "Player Wins"
+                roundResult = "\(usernameDataPass_GS) Wins"
                 playerScoreValue += 1
                 roundCounter += 1
             case "Paper":
@@ -200,10 +209,10 @@ extension GameScreenVC{
         case "Scissors":
             switch botSelection{
             case "Paper":
-                roundResult = "Player Wins"
+                roundResult = "\(usernameDataPass_GS) Wins"
                 playerScoreValue += 1
             case "Lizard":
-                roundResult = "Player Wins"
+                roundResult = "\(usernameDataPass_GS) Wins"
                 playerScoreValue += 1
                 roundCounter += 1
             case "Scissors":
@@ -216,11 +225,11 @@ extension GameScreenVC{
         case "Lizard":
             switch botSelection{
             case "Paper":
-                roundResult = "Player Wins"
+                roundResult = "\(usernameDataPass_GS) Wins"
                 playerScoreValue += 1
                 roundCounter += 1
             case "Spock":
-                roundResult = "Player Wins"
+                roundResult = "\(usernameDataPass_GS) Wins"
                 playerScoreValue += 1
                 roundCounter += 1
             case "Lizard":
@@ -233,11 +242,11 @@ extension GameScreenVC{
         case "Spock":
             switch botSelection{
             case "Rock":
-                roundResult = "Player Wins"
+                roundResult = "\(usernameDataPass_GS) Wins"
                 playerScoreValue += 1
                 roundCounter += 1
             case "Scissors":
-                roundResult = "Player Wins"
+                roundResult = "\(usernameDataPass_GS) Wins"
                 playerScoreValue += 1
                 roundCounter += 1
             case "Spock":
@@ -257,15 +266,6 @@ extension GameScreenVC{
         resultLabel.text = roundResult
     }
     
-    func winnerSelect() -> String{
-        if playerScoreValue > botScoreValue{
-            matchResult = "Player Wins"
-        }else{
-            matchResult = "RSPLS Bot Wins"
-        }
-        return matchResult
-    }
-    
     func matchEnd(counter: Int){
         if counter >= 10 && playerScoreValue != botScoreValue{
             matchResult = winnerSelect()
@@ -278,6 +278,15 @@ extension GameScreenVC{
         }
     }
     
+    func winnerSelect() -> String{
+        if playerScoreValue > botScoreValue{
+            matchResult = "\(usernameDataPass_GS) Wins"
+        }else{
+            matchResult = "RSPLS Bot Wins"
+        }
+        return matchResult
+    }
+    
     func matchReset(){
         playerScoreValue = 0
         roundCounter = 0
@@ -286,7 +295,7 @@ extension GameScreenVC{
         player2Score.text = String(botScoreValue)
         roundNumber.text = String(roundCounter)
     }
-
+    
 }
 
-                     
+

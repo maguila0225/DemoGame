@@ -25,6 +25,7 @@ class LogInVC: UIViewController {
     // MARK: - LogInVC life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Register", style: .done, target: self, action: #selector(screenTransitionRegister))
         GlobalLog_Load(vc_Log: vcIdentifier)
         initializeScreenElements()
     }
@@ -61,18 +62,13 @@ class LogInVC: UIViewController {
                 return
             }
             NSLog("User: \(self.usernameTextField.text!) logged in")
-            self.screenTransition(vcIdentifier: "MainMenuVC")
-            
+            self.screenTransitionMainMenu()
         }
-    }
-    
-    @IBAction func registerButton(_ sender: Any) {
-        screenTransition(vcIdentifier: "RegistrationVC")
     }
 }
 // MARK: - LogInVC Functions
 extension LogInVC{
-// MARK: - Initializing Functions
+    // MARK: - Initializing Functions
     func initializeScreenElements(){
         logoImage.image = UIImage(named: "Logo.png")
         
@@ -83,32 +79,27 @@ extension LogInVC{
         passwordTextField.leadingAssistiveLabel.text = ""
         passwordTextField.isSecureTextEntry = true
     }
-//MARK: - Page Clear Function
+    //MARK: - Page Clear Function
     func pageClear(){
         usernameTextField.text = ""
         passwordTextField.text = ""
     }
     
     
-// MARK: - Screen Transition
-    func screenTransition(vcIdentifier: String) {
+    // MARK: - Screen Transition
+    func screenTransitionMainMenu() {
         let sb = UIStoryboard(name: "Main", bundle: nil)
-        switch vcIdentifier{
-        case "RegistrationVC":
-            let vc = sb.instantiateViewController(withIdentifier: vcIdentifier) as! RegistrationVC
-            vc.modalPresentationStyle = .fullScreen
-            self.present(vc, animated: true, completion: nil)
-        case "MainMenuVC":
-            let vc = sb.instantiateViewController(withIdentifier: vcIdentifier) as! MainMenuVC
-            vc.modalPresentationStyle = .fullScreen
-            self.present(vc, animated: true, completion: nil)
-            vc.usernameDataPass_MM = usernameTextField.text!
-        default:
-            print("Invalid VC")
-        }
+        let vc = sb.instantiateViewController(withIdentifier: "MainMenuVC") as! MainMenuVC
+        vc.usernameDataPass_MM = usernameTextField.text!
+        navigationController?.pushViewController(vc, animated: true)
     }
-
-// MARK: - Alert Function
+    @objc func screenTransitionRegister(){
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        let vc = sb.instantiateViewController(withIdentifier: "RegistrationVC")
+        navigationController?.pushViewController(vc, animated: true)
+        
+    }
+    // MARK: - Alert Function
     func logInAlert(alertTitle: String, alertMessage: String){
         let alertController = MDCAlertController(title: alertTitle, message: alertMessage)
         let action = MDCAlertAction(title:"OK") { (action) in print("OK") }

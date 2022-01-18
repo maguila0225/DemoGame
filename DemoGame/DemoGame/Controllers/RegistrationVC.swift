@@ -25,6 +25,7 @@ class RegistrationVC: UIViewController {
 // MARK: - RegistrationVC life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Create User"
         GlobalLog_Load(vc_Log: vcIdentifier)
         initializeScreenElements()
     }
@@ -60,9 +61,6 @@ class RegistrationVC: UIViewController {
 
     }
     
-    @IBAction func exitButton(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
-    }
 }
 
 // MARK: - RegistrationVC functions
