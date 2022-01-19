@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		5B488AE92793FD5500A463E6 /* MainMenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B488AE82793FD5500A463E6 /* MainMenuVC.swift */; };
-		5B488AED279466D400A463E6 /* GameScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B488AEC279466D300A463E6 /* GameScreenVC.swift */; };
 		5B488AEF2795693600A463E6 /* PlayerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B488AEE2795693600A463E6 /* PlayerModel.swift */; };
 		5B99BFA22793020200E0F96E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B99BFA12793020200E0F96E /* AppDelegate.swift */; };
 		5B99BFA42793020200E0F96E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B99BFA32793020200E0F96E /* SceneDelegate.swift */; };
@@ -21,6 +20,7 @@
 		5B99BFC52793020500E0F96E /* DemoGameUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B99BFC42793020500E0F96E /* DemoGameUITestsLaunchTests.swift */; };
 		5B99BFD82793187000E0F96E /* RegistrationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B99BFD72793186F00E0F96E /* RegistrationVC.swift */; };
 		5B99BFDC27934EEE00E0F96E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5B99BFDB27934EED00E0F96E /* GoogleService-Info.plist */; };
+		5B9F5C11279869BB0039C1A1 /* GameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9F5C10279869BB0039C1A1 /* GameVC.swift */; };
 		5B9FCB7D27970E3A004F5E0E /* SizeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9FCB7C27970E3A004F5E0E /* SizeExtension.swift */; };
 		645F0B47E0A233E09D115A87 /* Pods_DemoGame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BA35738BBAEDC0F00A4B2D0 /* Pods_DemoGame.framework */; };
 		81D1EB68627C23E73C769155 /* Pods_DemoGameTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D963144C23AACED17781DC97 /* Pods_DemoGameTests.framework */; };
@@ -49,7 +49,6 @@
 		1BA35738BBAEDC0F00A4B2D0 /* Pods_DemoGame.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DemoGame.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		41CF5F2E470FCA644583CCF2 /* Pods-DemoGameTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoGameTests.release.xcconfig"; path = "Target Support Files/Pods-DemoGameTests/Pods-DemoGameTests.release.xcconfig"; sourceTree = "<group>"; };
 		5B488AE82793FD5500A463E6 /* MainMenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuVC.swift; sourceTree = "<group>"; };
-		5B488AEC279466D300A463E6 /* GameScreenVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScreenVC.swift; sourceTree = "<group>"; };
 		5B488AEE2795693600A463E6 /* PlayerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerModel.swift; sourceTree = "<group>"; };
 		5B99BF9E2793020200E0F96E /* DemoGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B99BFA12793020200E0F96E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -66,6 +65,7 @@
 		5B99BFC42793020500E0F96E /* DemoGameUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoGameUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		5B99BFD72793186F00E0F96E /* RegistrationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationVC.swift; sourceTree = "<group>"; };
 		5B99BFDB27934EED00E0F96E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		5B9F5C10279869BB0039C1A1 /* GameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameVC.swift; sourceTree = "<group>"; };
 		5B9FCB7C27970E3A004F5E0E /* SizeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizeExtension.swift; sourceTree = "<group>"; };
 		862FA88F4E986AF597559C75 /* Pods-DemoGame-DemoGameUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoGame-DemoGameUITests.debug.xcconfig"; path = "Target Support Files/Pods-DemoGame-DemoGameUITests/Pods-DemoGame-DemoGameUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		AF60AF34563E0A6A6997FA9B /* Pods-DemoGame-DemoGameUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoGame-DemoGameUITests.release.xcconfig"; path = "Target Support Files/Pods-DemoGame-DemoGameUITests/Pods-DemoGame-DemoGameUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -178,7 +178,7 @@
 				5B99BFA52793020200E0F96E /* LogInVC.swift */,
 				5B99BFD72793186F00E0F96E /* RegistrationVC.swift */,
 				5B488AE82793FD5500A463E6 /* MainMenuVC.swift */,
-				5B488AEC279466D300A463E6 /* GameScreenVC.swift */,
+				5B9F5C10279869BB0039C1A1 /* GameVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -457,13 +457,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B488AED279466D400A463E6 /* GameScreenVC.swift in Sources */,
 				5B99BFA62793020200E0F96E /* LogInVC.swift in Sources */,
 				5B488AE92793FD5500A463E6 /* MainMenuVC.swift in Sources */,
 				5B99BFA22793020200E0F96E /* AppDelegate.swift in Sources */,
 				5B99BFA42793020200E0F96E /* SceneDelegate.swift in Sources */,
 				5B99BFD82793187000E0F96E /* RegistrationVC.swift in Sources */,
 				5B9FCB7D27970E3A004F5E0E /* SizeExtension.swift in Sources */,
+				5B9F5C11279869BB0039C1A1 /* GameVC.swift in Sources */,
 				5B488AEF2795693600A463E6 /* PlayerModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
