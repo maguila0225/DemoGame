@@ -16,10 +16,10 @@ class LogInVC: UIViewController {
     let vcIdentifier: String = "LogInVC"
     
     // MARK: - LogInVC variable declaration
-    
     @IBOutlet weak var logoImage: UIImageView!
     @IBOutlet weak var usernameTextField: MDCOutlinedTextField!
     @IBOutlet weak var passwordTextField: MDCOutlinedTextField!
+    var loggedInPlayer: [String: Any] = [:]
     
     let firestoreDatabase = Firestore.firestore()
     // MARK: - LogInVC life cycle
@@ -44,80 +44,28 @@ class LogInVC: UIViewController {
         guard usernameTextField.text?.isEmpty == false
                 && passwordTextField.text?.isEmpty == false
         else{
-            logInAlert(alertTitle: "Log In Error", alertMessage: "Empty username/Password")
+            gameAlert(alertTitle: "Log In Error", alertMessage: "Empty username/Password")
             NSLog("Empty Username/Password")
             return
         }
         let documentReference = firestoreDatabase.document("playerDatabase/\(usernameTextField.text!)")
         documentReference.getDocument{ snapshot, error in
             guard let data = snapshot?.data(), error == nil else{
-                self.logInAlert(alertTitle: "Log In Error", alertMessage: "Invalid User")
+                self.gameAlert(alertTitle: "Log In Error", alertMessage: "Invalid User")
                 NSLog("Invalid User")
                 return
             }
-            guard data[self.usernameTextField.text!] as! String == self.passwordTextField.text!
+            guard data["password"] as! String == self.passwordTextField.text!
             else{
-                self.logInAlert(alertTitle: "Log In Error", alertMessage: "Incorrect Password")
+                self.gameAlert(alertTitle: "Log In Error", alertMessage: "Incorrect Password")
                 NSLog("Incorrect Password")
                 return
             }
             NSLog("User: \(self.usernameTextField.text!) logged in")
+            self.loggedInPlayer = data
             self.screenTransitionMainMenu()
         }
     }
-}
-// MARK: - LogInVC Functions
-extension LogInVC{
-    // MARK: - Initializing Functions
-    func initializeScreenElements(){
-        logoImage.image = UIImage(named: "Logo.png")
-        
-        usernameTextField.label.text = "Username"
-        usernameTextField.leadingAssistiveLabel.text = ""
-        
-        passwordTextField.label.text = "Password"
-        passwordTextField.leadingAssistiveLabel.text = ""
-        passwordTextField.isSecureTextEntry = true
-    }
-    //MARK: - Page Clear Function
-    func pageClear(){
-        usernameTextField.text = ""
-        passwordTextField.text = ""
-    }
-    
-    
-    // MARK: - Screen Transition
-    func screenTransitionMainMenu() {
-        let sb = UIStoryboard(name: "Main", bundle: nil)
-        let vc = sb.instantiateViewController(withIdentifier: "MainMenuVC") as! MainMenuVC
-        vc.usernameDataPass_MM = usernameTextField.text!
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    @objc func screenTransitionRegister(){
-        let sb = UIStoryboard(name: "Main", bundle: nil)
-        let vc = sb.instantiateViewController(withIdentifier: "RegistrationVC")
-        navigationController?.pushViewController(vc, animated: true)
-        
-    }
-    // MARK: - Alert Function
-    func logInAlert(alertTitle: String, alertMessage: String){
-        let alertController = MDCAlertController(title: alertTitle, message: alertMessage)
-        let action = MDCAlertAction(title:"OK") { (action) in print("OK") }
-        alertController.addAction(action)
-        self.present(alertController, animated:true, completion: nil)
-    }
-}
-// MARK: - Global Log functions
-func GlobalLog_Load (vc_Log: String){
-    NSLog("View Controller \(vc_Log) Loaded")
-}
-
-func GlobalLog_Display (vc_Log: String){
-    NSLog("View Controller \(vc_Log) Appeared")
-}
-
-func GlobalLog_Dismiss (vc_Log: String){
-    NSLog("View Controller \(vc_Log) Disappeared")
 }
 
 
