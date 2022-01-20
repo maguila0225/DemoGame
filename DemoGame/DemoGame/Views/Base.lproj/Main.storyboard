@@ -70,7 +70,7 @@
                             <constraint firstItem="l6Q-Wa-0RV" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="yPs-qT-wHq"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Log In" id="pzl-tx-iiR"/>
+                    <navigationItem key="navigationItem" title="Log In" largeTitleDisplayMode="always" id="pzl-tx-iiR"/>
                     <connections>
                         <outlet property="logoImage" destination="l6Q-Wa-0RV" id="gNj-Dx-7hz"/>
                         <outlet property="passwordTextField" destination="lQ5-qr-D7f" id="XaA-xr-JXZ"/>

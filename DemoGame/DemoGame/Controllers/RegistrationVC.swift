@@ -21,12 +21,14 @@ class RegistrationVC: UIViewController {
 // MARK: - Variable/Constant Declaration
     let vcIdentifier = "RegistrationVC"
     let firestoreDatabase = Firestore.firestore()
-
+    var playerID: String = ""
+    var newPlayer = Player()
+    
 // MARK: - RegistrationVC life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Create User"
         GlobalLog_Load(vc_Log: vcIdentifier)
+        title = "Create User"
         initializeScreenElements()
     }
     
@@ -48,63 +50,18 @@ class RegistrationVC: UIViewController {
         else{
             if usernameRegistration.text?.isEmpty == true
                 || passwordRegistration.text?.isEmpty == true{
-                self.registrationAlert(alertTitle: "Registration Error", alertMessage: "Empty Username/Password")
+                self.gameAlert(alertTitle: "Registration Error", alertMessage: "Empty Username/Password")
                 NSLog("Empty Username/Password")
             }
             if passwordConfirmation.text != passwordRegistration.text{
-                self.registrationAlert(alertTitle: "Registration Error", alertMessage: "Mismatch Password")
+                self.gameAlert(alertTitle: "Registration Error", alertMessage: "Mismatch Password")
                 NSLog("Mismatch Password")
             }
             return
         }
+        self.playerID = usernameRegistration.text!
         registerUser(username: usernameRegistration.text!, password: passwordConfirmation.text!)
-
-    }
-    
-}
-
-// MARK: - RegistrationVC functions
-extension RegistrationVC{
-// MARK: - Screen Initialization Functions
-    func initializeScreenElements(){
-        usernameRegistration.label.text = "Username"
-        usernameRegistration.leadingAssistiveLabel.text = ""
-        
-        passwordRegistration.label.text = "Password"
-        passwordRegistration.leadingAssistiveLabel.text = ""
-        passwordRegistration.isSecureTextEntry = true
-        
-        passwordConfirmation.label.text = "Password"
-        passwordConfirmation.leadingAssistiveLabel.text = ""
-        passwordConfirmation.isSecureTextEntry = true
-    }
-// MARK: - Page Clear Functions
-    func pageClear(){
-        usernameRegistration.text = ""
-        passwordRegistration.text = ""
-        passwordConfirmation.text = ""
-    }
-// MARK: - Screen Transition Function
-    func registerUser(username: String, password: String){
-        let documentReference = firestoreDatabase.document("playerDatabase/\(usernameRegistration.text!)")
-        documentReference.getDocument { snapshot, error in
-            if error == nil {
-                guard snapshot?.data() == nil else{
-                    self.registrationAlert(alertTitle: "Registration Error", alertMessage: "User Already Exists")
-                    NSLog("User Already Exists")
-                    return
-                }
-                self.registrationAlert(alertTitle: "Registration Successful", alertMessage: "Proceed to Log In")
-                NSLog("\(self.usernameRegistration.text!):\(self.passwordConfirmation.text!)Registered")
-                documentReference.setData([username:password])
-            }
-        }
-    }
-// MARK: - Alert Function
-    func registrationAlert(alertTitle: String, alertMessage: String){
-        let alertController = MDCAlertController(title: alertTitle, message: alertMessage)
-        let action = MDCAlertAction(title:"OK") { (action) in print("OK") }
-        alertController.addAction(action)
-        self.present(alertController, animated:true, completion: nil)
     }
 }
+
+

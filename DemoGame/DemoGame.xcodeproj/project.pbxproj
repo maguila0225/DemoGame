@@ -21,6 +21,12 @@
 		5B99BFD82793187000E0F96E /* RegistrationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B99BFD72793186F00E0F96E /* RegistrationVC.swift */; };
 		5B99BFDC27934EEE00E0F96E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5B99BFDB27934EED00E0F96E /* GoogleService-Info.plist */; };
 		5B9F5C11279869BB0039C1A1 /* GameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9F5C10279869BB0039C1A1 /* GameVC.swift */; };
+		5B9F5C532799003A0039C1A1 /* AlertExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9F5C522799003A0039C1A1 /* AlertExtension.swift */; };
+		5B9F5C55279907E90039C1A1 /* CodableExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9F5C54279907E90039C1A1 /* CodableExtension.swift */; };
+		5B9F5C5827990D490039C1A1 /* LogInExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9F5C5727990D490039C1A1 /* LogInExtension.swift */; };
+		5B9F5C5A27990DA90039C1A1 /* RegistrationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9F5C5927990DA90039C1A1 /* RegistrationExtension.swift */; };
+		5B9F5C5C27990DF70039C1A1 /* MainMenuExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9F5C5B27990DF70039C1A1 /* MainMenuExtension.swift */; };
+		5B9F5C5E27990E6C0039C1A1 /* GameExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9F5C5D27990E6C0039C1A1 /* GameExtension.swift */; };
 		5B9FCB7D27970E3A004F5E0E /* SizeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9FCB7C27970E3A004F5E0E /* SizeExtension.swift */; };
 		645F0B47E0A233E09D115A87 /* Pods_DemoGame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BA35738BBAEDC0F00A4B2D0 /* Pods_DemoGame.framework */; };
 		81D1EB68627C23E73C769155 /* Pods_DemoGameTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D963144C23AACED17781DC97 /* Pods_DemoGameTests.framework */; };
@@ -66,6 +72,12 @@
 		5B99BFD72793186F00E0F96E /* RegistrationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationVC.swift; sourceTree = "<group>"; };
 		5B99BFDB27934EED00E0F96E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5B9F5C10279869BB0039C1A1 /* GameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameVC.swift; sourceTree = "<group>"; };
+		5B9F5C522799003A0039C1A1 /* AlertExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertExtension.swift; sourceTree = "<group>"; };
+		5B9F5C54279907E90039C1A1 /* CodableExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableExtension.swift; sourceTree = "<group>"; };
+		5B9F5C5727990D490039C1A1 /* LogInExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInExtension.swift; sourceTree = "<group>"; };
+		5B9F5C5927990DA90039C1A1 /* RegistrationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationExtension.swift; sourceTree = "<group>"; };
+		5B9F5C5B27990DF70039C1A1 /* MainMenuExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuExtension.swift; sourceTree = "<group>"; };
+		5B9F5C5D27990E6C0039C1A1 /* GameExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameExtension.swift; sourceTree = "<group>"; };
 		5B9FCB7C27970E3A004F5E0E /* SizeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizeExtension.swift; sourceTree = "<group>"; };
 		862FA88F4E986AF597559C75 /* Pods-DemoGame-DemoGameUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoGame-DemoGameUITests.debug.xcconfig"; path = "Target Support Files/Pods-DemoGame-DemoGameUITests/Pods-DemoGame-DemoGameUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		AF60AF34563E0A6A6997FA9B /* Pods-DemoGame-DemoGameUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoGame-DemoGameUITests.release.xcconfig"; path = "Target Support Files/Pods-DemoGame-DemoGameUITests/Pods-DemoGame-DemoGameUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -186,12 +198,42 @@
 		5B99BFD427930A9D00E0F96E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5B9F5C56279907FE0039C1A1 /* Extensions */,
 				5B99BFAA2793020400E0F96E /* Assets.xcassets */,
 				5B99BFA12793020200E0F96E /* AppDelegate.swift */,
 				5B99BFA32793020200E0F96E /* SceneDelegate.swift */,
-				5B9FCB7C27970E3A004F5E0E /* SizeExtension.swift */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		5B9F5C56279907FE0039C1A1 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				5B9F5C6127990EE00039C1A1 /* Utilities */,
+				5B9F5C6027990ED00039C1A1 /* Controller_Methods */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		5B9F5C6027990ED00039C1A1 /* Controller_Methods */ = {
+			isa = PBXGroup;
+			children = (
+				5B9F5C5727990D490039C1A1 /* LogInExtension.swift */,
+				5B9F5C5927990DA90039C1A1 /* RegistrationExtension.swift */,
+				5B9F5C5B27990DF70039C1A1 /* MainMenuExtension.swift */,
+				5B9F5C5D27990E6C0039C1A1 /* GameExtension.swift */,
+			);
+			path = Controller_Methods;
+			sourceTree = "<group>";
+		};
+		5B9F5C6127990EE00039C1A1 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				5B9FCB7C27970E3A004F5E0E /* SizeExtension.swift */,
+				5B9F5C522799003A0039C1A1 /* AlertExtension.swift */,
+				5B9F5C54279907E90039C1A1 /* CodableExtension.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 		7E7E771BE742C95BA61FB521 /* Pods */ = {
@@ -457,9 +499,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B9F5C532799003A0039C1A1 /* AlertExtension.swift in Sources */,
 				5B99BFA62793020200E0F96E /* LogInVC.swift in Sources */,
+				5B9F5C5A27990DA90039C1A1 /* RegistrationExtension.swift in Sources */,
+				5B9F5C5827990D490039C1A1 /* LogInExtension.swift in Sources */,
 				5B488AE92793FD5500A463E6 /* MainMenuVC.swift in Sources */,
+				5B9F5C5E27990E6C0039C1A1 /* GameExtension.swift in Sources */,
 				5B99BFA22793020200E0F96E /* AppDelegate.swift in Sources */,
+				5B9F5C5C27990DF70039C1A1 /* MainMenuExtension.swift in Sources */,
+				5B9F5C55279907E90039C1A1 /* CodableExtension.swift in Sources */,
 				5B99BFA42793020200E0F96E /* SceneDelegate.swift in Sources */,
 				5B99BFD82793187000E0F96E /* RegistrationVC.swift in Sources */,
 				5B9FCB7D27970E3A004F5E0E /* SizeExtension.swift in Sources */,

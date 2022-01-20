@@ -6,11 +6,11 @@
 //
 
 import Foundation
-struct Player{
-    var username: String
-    var password: String
-    var matchesPlayed: Int
-    var wins: Int
-    var losses: Int
-    var winRatio: Float
+struct Player: Codable{
+    var username: String = ""
+    var password: String = ""
+    var matchesPlayed: Int = 0
+    var wins: Int = 0
+    var losses: Int = 0
+    var winRatio: Double = 0
 }
