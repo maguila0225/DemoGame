@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import MaterialComponents.MaterialAppBar
+import FirebaseFirestore
 
 class MainMenuVC: UIViewController {
     // MARK: - UI Element Declaration
@@ -33,13 +33,15 @@ class MainMenuVC: UIViewController {
     // MARK: - Class Variable/Constant Declaration
     let vcIdentifier: String = "MainMenuVC"
     var loggedInPlayer_MM: [String: Any] = [:]
-    
+    let firestoreDatabase = Firestore.firestore()
+    var room: String = ""
+    var role: String = ""
+    var multiplayerGame = MultiplayerGame()
 
     // MARK: - MainMenuVC Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Main Menu"
-        NSLog("\(loggedInPlayer_MM)")
         GlobalLog_Load(vc_Log: vcIdentifier)
         initializeUIElements()
         addUIElementSubViews()

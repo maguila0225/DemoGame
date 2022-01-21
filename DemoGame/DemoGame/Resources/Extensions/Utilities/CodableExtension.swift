@@ -17,8 +17,23 @@ extension UIViewController{
                 print("Serialization Fail")
                 return [:]
             }
-            print("\(encodedPlayer)")
             return encodedPlayer
+        }
+        catch{
+            print("Encoding Failed")
+            return [:]
+        }
+    }
+    
+    func encodeGame(inputGame: MultiplayerGame) -> [String: Any]
+    {
+        do{
+            let encodedData = try JSONEncoder().encode(inputGame)
+            guard let encodedGame = try JSONSerialization.jsonObject(with: encodedData, options: .allowFragments) as? [String: Any] else{
+                print("Serialization Fail")
+                return [:]
+            }
+            return encodedGame
         }
         catch{
             print("Encoding Failed")
