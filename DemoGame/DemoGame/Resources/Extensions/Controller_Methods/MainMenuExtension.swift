@@ -13,23 +13,14 @@ extension MainMenuVC{
     //MARK: - Initialize UI Elements
     func initializeUIElements(){
         imageView.image = UIImage(named: "Logo.png")
-        imageView.contentMode = .scaleAspectFit
         onePlayerButtonImage.image = UIImage(named: "Rock.png")
-        onePlayerButtonImage.contentMode = .scaleAspectFit
         onePlayerButtonText.text = "SINGLE PLAYER"
-        onePlayerButtonText.textColor = .systemBlue
         multiplayerButtonImage.image = UIImage(named: "Scissors.png")
-        multiplayerButtonImage.contentMode = .scaleAspectFit
         multiplayerButtonText.text = "MULTIPLAYER"
-        multiplayerButtonText.textColor = .systemBlue
         leaderboardButtonImage.image = UIImage(named: "Spock.png")
-        leaderboardButtonImage.contentMode = .scaleAspectFit
         leaderboardButtonText.text = "LEADERBOARD"
-        leaderboardButtonText.textColor = .systemBlue
         profileButtonImage.image = UIImage(named: "Lizard.png")
-        profileButtonImage.contentMode = .scaleAspectFit
         profileButtonText.text = "PLAYER PROFILE"
-        profileButtonText.textColor = .systemBlue
     }
     //MARK: - Add Subviews
     func addUIElementSubViews(){
@@ -73,18 +64,18 @@ extension MainMenuVC{
         case singlePlayerSelect:
             let gameMode = "Single Player"
             screenTransition(gameMode: gameMode)
-            print("Single Player Button Tapped")
+            NSLog("Single Player Button Tapped")
         case multiplayerSelect:
             let gameMode = "Multiplayer"
             multiplayerQueue()
             //        screenTransition(gameMode: gameMode)
-            print("Multiplayer Button Tapped \(gameMode)")
+            NSLog("Multiplayer Button Tapped \(gameMode)")
         case leaderboardSelect:
-            print("Leaderboard Button Tapped")
+            NSLog("Leaderboard Button Tapped")
         case profileSelect:
-            print("Profile Button Tapped")
+            NSLog("Profile Button Tapped")
         default:
-            print("Unrecognized Gesture")
+            NSLog("Unrecognized Gesture")
         }
     }
     
@@ -132,12 +123,14 @@ extension MainMenuVC{
                              y: 5,
                              width: base.height - 10,
                              height: base.height - 10)
+        image.contentMode = .scaleAspectFit
         
         text.frame = CGRect(x: image.right + 5,
                             y: 5,
                             width: base.width - image.width - 15,
                             height: base.height - 10)
         text.font = UIFont(name: "Verdana-Bold", size: base.height * 0.25)
+        text.textColor = .systemBlue
         
     }
     
@@ -158,27 +151,29 @@ extension MainMenuVC{
         let documentReference = firestoreDatabase.document("multiplayerQueue/Lobby")
         documentReference.getDocument{ snapshot, error in
             guard let data = snapshot?.data(), error == nil else{
-                print("\(String(describing: error))")
+                NSLog("\(String(describing: error))")
                 return
             }
+            assignHostGuest(data: data)
+        }
+        func assignHostGuest(data: [String :Any])
+        {
             while (isConnected == false){
-                print("i: \(i)")
                 let hostName = "host" + String(i)
                 if data.isEmpty {
                     documentReference.setData([hostName:"open"])
                     self.room = "room" + String(i)
                     self.role = "host"
-                    print("assigned room: \(self.room) as role: \(self.role)")
+                    NSLog("assigned room: \(self.room) as role: \(self.role)")
                     isConnected = true
                 }
                 else{
                     let openCheck = data["host"+String(i)] as! String
-                    print("openCheck: \(openCheck)")
                     if openCheck == "open"{
                         documentReference.updateData(["host"+String(i):"guest"])
                         self.room = "room" + String(i)
                         self.role = "guest"
-                        print("assigned room: \(self.room) as role: \(self.role)")
+                        NSLog("assigned room: \(self.room) as role: \(self.role)")
                         isConnected = true
                     }
                     if openCheck == "guest"{
@@ -188,7 +183,7 @@ extension MainMenuVC{
                             documentReference.updateData(["host"+String(i):"open"])
                             self.room = "room" + String(i)
                             self.role = "host"
-                            print("assigned room: \(self.room) as role: \(self.role)")
+                            NSLog("assigned room: \(self.room) as role: \(self.role)")
                             isConnected = true
                         }
                     }
@@ -196,12 +191,11 @@ extension MainMenuVC{
             }
             self.connectToRoom()
         }
+        
     }
-    
     func connectToRoom(){
         if self.role == "host"{
             initializeHost()
-            listenForGuest()
             // if guestStatus = Active make hostStatus: Active
             // pass multiplayerGame to GameVC
             // transition to GameVC
@@ -209,12 +203,11 @@ extension MainMenuVC{
         }
         else if self.role == "guest"{
             initializeGuest()
-            listenForHost()
             // if hostStatus: Active transition to GameVC
             
         }
         else{
-            print("Error, no room/role assigend")
+            NSLog("Error, no room/role assigend")
         }
     }
     
@@ -225,23 +218,66 @@ extension MainMenuVC{
         self.multiplayerGame.hostName = hostName
         let encodedGame = encodeGame(inputGame: self.multiplayerGame)
         collectionReference.document(self.room).setData(encodedGame)
-        print("connected to room: \(self.room) as \(self.role)")
+        NSLog("connected to room: \(self.room) as \(self.role)")
+        listenForGuest(documentName: self.room)
     }
     
     func initializeGuest(){
         let guestUsername = self.loggedInPlayer_MM["username"] as! String
         let docRef = firestoreDatabase.document("multiplayerRoom/\(self.room)")
         docRef.updateData(["guestName":guestUsername])
-        docRef.updateData(["guestStatus":"Active"])
-        print("connected to room: \(self.room) as \(self.role)")
+        NSLog("connected to room: \(self.room) as \(self.role)")
+        listenForHost(documentName: self.room)
     }
     
-    func listenForGuest(){
-        print("Waiting for guestStatus:Active ")
+    func listenForGuest(documentName: String){
+        let db = Firestore.firestore()
+        let docRef = firestoreDatabase.document("multiplayerRoom/\(self.room)")
+        let hostListener = db.collection("multiplayerRoom").whereField("room", isEqualTo: self.room)
+            .addSnapshotListener { querySnapshot, error in
+                guard let snapshot = querySnapshot else {
+                    print("Error fetching snapshots: \(error!)")
+                    return
+                }
+                snapshot.documentChanges.forEach { diff in
+                    if (diff.type == .modified) {
+                        print("update the host now")
+                        docRef.updateData(["gameStatus":"Active"], completion: nil)
+                        print("do host screen transition now")
+                        self.hostScreenTransition()
+                    }
+                }
+            }
     }
     
-    func listenForHost(){
-        print("Waiting for hostStatus:Active ")
+    func listenForHost(documentName: String){
+        let db = Firestore.firestore()
+        let guestListener = db.collection("multiplayerRoom").whereField("room", isEqualTo: self.room)
+            .addSnapshotListener { querySnapshot, error in
+                guard let snapshot = querySnapshot else {
+                    print("Error fetching snapshots: \(error!)")
+                    return
+                }
+                snapshot.documentChanges.forEach { diff in
+                    if (diff.type == .modified) {
+                        print("gameStatus is updated")
+                        print("do guest screen transition now")
+                        self.guestScreenTransition()
+                    }
+                }
+            }
+    }
+    func hostScreenTransition(){
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        let vc = sb.instantiateViewController(withIdentifier: "GameVC")
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true, completion: nil)
     }
     
+    func guestScreenTransition(){
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        let vc = sb.instantiateViewController(withIdentifier: "GameVC")
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true, completion: nil)
+    }
 }

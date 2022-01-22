@@ -55,6 +55,7 @@ class GameVC: UIViewController {
     //MARK: - GameVC Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        GlobalLog_Load(vc_Log: vcIdentifier)
         NSLog("\(loggedInPlayer_G)")
         addUIElementSubViews()
         initializeImageTapGestures()
@@ -66,17 +67,29 @@ class GameVC: UIViewController {
         subviewLayout()
         initializePlayerNames()
     }
-    //MARK: IBAction
+    
+    override func viewDidAppear(_ animated: Bool) {
+        GlobalLog_Display(vc_Log: vcIdentifier)
+        
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        GlobalLog_Dismiss(vc_Log: vcIdentifier)
+        
+    }
+    
+    //MARK: - IBAction
     @objc func buttonClicked(){
-        print("button Clicked")
+        NSLog("button Clicked")
         if gameMode == "Single Player"{
             botEngine()
             gameEngine(playerInput: playerSelection, botInput: botSelection)
             matchEnd(counter: roundCounter)
         }
         else if gameMode == "Multiplayer"{
-            print("Multiplayer")
+            NSLog("Multiplayer")
+            
         }
+        
     }
-    
 }

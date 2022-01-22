@@ -245,7 +245,7 @@ extension GameVC{
             playerSelection = "Spock"
             p1SelectedImage.image = UIImage(named: "Spock.png")
         default:
-            print("Unrecognized Gesture")
+            NSLog("Unrecognized Gesture")
         }
     }
     // MARK: - Single Player Game Logic
@@ -343,7 +343,7 @@ extension GameVC{
                 roundCounter += 1
             }
         default:
-            print("Draw")
+            NSLog("Draw")
         }
         NSLog("Player: \(playerSelection) \n Bot: \(botSelection) \n Result: \(roundResult)")
         playerScore.text = String(playerScoreValue)

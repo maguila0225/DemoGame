@@ -14,13 +14,13 @@ extension UIViewController{
         do{
             let encodedData = try JSONEncoder().encode(inputPlayer)
             guard let encodedPlayer = try JSONSerialization.jsonObject(with: encodedData, options: .allowFragments) as? [String: Any] else{
-                print("Serialization Fail")
+                NSLog("Serialization Fail")
                 return [:]
             }
             return encodedPlayer
         }
         catch{
-            print("Encoding Failed")
+            NSLog("Encoding Failed")
             return [:]
         }
     }
@@ -30,13 +30,13 @@ extension UIViewController{
         do{
             let encodedData = try JSONEncoder().encode(inputGame)
             guard let encodedGame = try JSONSerialization.jsonObject(with: encodedData, options: .allowFragments) as? [String: Any] else{
-                print("Serialization Fail")
+                NSLog("Serialization Fail")
                 return [:]
             }
             return encodedGame
         }
         catch{
-            print("Encoding Failed")
+            NSLog("Encoding Failed")
             return [:]
         }
     }

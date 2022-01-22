@@ -44,7 +44,7 @@ extension RegistrationVC{
                 NSLog("\(self.usernameRegistration.text!):\(self.passwordConfirmation.text!) Registered")
                 let encodedPlayer = self.encodePlayer(inputPlayer: self.newPlayer)
                 documentReference.setData(encodedPlayer)
-                print("\(encodedPlayer)")
+                NSLog("\(encodedPlayer)")
             }
         }
     }
