@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import MaterialComponents.MaterialDialogs
+import FirebaseFirestore
 
 extension GameVC{
     // MARK: - Add UI Element Subviews
@@ -78,7 +79,7 @@ extension GameVC{
                           yOrigin: resultLabel.bottom,
                           labelWidth: (screenWidth - 10) / 3,
                           labelHeight: 0.05 * screenHeight,
-                          contents: "Player 1",
+                          contents: "Player ",
                           fontSize: 0.5 * screenHeight * 0.05)
         
         textSubviewLayout(labelName: roundName,
@@ -190,15 +191,15 @@ extension GameVC{
     }
     //MARK: - Initialize Values
     func initializePlayerNames(){
-        playerName.text = loggedInPlayer_G["username"] as? String
-        playerName_Score.text = loggedInPlayer_G["username"] as? String
+        playerName.text = loggedInPlayer_G["hostName"] as? String
+        playerName_Score.text = loggedInPlayer_G["hostName"] as? String
         switch gameMode{
         case "Single Player":
             player2Name.text = "RPSLS Bot"
             player2Name_Score.text = "RPSLS Bot"
         case "Multiplayer":
-            player2Name.text = multiplayerP2Name
-            player2Name_Score.text = multiplayerP2Name
+            player2Name.text = loggedInPlayer_G["guestName"] as? String
+            player2Name_Score.text = loggedInPlayer_G["guestName"] as? String
         default:
             player2Name.text = "Player 2"
             player2Name_Score.text = "Player 2"
@@ -228,25 +229,32 @@ extension GameVC{
     
     @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer)
     {
-        switch tapGestureRecognizer{
-        case rockSelect:
-            playerSelection = "Rock"
-            p1SelectedImage.image = UIImage(named: "Rock.png")
-        case paperSelect:
-            playerSelection = "Paper"
-            p1SelectedImage.image = UIImage(named: "Paper.png")
-        case scissorsSelect:
-            playerSelection = "Scissors"
-            p1SelectedImage.image = UIImage(named: "Scissors.png")
-        case lizardSelect:
-            playerSelection = "Lizard"
-            p1SelectedImage.image = UIImage(named: "Lizard.png")
-        case spockSelect:
-            playerSelection = "Spock"
-            p1SelectedImage.image = UIImage(named: "Spock.png")
+        let docRef = firestoreDatabase.document("multiplayerRoom/\(String(describing: loggedInPlayer_G["room"]))")
+        switch gameMode{
+            case "Single Player":
+            switch tapGestureRecognizer{
+            case rockSelect:
+                playerSelection = "Rock"
+                p1SelectedImage.image = UIImage(named: "Rock.png")
+            case paperSelect:
+                playerSelection = "Paper"
+                p1SelectedImage.image = UIImage(named: "Paper.png")
+            case scissorsSelect:
+                playerSelection = "Scissors"
+                p1SelectedImage.image = UIImage(named: "Scissors.png")
+            case lizardSelect:
+                playerSelection = "Lizard"
+                p1SelectedImage.image = UIImage(named: "Lizard.png")
+            case spockSelect:
+                playerSelection = "Spock"
+                p1SelectedImage.image = UIImage(named: "Spock.png")
+            default:
+                NSLog("Unrecognized Gesture")
+            }
+        case "Multiplayer":
+            print("multiplayer")
         default:
-            NSLog("Unrecognized Gesture")
-        }
+            print("default")
     }
     // MARK: - Single Player Game Logic
     func botEngine(){
@@ -378,5 +386,20 @@ extension GameVC{
         playerScore.text = String(playerScoreValue)
         player2Score.text = String(botScoreValue)
         roundNumber.text = String(roundCounter)
+    }
+    func addScreenUpdateListener() -> ListenerRegistration{
+        let hostListener = firestoreDatabase.collection("multiplayerRoom").whereField("room", isEqualTo: String(describing: loggedInPlayer_G["room"]))
+            .addSnapshotListener { querySnapshot, error in
+                guard let snapshot = querySnapshot else {
+                    print("Error fetching snapshots: \(error!)")
+                    return
+                }
+                snapshot.documentChanges.forEach { diff in
+                    if (diff.type == .modified) {
+                        print("New Data: \(diff.document.data())")
+                    }
+                }
+            }
+        return hostListener
     }
 }

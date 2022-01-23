@@ -7,6 +7,7 @@
 
 import UIKit
 import MaterialComponents
+import FirebaseFirestore
 
 class GameVC: UIViewController {
     // MARK: UI Element Declaration
@@ -30,19 +31,21 @@ class GameVC: UIViewController {
     let fightButton = MDCButton()
     
     //MARK: - Variables Passed in
-    var gameMode: String = "Single Player"
-    var multiplayerP2Name = "Default Username"
+    var gameMode: String = ""
+    var role = ""
     var loggedInPlayer_G: [String: Any] = [:]
+    let firestoreDatabase = Firestore.firestore()
     
     //MARK: - Class variables
-    let vcIdentifier = "SinglePlayerVC"
+    let vcIdentifier = "GameVC"
     var playerSelection: String = "Rock"
     var botSelection: String = "Rock"
-    var roundResult: String = "Player Wins"
+    var roundResult: String = "Result"
     var playerScoreValue: Int = 0
     var botScoreValue: Int = 0
     var roundCounter: Int = 0
     var matchResult: String = ""
+    var screenUpdateListener: ListenerRegistration?
 
     // MARK: - Gesture Recognizers
     var rockSelect = UIGestureRecognizer()
@@ -56,7 +59,6 @@ class GameVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         GlobalLog_Load(vc_Log: vcIdentifier)
-        NSLog("\(loggedInPlayer_G)")
         addUIElementSubViews()
         initializeImageTapGestures()
         fightButton.addTarget(self, action: #selector(buttonClicked), for: .touchUpInside)
@@ -65,12 +67,11 @@ class GameVC: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         subviewLayout()
-        initializePlayerNames()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         GlobalLog_Display(vc_Log: vcIdentifier)
-        
+        initializePlayerNames()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -88,8 +89,6 @@ class GameVC: UIViewController {
         }
         else if gameMode == "Multiplayer"{
             NSLog("Multiplayer")
-            
         }
-        
     }
 }

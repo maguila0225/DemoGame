@@ -37,6 +37,10 @@ class MainMenuVC: UIViewController {
     var room: String = ""
     var role: String = ""
     var multiplayerGame = MultiplayerGame()
+    var hostListner: ListenerRegistration?
+    var guestListener: ListenerRegistration?
+    var gameMode: String = ""
+    
 
     // MARK: - MainMenuVC Life Cycle
     override func viewDidLoad() {
@@ -59,5 +63,6 @@ class MainMenuVC: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         GlobalLog_Dismiss(vc_Log: vcIdentifier)
+        
     }
 }

@@ -62,13 +62,12 @@ extension MainMenuVC{
     {
         switch tapGestureRecognizer{
         case singlePlayerSelect:
-            let gameMode = "Single Player"
+            gameMode = "Single Player"
             screenTransition(gameMode: gameMode)
             NSLog("Single Player Button Tapped")
         case multiplayerSelect:
-            let gameMode = "Multiplayer"
+            gameMode = "Multiplayer"
             multiplayerQueue()
-            //        screenTransition(gameMode: gameMode)
             NSLog("Multiplayer Button Tapped \(gameMode)")
         case leaderboardSelect:
             NSLog("Leaderboard Button Tapped")
@@ -219,7 +218,8 @@ extension MainMenuVC{
         let encodedGame = encodeGame(inputGame: self.multiplayerGame)
         collectionReference.document(self.room).setData(encodedGame)
         NSLog("connected to room: \(self.room) as \(self.role)")
-        listenForGuest(documentName: self.room)
+        hostListner = listenForGuest(documentName: self.room)
+        
     }
     
     func initializeGuest(){
@@ -227,10 +227,10 @@ extension MainMenuVC{
         let docRef = firestoreDatabase.document("multiplayerRoom/\(self.room)")
         docRef.updateData(["guestName":guestUsername])
         NSLog("connected to room: \(self.room) as \(self.role)")
-        listenForHost(documentName: self.room)
+        guestListener = listenForHost(documentName: self.room)
     }
     
-    func listenForGuest(documentName: String){
+    func listenForGuest(documentName: String) -> ListenerRegistration{
         let db = Firestore.firestore()
         let docRef = firestoreDatabase.document("multiplayerRoom/\(self.room)")
         let hostListener = db.collection("multiplayerRoom").whereField("room", isEqualTo: self.room)
@@ -241,16 +241,15 @@ extension MainMenuVC{
                 }
                 snapshot.documentChanges.forEach { diff in
                     if (diff.type == .modified) {
-                        print("update the host now")
                         docRef.updateData(["gameStatus":"Active"], completion: nil)
-                        print("do host screen transition now")
                         self.hostScreenTransition()
                     }
                 }
             }
+        return hostListener
     }
     
-    func listenForHost(documentName: String){
+    func listenForHost(documentName: String) -> ListenerRegistration{
         let db = Firestore.firestore()
         let guestListener = db.collection("multiplayerRoom").whereField("room", isEqualTo: self.room)
             .addSnapshotListener { querySnapshot, error in
@@ -260,24 +259,45 @@ extension MainMenuVC{
                 }
                 snapshot.documentChanges.forEach { diff in
                     if (diff.type == .modified) {
-                        print("gameStatus is updated")
-                        print("do guest screen transition now")
                         self.guestScreenTransition()
                     }
                 }
             }
+        return guestListener
     }
     func hostScreenTransition(){
         let sb = UIStoryboard(name: "Main", bundle: nil)
-        let vc = sb.instantiateViewController(withIdentifier: "GameVC")
+        let vc = sb.instantiateViewController(withIdentifier: "GameVC") as! GameVC
         vc.modalPresentationStyle = .fullScreen
+        let docRef = firestoreDatabase.document("multiplayerRoom/\(self.room)")
+        docRef.getDocument{ snapshot, error in
+            guard let data = snapshot?.data(), error == nil else{
+                NSLog("\(String(describing: error))")
+                return
+            }
+            self.hostListner!.remove()
+            vc.gameMode = self.gameMode
+            vc.loggedInPlayer_G = data
+            vc.role = self.role
+        }
         present(vc, animated: true, completion: nil)
     }
     
     func guestScreenTransition(){
         let sb = UIStoryboard(name: "Main", bundle: nil)
-        let vc = sb.instantiateViewController(withIdentifier: "GameVC")
+        let vc = sb.instantiateViewController(withIdentifier: "GameVC") as! GameVC
         vc.modalPresentationStyle = .fullScreen
+        let docRef = firestoreDatabase.document("multiplayerRoom/\(self.room)")
+        docRef.getDocument{ snapshot, error in
+            guard let data = snapshot?.data(), error == nil else{
+                NSLog("\(String(describing: error))")
+                return
+            }
+            self.guestListener!.remove()
+            vc.gameMode = self.gameMode
+            vc.loggedInPlayer_G = data
+            vc.role = self.role
+        }
         present(vc, animated: true, completion: nil)
     }
 }
