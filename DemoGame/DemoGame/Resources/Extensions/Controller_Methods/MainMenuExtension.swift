@@ -276,6 +276,7 @@ extension MainMenuVC{
                 return
             }
             self.hostListner!.remove()
+            vc.room = self.room
             vc.gameMode = self.gameMode
             vc.loggedInPlayer_G = data
             vc.role = self.role
@@ -294,6 +295,7 @@ extension MainMenuVC{
                 return
             }
             self.guestListener!.remove()
+            vc.room = self.room
             vc.gameMode = self.gameMode
             vc.loggedInPlayer_G = data
             vc.role = self.role

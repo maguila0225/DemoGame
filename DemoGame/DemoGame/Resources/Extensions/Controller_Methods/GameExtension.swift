@@ -229,11 +229,13 @@ extension GameVC{
     
     @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer)
     {
-        let docRef = firestoreDatabase.document("multiplayerRoom/\(String(describing: loggedInPlayer_G["room"]))")
+        let docRef = firestoreDatabase.document("multiplayerRoom/\(self.room)")
+        NSLog("multiplayerRoom/\(self.room)")
         switch gameMode{
-            case "Single Player":
+        case "Single Player":
             switch tapGestureRecognizer{
             case rockSelect:
+                docRef.updateData(["hostSelection":"Rock.png"], completion: nil)
                 playerSelection = "Rock"
                 p1SelectedImage.image = UIImage(named: "Rock.png")
             case paperSelect:
@@ -252,9 +254,68 @@ extension GameVC{
                 NSLog("Unrecognized Gesture")
             }
         case "Multiplayer":
-            print("multiplayer")
+            switch tapGestureRecognizer{
+            case rockSelect:
+                if self.role == "host"{
+                    docRef.updateData(["hostSelection":"Rock"], completion: nil)
+                    playerSelection = "Rock"
+                    p1SelectedImage.image = UIImage(named: "Rock.png")
+                }
+                if self.role == "guest"{
+                    docRef.updateData(["guestSelection":"Rock"], completion: nil)
+                    player2Selection = "Rock"
+                    p2SelectedImage.image = UIImage(named: "Rock.png")
+                }
+            case paperSelect:
+                if self.role == "host"{
+                    docRef.updateData(["hostSelection":"Paper"], completion: nil)
+                    playerSelection = "Paper"
+                    p1SelectedImage.image = UIImage(named: "Paper.png")
+                }
+                if self.role == "guest"{
+                    docRef.updateData(["guestSelection":"Paper"], completion: nil)
+                    player2Selection = "Paper"
+                    p2SelectedImage.image = UIImage(named: "Paper.png")
+                }
+            case scissorsSelect:
+                if self.role == "host"{
+                    docRef.updateData(["hostSelection":"Scissors"], completion: nil)
+                    playerSelection = "Scissors"
+                    p1SelectedImage.image = UIImage(named: "Scissors.png")
+                }
+                if self.role == "guest"{
+                    docRef.updateData(["guestSelection":"Scissors"], completion: nil)
+                    player2Selection = "Scissors"
+                    p2SelectedImage.image = UIImage(named: "Scissors")
+                }
+            case lizardSelect:
+                if self.role == "host"{
+                    docRef.updateData(["hostSelection":"Lizard"], completion: nil)
+                    playerSelection = "Lizard"
+                    p1SelectedImage.image = UIImage(named: "Lizard.png")
+                }
+                if self.role == "guest"{
+                    docRef.updateData(["guestSelection":"Lizard"], completion: nil)
+                    player2Selection = "Lizard"
+                    p2SelectedImage.image = UIImage(named: "Lizard")
+                }
+            case spockSelect:
+                if self.role == "host"{
+                    docRef.updateData(["hostSelection":"Spock"], completion: nil)
+                    playerSelection = "Spock"
+                    p1SelectedImage.image = UIImage(named: "Spock.png")
+                }
+                if self.role == "guest"{
+                    docRef.updateData(["guestSelection":"Spock"], completion: nil)
+                    player2Selection = "Spock"
+                    p2SelectedImage.image = UIImage(named: "Spock")
+                }
+            default:
+                NSLog("Unrecognized Gesture")
+            }
         default:
-            print("default")
+            NSLog("Unrecognized Gesture")
+        }
     }
     // MARK: - Single Player Game Logic
     func botEngine(){

@@ -39,6 +39,7 @@ class GameVC: UIViewController {
     //MARK: - Class variables
     let vcIdentifier = "GameVC"
     var playerSelection: String = "Rock"
+    var player2Selection: String = "Rock"
     var botSelection: String = "Rock"
     var roundResult: String = "Result"
     var playerScoreValue: Int = 0
@@ -46,6 +47,7 @@ class GameVC: UIViewController {
     var roundCounter: Int = 0
     var matchResult: String = ""
     var screenUpdateListener: ListenerRegistration?
+    var room: String = ""
 
     // MARK: - Gesture Recognizers
     var rockSelect = UIGestureRecognizer()
