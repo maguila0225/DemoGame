@@ -139,6 +139,10 @@ extension GameVC{
             }
             if (data["guestInputCheck"] as! String) == "Empty"{
                 docRef.updateData(["hostInputCheck":self.playerSelection])
+                // read winnerRoom if match has ended
+                // display winner
+                // update player standing
+                // exit screen
             } else {
                 self.updateHostInput(docRef: self.firestoreDatabase.document("multiplayerRoom/\(self.room)"))
                 self.player2Selection = (data["guestInputCheck"] as! String)
@@ -158,6 +162,10 @@ extension GameVC{
             }
             if (data["hostInputCheck"] as! String) == "Empty"{
                 docRef.updateData(["guestInputCheck":self.player2Selection])
+                // read winnerRoom if match has ended
+                // display winner
+                // update player standing
+                // exit screen
             } else {
                 self.updateGuestInput(docRef: self.firestoreDatabase.document("multiplayerRoom/\(self.room)"))
                 self.playerSelection = (data["hostInputCheck"] as! String)
@@ -203,7 +211,6 @@ extension GameVC{
         }
     }
     
-
     func multiplayerGameEngine(playerInput: String, player2Input: String){
         let docRef = firestoreDatabase.document("multiplayerRoom/\(self.room)")
         docRef.getDocument{ snapshot, error in
@@ -215,6 +222,7 @@ extension GameVC{
             }
         
     }
+
     fileprivate func gameLogic(docRef: DocumentReference, data: [String:Any]) {
         playerScoreValue = Int((data["hostScore"] as! NSString).intValue)
         player2ScoreValue = Int((data["guestScore"] as! NSString).intValue)
@@ -223,92 +231,77 @@ extension GameVC{
         case "Rock":
             switch player2Selection{
             case "Scissors":
-                roundResult = "\((loggedInPlayer_G["hostName"] as? String) ?? "Player")"
-                playerScoreValue += 1
-                roundCounter += 1
+                hostWins()
             case "Lizard":
-                roundResult = "\((loggedInPlayer_G["hostName"] as? String) ?? "Player")"
-                playerScoreValue += 1
-                roundCounter += 1
+                hostWins()
             case "Rock":
                 roundResult = "Draw"
             default:
-                roundResult = "\((loggedInPlayer_G["guestName"] as? String) ?? "Player")"
-                player2ScoreValue += 1
-                roundCounter += 1
+                guestWins()
             }
         case "Paper":
             switch player2Selection{
             case "Rock":
-                roundResult = "\((loggedInPlayer_G["hostName"] as? String) ?? "Player")"
-                playerScoreValue += 1
-                roundCounter += 1
+                hostWins()
             case "Spock":
-                roundResult = "\((loggedInPlayer_G["hostName"] as? String) ?? "Player")"
-                playerScoreValue += 1
-                roundCounter += 1
+                hostWins()
             case "Paper":
                 roundResult = "Draw"
             default:
-                roundResult = "\((loggedInPlayer_G["guestName"] as? String) ?? "Player")"
-                player2ScoreValue += 1
-                roundCounter += 1
+                guestWins()
             }
         case "Scissors":
             switch player2Selection{
             case "Paper":
-                roundResult = "\((loggedInPlayer_G["hostName"] as? String) ?? "Player")"
-                playerScoreValue += 1
-                roundCounter += 1
+                hostWins()
             case "Lizard":
-                roundResult = "\((loggedInPlayer_G["hostName"] as? String) ?? "Player")"
-                playerScoreValue += 1
-                roundCounter += 1
+                hostWins()
             case "Scissors":
                 roundResult = "Draw"
             default:
-                roundResult = "\((loggedInPlayer_G["guestName"] as? String) ?? "Player")"
-                player2ScoreValue += 1
-                roundCounter += 1
+                guestWins()
             }
         case "Lizard":
             switch player2Selection{
             case "Paper":
-                roundResult = "\((loggedInPlayer_G["hostName"] as? String) ?? "Player")"
-                playerScoreValue += 1
-                roundCounter += 1
+                hostWins()
             case "Spock":
-                roundResult = "\((loggedInPlayer_G["hostName"] as? String) ?? "Player")"
-                playerScoreValue += 1
-                roundCounter += 1
+                hostWins()
             case "Lizard":
                 roundResult = "Draw"
             default:
-                roundResult = "\((loggedInPlayer_G["guestName"] as? String) ?? "Player")"
-                player2ScoreValue += 1
-                roundCounter += 1
+                guestWins()
             }
         case "Spock":
             switch player2Selection{
             case "Scissors":
-                roundResult = "\((loggedInPlayer_G["hostName"] as? String) ?? "Player")"
-                playerScoreValue += 1
-                roundCounter += 1
+                hostWins()
             case "Rock":
-                roundResult = "\((loggedInPlayer_G["hostName"] as? String) ?? "Player")"
-                playerScoreValue += 1
-                roundCounter += 1
+                hostWins()
             case "Spock":
                 roundResult = "Draw"
             default:
-                roundResult = "\((loggedInPlayer_G["guestName"] as? String) ?? "Player")"
-                player2ScoreValue += 1
-                roundCounter += 1
+                guestWins()
             }
         default:
             NSLog("Draw")
         }
-        NSLog("Player: \(playerSelection) \n Bot: \(player2Selection) \n Result: \(roundResult)")
+        roundScoreUpdate(docRef)
+    }
+    
+    fileprivate func hostWins() {
+        roundResult = "\((loggedInPlayer_G["hostName"] as? String) ?? "Player")"
+        playerScoreValue += 1
+        roundCounter += 1
+    }
+
+    fileprivate func guestWins() {
+        roundResult = "\((loggedInPlayer_G["guestName"] as? String) ?? "Player")"
+        player2ScoreValue += 1
+        roundCounter += 1
+    }
+    
+    fileprivate func roundScoreUpdate(_ docRef: DocumentReference) {
         playerScore.text = String(playerScoreValue)
         player2Score.text = String(player2ScoreValue)
         roundNumber.text = String(roundCounter)
@@ -320,5 +313,11 @@ extension GameVC{
         docRef.updateData(["guestScore":p2Score])
         docRef.updateData(["roundNumber":roundCounterText])
         docRef.updateData(["roundResult":roundResult])
+    }
+    func matchEnd(){
+        //  user that runs game logic updates the inputroom (add ["matchWinner": matchWinner]
+        //  display alert message declaring the winner
+        // update player standing
+        // dismiss screen
     }
 }
