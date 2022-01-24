@@ -64,14 +64,14 @@ extension GameVC{
                            yOrigin: playerName.bottom + 3,
                            displayWidth: 0.5 * (screenWidth - 10),
                            displayHeight: 0.5 * (screenWidth - 10),
-                           imageName: "Spock.png")
+                           imageName: "Rock.png")
         
         textSubviewLayout(labelName: resultLabel,
                           xOrigin: 5,
                           yOrigin: p1SelectedImage.bottom,
                           labelWidth: screenWidth - 10,
                           labelHeight: 0.1 * screenHeight,
-                          contents: "RESULT",
+                          contents: "Winner",
                           fontSize: 0.5 * screenHeight * 0.1)
         
         textSubviewLayout(labelName: playerName_Score,
@@ -189,22 +189,22 @@ extension GameVC{
         displayName.image = UIImage(named: imageName)
         displayName.contentMode = .scaleAspectFit
     }
-    //MARK: - Initialize Values
-    func initializePlayerNames(){
-        playerName.text = loggedInPlayer_G["hostName"] as? String
-        playerName_Score.text = loggedInPlayer_G["hostName"] as? String
+    
+    //MARK: - Initialize Player Names
+    func initializePlayerName(){
         switch gameMode{
         case "Single Player":
-            player2Name.text = "RPSLS Bot"
-            player2Name_Score.text = "RPSLS Bot"
+            initializePlayerNames_SP()
         case "Multiplayer":
-            player2Name.text = loggedInPlayer_G["guestName"] as? String
-            player2Name_Score.text = loggedInPlayer_G["guestName"] as? String
+            initializePlayerNames_MP()
+            let screenListener = addScreenUpdateListener()
         default:
-            player2Name.text = "Player 2"
-            player2Name_Score.text = "Player 2"
+            NSLog("Unspecified Game Mode")
+            gameAlert(alertTitle: "Game Error", alertMessage: "Unspecified Game Mode")
+            self.dismiss(animated: true, completion: nil)
         }
     }
+    //MARK: - Initialize Tap Gesture
     func initializeImageTapGestures(){
         rockSelect = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
         rockButton.isUserInteractionEnabled = true
@@ -229,247 +229,14 @@ extension GameVC{
     
     @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer)
     {
-        let docRef = firestoreDatabase.document("multiplayerRoom/\(self.room)")
-        NSLog("multiplayerRoom/\(self.room)")
         switch gameMode{
         case "Single Player":
-            switch tapGestureRecognizer{
-            case rockSelect:
-                docRef.updateData(["hostSelection":"Rock.png"], completion: nil)
-                playerSelection = "Rock"
-                p1SelectedImage.image = UIImage(named: "Rock.png")
-            case paperSelect:
-                playerSelection = "Paper"
-                p1SelectedImage.image = UIImage(named: "Paper.png")
-            case scissorsSelect:
-                playerSelection = "Scissors"
-                p1SelectedImage.image = UIImage(named: "Scissors.png")
-            case lizardSelect:
-                playerSelection = "Lizard"
-                p1SelectedImage.image = UIImage(named: "Lizard.png")
-            case spockSelect:
-                playerSelection = "Spock"
-                p1SelectedImage.image = UIImage(named: "Spock.png")
-            default:
-                NSLog("Unrecognized Gesture")
-            }
+           imageTapped_SP(tapGestureRecognizer: tapGestureRecognizer)
         case "Multiplayer":
-            switch tapGestureRecognizer{
-            case rockSelect:
-                if self.role == "host"{
-                    docRef.updateData(["hostSelection":"Rock.png"], completion: nil)
-                    playerSelection = "Rock"
-                    p1SelectedImage.image = UIImage(named: "Rock.png")
-                }
-                if self.role == "guest"{
-                    docRef.updateData(["guestSelection":"Rock.png"], completion: nil)
-                    player2Selection = "Rock"
-                    p2SelectedImage.image = UIImage(named: "Rock.png")
-                }
-            case paperSelect:
-                if self.role == "host"{
-                    docRef.updateData(["hostSelection":"Paper.png"], completion: nil)
-                    playerSelection = "Paper"
-                    p1SelectedImage.image = UIImage(named: "Paper.png")
-                }
-                if self.role == "guest"{
-                    docRef.updateData(["guestSelection":"Paper.png"], completion: nil)
-                    player2Selection = "Paper"
-                    p2SelectedImage.image = UIImage(named: "Paper.png")
-                }
-            case scissorsSelect:
-                if self.role == "host"{
-                    docRef.updateData(["hostSelection":"Scissors.png"], completion: nil)
-                    playerSelection = "Scissors"
-                    p1SelectedImage.image = UIImage(named: "Scissors.png")
-                }
-                if self.role == "guest"{
-                    docRef.updateData(["guestSelection":"Scissors.png"], completion: nil)
-                    player2Selection = "Scissors"
-                    p2SelectedImage.image = UIImage(named: "Scissors")
-                }
-            case lizardSelect:
-                if self.role == "host"{
-                    docRef.updateData(["hostSelection":"Lizard.png"], completion: nil)
-                    playerSelection = "Lizard"
-                    p1SelectedImage.image = UIImage(named: "Lizard.png")
-                }
-                if self.role == "guest"{
-                    docRef.updateData(["guestSelection":"Lizard.png"], completion: nil)
-                    player2Selection = "Lizard"
-                    p2SelectedImage.image = UIImage(named: "Lizard")
-                }
-            case spockSelect:
-                if self.role == "host"{
-                    docRef.updateData(["hostSelection":"Spock.png"], completion: nil)
-                    playerSelection = "Spock"
-                    p1SelectedImage.image = UIImage(named: "Spock.png")
-                }
-                if self.role == "guest"{
-                    docRef.updateData(["guestSelection":"Spock.png"], completion: nil)
-                    player2Selection = "Spock"
-                    p2SelectedImage.image = UIImage(named: "Spock")
-                }
-            default:
-                NSLog("Unrecognized Gesture")
-            }
+            imageTapped_MP(tapGestureRecognizer: tapGestureRecognizer)
         default:
             NSLog("Unrecognized Gesture")
         }
-    }
-    // MARK: - Single Player Game Logic
-    func botEngine(){
-        let selectionDictionary = [0:"Rock", 1:"Paper", 2:"Scissors", 3:"Lizard", 4:"Spock"]
-        let botSelectionDigit = Int.random(in: 0...4)
-        botSelection = selectionDictionary[botSelectionDigit]!
-        p2SelectedImage.image = UIImage(named: "\(botSelection).png")
-    }
-    
-    func gameEngine(playerInput: String, botInput: String){
-        switch playerSelection {
-        case "Rock":
-            switch botSelection{
-            case "Scissors":
-                roundResult = "\((loggedInPlayer_G["username"] as? String) ?? "Player") Wins"
-                playerScoreValue += 1
-                roundCounter += 1
-            case "Lizard":
-                roundResult = "\((loggedInPlayer_G["username"] as? String) ?? "Player") Wins"
-                playerScoreValue += 1
-                roundCounter += 1
-            case "Rock":
-                roundResult = "Draw"
-            default:
-                roundResult = "RPSLS Bot Wins"
-                botScoreValue += 1
-                roundCounter += 1
-            }
-        case "Paper":
-            switch botSelection{
-            case "Rock":
-                roundResult = "\((loggedInPlayer_G["username"] as? String) ?? "Player") Wins"
-                playerScoreValue += 1
-                roundCounter += 1
-            case "Spock":
-                roundResult = "\((loggedInPlayer_G["username"] as? String) ?? "Player") Wins"
-                playerScoreValue += 1
-                roundCounter += 1
-            case "Paper":
-                roundResult = "Draw"
-            default:
-                roundResult = "RPSLS Bot Wins"
-                botScoreValue += 1
-                roundCounter += 1
-            }
-        case "Scissors":
-            switch botSelection{
-            case "Paper":
-                roundResult = "\((loggedInPlayer_G["username"] as? String) ?? "Player") Wins"
-                playerScoreValue += 1
-            case "Lizard":
-                roundResult = "\((loggedInPlayer_G["username"] as? String) ?? "Player") Wins"
-                playerScoreValue += 1
-                roundCounter += 1
-            case "Scissors":
-                roundResult = "Draw"
-            default:
-                roundResult = "RPSLS Bot Wins"
-                botScoreValue += 1
-                roundCounter += 1
-            }
-        case "Lizard":
-            switch botSelection{
-            case "Paper":
-                roundResult = "\((loggedInPlayer_G["username"] as? String) ?? "Player") Wins"
-                playerScoreValue += 1
-                roundCounter += 1
-            case "Spock":
-                roundResult = "\((loggedInPlayer_G["username"] as? String) ?? "Player") Wins"
-                playerScoreValue += 1
-                roundCounter += 1
-            case "Lizard":
-                roundResult = "Draw"
-            default:
-                roundResult = "RPSLS Bot Wins"
-                botScoreValue += 1
-                roundCounter += 1
-            }
-        case "Spock":
-            switch botSelection{
-            case "Rock":
-                roundResult = "\((loggedInPlayer_G["username"] as? String) ?? "Player") Wins"
-                playerScoreValue += 1
-                roundCounter += 1
-            case "Scissors":
-                roundResult = "\((loggedInPlayer_G["username"] as? String) ?? "Player") Wins"
-                playerScoreValue += 1
-                roundCounter += 1
-            case "Spock":
-                roundResult = "Draw"
-            default:
-                roundResult = "RPSLS Bot Wins"
-                botScoreValue += 1
-                roundCounter += 1
-            }
-        default:
-            NSLog("Draw")
-        }
-        NSLog("Player: \(playerSelection) \n Bot: \(botSelection) \n Result: \(roundResult)")
-        playerScore.text = String(playerScoreValue)
-        player2Score.text = String(botScoreValue)
-        roundNumber.text = String(roundCounter)
-        resultLabel.text = roundResult
-    }
-    
-    func matchEnd(counter: Int){
-        if counter >= 10 && playerScoreValue != botScoreValue{
-            matchResult = winnerSelect()
-            let alertController = MDCAlertController(title: "Match Ended", message: matchResult)
-            let action1 = MDCAlertAction(title:"Rematch") { (action) in self.matchReset() }
-            let action2 = MDCAlertAction(title:"Exit") { (action) in (self.dismiss(animated: false, completion: nil))}
-            alertController.addAction(action2)
-            alertController.addAction(action1)
-            self.present(alertController, animated:true, completion: nil)
-        }
-    }
-    func winnerSelect() -> String{
-        if playerScoreValue > botScoreValue{
-            matchResult = "\((loggedInPlayer_G["username"] as? String) ?? "Player") Wins"
-        }else{
-            matchResult = "RSPLS Bot Wins"
-        }
-        return matchResult
-    }
-    func matchReset(){
-        playerScoreValue = 0
-        roundCounter = 0
-        botScoreValue = 0
-        playerScore.text = String(playerScoreValue)
-        player2Score.text = String(botScoreValue)
-        roundNumber.text = String(roundCounter)
-    }
-    func addScreenUpdateListener() -> ListenerRegistration{
-        let docRef = firestoreDatabase.document("multiplayerRoom/\(self.room)")
-        screenUpdateListener = firestoreDatabase.collection("multiplayerRoom").whereField("room", isEqualTo: self.room)
-            .addSnapshotListener { querySnapshot, error in
-                guard let snapshot = querySnapshot else {
-                    print("Error fetching snapshots: \(error!)")
-                    return
-                }
-                snapshot.documentChanges.forEach { diff in
-                    if (diff.type == .modified) {
-                        docRef.getDocument{ snapshot, error in
-                            guard let data = snapshot?.data(), error == nil else{
-                                NSLog("\(String(describing: error))")
-                                return
-                            }
-                            self.p1SelectedImage.image = UIImage(named: data["hostSelection"] as! String)
-                            self.p2SelectedImage.image = UIImage(named: data["guestSelection"] as! String)
-                        }
-                    }
-                }
-            }
-        return screenUpdateListener!
     }
     
 }

@@ -35,20 +35,23 @@ class GameVC: UIViewController {
     var role = ""
     var loggedInPlayer_G: [String: Any] = [:]
     let firestoreDatabase = Firestore.firestore()
+    var loggedInPlayer_SP = ""
     
     //MARK: - Class variables
     let vcIdentifier = "GameVC"
     var playerSelection: String = "Rock"
-    var player2Selection: String = "Rock"
-    var botSelection: String = "Rock"
-    var roundResult: String = "Result"
     var playerScoreValue: Int = 0
+    var player2Selection: String = "Rock"
+    var player2ScoreValue: Int = 0
+    var botSelection: String = "Rock"
     var botScoreValue: Int = 0
+    var roundResult: String = "Result"
     var roundCounter: Int = 0
     var matchResult: String = ""
-    var screenUpdateListener: ListenerRegistration?
     var room: String = ""
+    var screenUpdateListener: ListenerRegistration?
 
+    
     // MARK: - Gesture Recognizers
     var rockSelect = UIGestureRecognizer()
     var paperSelect = UIGestureRecognizer()
@@ -70,11 +73,11 @@ class GameVC: UIViewController {
         super.viewDidLayoutSubviews()
         subviewLayout()
     }
-
+    
     override func viewDidAppear(_ animated: Bool) {
         GlobalLog_Display(vc_Log: vcIdentifier)
-        initializePlayerNames()
-        let screenListener = addScreenUpdateListener()
+        initializePlayerName()
+        initializeInputRoom()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -87,11 +90,12 @@ class GameVC: UIViewController {
         NSLog("button Clicked")
         if gameMode == "Single Player"{
             botEngine()
-            gameEngine(playerInput: playerSelection, botInput: botSelection)
-            matchEnd(counter: roundCounter)
+            gameEngine_SP(playerInput: playerSelection, botInput: botSelection)
+            matchEnd_SP(counter: roundCounter)
         }
         else if gameMode == "Multiplayer"{
-            NSLog("Multiplayer")
+            gameEngine_MP()
         }
     }
+    
 }

@@ -40,12 +40,12 @@ class MainMenuVC: UIViewController {
     var hostListner: ListenerRegistration?
     var guestListener: ListenerRegistration?
     var gameMode: String = ""
+    var loggedInPlayer_SP = ""
     
 
     // MARK: - MainMenuVC Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Main Menu"
         GlobalLog_Load(vc_Log: vcIdentifier)
         initializeUIElements()
         addUIElementSubViews()
@@ -63,6 +63,6 @@ class MainMenuVC: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         GlobalLog_Dismiss(vc_Log: vcIdentifier)
-        
     }
+    
 }

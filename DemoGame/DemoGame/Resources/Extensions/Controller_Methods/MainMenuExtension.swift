@@ -12,6 +12,7 @@ import FirebaseFirestore
 extension MainMenuVC{
     //MARK: - Initialize UI Elements
     func initializeUIElements(){
+        title = "Main Menu"
         imageView.image = UIImage(named: "Logo.png")
         onePlayerButtonImage.image = UIImage(named: "Rock.png")
         onePlayerButtonText.text = "SINGLE PLAYER"
@@ -22,6 +23,7 @@ extension MainMenuVC{
         profileButtonImage.image = UIImage(named: "Lizard.png")
         profileButtonText.text = "PLAYER PROFILE"
     }
+    
     //MARK: - Add Subviews
     func addUIElementSubViews(){
         view.addSubview(imageView)
@@ -38,6 +40,7 @@ extension MainMenuVC{
         profileButton.addSubview(profileButtonImage)
         profileButton.addSubview(profileButtonText)
     }
+    
     //MARK: - Add Tap Gestures
     func initializeImageTapGestures(){
         
@@ -105,7 +108,7 @@ extension MainMenuVC{
                                       text: profileButtonText,
                                       y: leaderboardButton.bottom + 3)
     }
-    
+    // MARK: - Screen Layout Function
     func initializeButtonSubviewLayout(base: UIView, image: UIImageView, text: UILabel, y: Double){
         let displayHeight = view.frame.size.height
         let displayWidth = view.frame.size.width
@@ -133,83 +136,78 @@ extension MainMenuVC{
         
     }
     
-    // MARK: - Screen Transition Function
+    // MARK: - Screen Transition Function (Single Player)
     func screenTransition (gameMode: String) {
         let sb = UIStoryboard(name: "Main", bundle: nil)
         let vc = sb.instantiateViewController(withIdentifier: "GameVC") as! GameVC
         vc.modalPresentationStyle = .fullScreen
-        vc.loggedInPlayer_G = loggedInPlayer_MM
+        vc.loggedInPlayer_SP = loggedInPlayer_SP
         vc.gameMode = gameMode
         self.present(vc, animated: true, completion: nil)
     }
-    
+    // MARK: - Multiplayer Queue Function
     func multiplayerQueue(){
-        var isConnected:Bool = false
-        var i = 0
-        
         let documentReference = firestoreDatabase.document("multiplayerQueue/Lobby")
         documentReference.getDocument{ snapshot, error in
             guard let data = snapshot?.data(), error == nil else{
                 NSLog("\(String(describing: error))")
                 return
             }
-            assignHostGuest(data: data)
+            self.assignHostGuest(data: data)
         }
-        func assignHostGuest(data: [String :Any])
-        {
-            while (isConnected == false){
-                let hostName = "host" + String(i)
-                if data.isEmpty {
-                    documentReference.setData([hostName:"open"])
+    }
+    
+    func assignHostGuest(data: [String :Any]){
+        let documentReference = firestoreDatabase.document("multiplayerQueue/Lobby")
+        var isConnected:Bool = false
+        var i = 0
+        
+        while (isConnected == false){
+            let hostName = "host" + String(i)
+            if data.isEmpty {
+                documentReference.setData([hostName:"open"])
+                self.room = "room" + String(i)
+                self.role = "host"
+                NSLog("assigned room: \(self.room) as role: \(self.role)")
+                isConnected = true
+            }
+            else{
+                let openCheck = data["host"+String(i)] as! String
+                if openCheck == "open"{
+                    documentReference.updateData(["host"+String(i):"guest"])
                     self.room = "room" + String(i)
-                    self.role = "host"
+                    self.role = "guest"
                     NSLog("assigned room: \(self.room) as role: \(self.role)")
                     isConnected = true
                 }
-                else{
-                    let openCheck = data["host"+String(i)] as! String
-                    if openCheck == "open"{
-                        documentReference.updateData(["host"+String(i):"guest"])
+                if openCheck == "guest"{
+                    i = i + 1
+                    let hostExists = data["host"+String(i)]
+                    if hostExists == nil {
+                        documentReference.updateData(["host"+String(i):"open"])
                         self.room = "room" + String(i)
-                        self.role = "guest"
+                        self.role = "host"
                         NSLog("assigned room: \(self.room) as role: \(self.role)")
                         isConnected = true
                     }
-                    if openCheck == "guest"{
-                        i = i + 1
-                        let hostExists = data["host"+String(i)]
-                        if hostExists == nil {
-                            documentReference.updateData(["host"+String(i):"open"])
-                            self.room = "room" + String(i)
-                            self.role = "host"
-                            NSLog("assigned room: \(self.room) as role: \(self.role)")
-                            isConnected = true
-                        }
-                    }
                 }
             }
-            self.connectToRoom()
         }
-        
+        self.connectToRoom()
     }
+    
     func connectToRoom(){
         if self.role == "host"{
             initializeHost()
-            // if guestStatus = Active make hostStatus: Active
-            // pass multiplayerGame to GameVC
-            // transition to GameVC
-            
         }
         else if self.role == "guest"{
             initializeGuest()
-            // if hostStatus: Active transition to GameVC
-            
         }
         else{
             NSLog("Error, no room/role assigend")
         }
     }
-    
+    //MARK: - Multiplayer Game Initialization Functions
     func initializeHost(){
         let collectionReference = firestoreDatabase.collection("multiplayerRoom")
         let hostName = self.loggedInPlayer_MM["username"] as! String
@@ -265,6 +263,7 @@ extension MainMenuVC{
             }
         return guestListener
     }
+    //MARK: - Screen Transition Functions (Multipalyer)
     func hostScreenTransition(){
         let sb = UIStoryboard(name: "Main", bundle: nil)
         let vc = sb.instantiateViewController(withIdentifier: "GameVC") as! GameVC
@@ -303,3 +302,5 @@ extension MainMenuVC{
         present(vc, animated: true, completion: nil)
     }
 }
+
+

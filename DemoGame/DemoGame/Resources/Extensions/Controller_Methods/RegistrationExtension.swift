@@ -11,6 +11,8 @@ import UIKit
 extension RegistrationVC{
 // MARK: - Screen Initialization Functions
     func initializeScreenElements(){
+        title = "Create User"
+        
         usernameRegistration.label.text = "Username"
         usernameRegistration.leadingAssistiveLabel.text = ""
         
@@ -21,13 +23,31 @@ extension RegistrationVC{
         passwordConfirmation.label.text = "Password"
         passwordConfirmation.leadingAssistiveLabel.text = ""
         passwordConfirmation.isSecureTextEntry = true
+        
     }
-// MARK: - Page Clear Functions
-    func pageClear(){
-        usernameRegistration.text = ""
-        passwordRegistration.text = ""
-        passwordConfirmation.text = ""
+
+//MARK: - Register Attempt
+    func registerAttempt(){
+        NSLog("User Registration Attempt")
+        guard usernameRegistration.text?.isEmpty == false
+                && passwordConfirmation.text?.isEmpty == false
+                && passwordRegistration.text == passwordConfirmation.text
+        else{
+            if usernameRegistration.text?.isEmpty == true
+                || passwordRegistration.text?.isEmpty == true{
+                self.gameAlert(alertTitle: "Registration Error", alertMessage: "Empty Username/Password")
+                NSLog("Empty Username/Password")
+            }
+            if passwordConfirmation.text != passwordRegistration.text{
+                self.gameAlert(alertTitle: "Registration Error", alertMessage: "Mismatch Password")
+                NSLog("Mismatch Password")
+            }
+            return
+        }
+        self.playerID = usernameRegistration.text!
+        registerUser(username: usernameRegistration.text!, password: passwordConfirmation.text!)
     }
+    
 // MARK: - Screen Transition Function
     func registerUser(username: String, password: String){
         let documentReference = firestoreDatabase.document("playerDatabase/\(usernameRegistration.text!)")
@@ -48,4 +68,12 @@ extension RegistrationVC{
             }
         }
     }
+   
+    // MARK: - Page Clear Functions
+        func pageClear(){
+            usernameRegistration.text = ""
+            passwordRegistration.text = ""
+            passwordConfirmation.text = ""
+        }
 }
+
