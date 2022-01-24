@@ -74,6 +74,7 @@ class GameVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         GlobalLog_Display(vc_Log: vcIdentifier)
         initializePlayerNames()
+        let screenListener = addScreenUpdateListener()
     }
     
     override func viewDidDisappear(_ animated: Bool) {

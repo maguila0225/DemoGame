@@ -257,56 +257,56 @@ extension GameVC{
             switch tapGestureRecognizer{
             case rockSelect:
                 if self.role == "host"{
-                    docRef.updateData(["hostSelection":"Rock"], completion: nil)
+                    docRef.updateData(["hostSelection":"Rock.png"], completion: nil)
                     playerSelection = "Rock"
                     p1SelectedImage.image = UIImage(named: "Rock.png")
                 }
                 if self.role == "guest"{
-                    docRef.updateData(["guestSelection":"Rock"], completion: nil)
+                    docRef.updateData(["guestSelection":"Rock.png"], completion: nil)
                     player2Selection = "Rock"
                     p2SelectedImage.image = UIImage(named: "Rock.png")
                 }
             case paperSelect:
                 if self.role == "host"{
-                    docRef.updateData(["hostSelection":"Paper"], completion: nil)
+                    docRef.updateData(["hostSelection":"Paper.png"], completion: nil)
                     playerSelection = "Paper"
                     p1SelectedImage.image = UIImage(named: "Paper.png")
                 }
                 if self.role == "guest"{
-                    docRef.updateData(["guestSelection":"Paper"], completion: nil)
+                    docRef.updateData(["guestSelection":"Paper.png"], completion: nil)
                     player2Selection = "Paper"
                     p2SelectedImage.image = UIImage(named: "Paper.png")
                 }
             case scissorsSelect:
                 if self.role == "host"{
-                    docRef.updateData(["hostSelection":"Scissors"], completion: nil)
+                    docRef.updateData(["hostSelection":"Scissors.png"], completion: nil)
                     playerSelection = "Scissors"
                     p1SelectedImage.image = UIImage(named: "Scissors.png")
                 }
                 if self.role == "guest"{
-                    docRef.updateData(["guestSelection":"Scissors"], completion: nil)
+                    docRef.updateData(["guestSelection":"Scissors.png"], completion: nil)
                     player2Selection = "Scissors"
                     p2SelectedImage.image = UIImage(named: "Scissors")
                 }
             case lizardSelect:
                 if self.role == "host"{
-                    docRef.updateData(["hostSelection":"Lizard"], completion: nil)
+                    docRef.updateData(["hostSelection":"Lizard.png"], completion: nil)
                     playerSelection = "Lizard"
                     p1SelectedImage.image = UIImage(named: "Lizard.png")
                 }
                 if self.role == "guest"{
-                    docRef.updateData(["guestSelection":"Lizard"], completion: nil)
+                    docRef.updateData(["guestSelection":"Lizard.png"], completion: nil)
                     player2Selection = "Lizard"
                     p2SelectedImage.image = UIImage(named: "Lizard")
                 }
             case spockSelect:
                 if self.role == "host"{
-                    docRef.updateData(["hostSelection":"Spock"], completion: nil)
+                    docRef.updateData(["hostSelection":"Spock.png"], completion: nil)
                     playerSelection = "Spock"
                     p1SelectedImage.image = UIImage(named: "Spock.png")
                 }
                 if self.role == "guest"{
-                    docRef.updateData(["guestSelection":"Spock"], completion: nil)
+                    docRef.updateData(["guestSelection":"Spock.png"], completion: nil)
                     player2Selection = "Spock"
                     p2SelectedImage.image = UIImage(named: "Spock")
                 }
@@ -449,7 +449,8 @@ extension GameVC{
         roundNumber.text = String(roundCounter)
     }
     func addScreenUpdateListener() -> ListenerRegistration{
-        let hostListener = firestoreDatabase.collection("multiplayerRoom").whereField("room", isEqualTo: String(describing: loggedInPlayer_G["room"]))
+        let docRef = firestoreDatabase.document("multiplayerRoom/\(self.room)")
+        screenUpdateListener = firestoreDatabase.collection("multiplayerRoom").whereField("room", isEqualTo: self.room)
             .addSnapshotListener { querySnapshot, error in
                 guard let snapshot = querySnapshot else {
                     print("Error fetching snapshots: \(error!)")
@@ -457,10 +458,18 @@ extension GameVC{
                 }
                 snapshot.documentChanges.forEach { diff in
                     if (diff.type == .modified) {
-                        print("New Data: \(diff.document.data())")
+                        docRef.getDocument{ snapshot, error in
+                            guard let data = snapshot?.data(), error == nil else{
+                                NSLog("\(String(describing: error))")
+                                return
+                            }
+                            self.p1SelectedImage.image = UIImage(named: data["hostSelection"] as! String)
+                            self.p2SelectedImage.image = UIImage(named: data["guestSelection"] as! String)
+                        }
                     }
                 }
             }
-        return hostListener
+        return screenUpdateListener!
     }
+    
 }
