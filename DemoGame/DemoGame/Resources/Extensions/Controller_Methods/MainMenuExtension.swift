@@ -8,6 +8,8 @@
 import Foundation
 import UIKit
 import FirebaseFirestore
+import AVFoundation
+import AVKit
 
 extension MainMenuVC{
     //MARK: - Initialize UI Elements
@@ -18,10 +20,10 @@ extension MainMenuVC{
         onePlayerButtonText.text = "SINGLE PLAYER"
         multiplayerButtonImage.image = UIImage(named: "Scissors.png")
         multiplayerButtonText.text = "MULTIPLAYER"
-        leaderboardButtonImage.image = UIImage(named: "Spock.png")
+        leaderboardButtonImage.image = UIImage(named: "Paper.png")
         leaderboardButtonText.text = "LEADERBOARD"
-        profileButtonImage.image = UIImage(named: "Lizard.png")
-        profileButtonText.text = "PLAYER PROFILE"
+        rulesButtonImage.image = UIImage(named: "Spock.png")
+        rulesButtonText.text = "RULES"
     }
     
     //MARK: - Add Subviews
@@ -30,15 +32,15 @@ extension MainMenuVC{
         view.addSubview(onePlayerButton)
         view.addSubview(multiplayerButton)
         view.addSubview(leaderboardButton)
-        view.addSubview(profileButton)
+        view.addSubview(rulesButton)
         onePlayerButton.addSubview(onePlayerButtonImage)
         onePlayerButton.addSubview(onePlayerButtonText)
         multiplayerButton.addSubview(multiplayerButtonImage)
         multiplayerButton.addSubview(multiplayerButtonText)
         leaderboardButton.addSubview(leaderboardButtonImage)
         leaderboardButton.addSubview(leaderboardButtonText)
-        profileButton.addSubview(profileButtonImage)
-        profileButton.addSubview(profileButtonText)
+        rulesButton.addSubview(rulesButtonImage)
+        rulesButton.addSubview(rulesButtonText)
     }
     
     //MARK: - Add Tap Gestures
@@ -57,8 +59,8 @@ extension MainMenuVC{
         leaderboardButton.addGestureRecognizer(leaderboardSelect)
         
         profileSelect = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
-        profileButton.isUserInteractionEnabled = true
-        profileButton.addGestureRecognizer(profileSelect)
+        rulesButton.isUserInteractionEnabled = true
+        rulesButton.addGestureRecognizer(profileSelect)
     }
     
     @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer)
@@ -76,7 +78,8 @@ extension MainMenuVC{
             leaderboardScreenTransition()
             NSLog("Leaderboard Button Tapped")
         case profileSelect:
-            NSLog("Profile Button Tapped")
+            presentRules()
+            NSLog("Rules Button Tapped")
         default:
             NSLog("Unrecognized Gesture")
         }
@@ -104,9 +107,9 @@ extension MainMenuVC{
                                       text: leaderboardButtonText,
                                       y: multiplayerButton.bottom + 3)
         
-        initializeButtonSubviewLayout(base: profileButton,
-                                      image: profileButtonImage,
-                                      text: profileButtonText,
+        initializeButtonSubviewLayout(base: rulesButton,
+                                      image: rulesButtonImage,
+                                      text: rulesButtonText,
                                       y: leaderboardButton.bottom + 3)
     }
     // MARK: - Screen Layout Function
@@ -137,17 +140,18 @@ extension MainMenuVC{
         
     }
     
-    // MARK: - Screen Transition Function (Single Player)
+    // MARK: - Screen Transition Functions
     func singlePlayerScreenTransition (gameMode: String) {
         let sb = UIStoryboard(name: "Main", bundle: nil)
         let vc = sb.instantiateViewController(withIdentifier: "GameVC") as! GameVC
         vc.modalPresentationStyle = .fullScreen
         vc.loggedInPlayer_SP = loggedInPlayer_SP
         vc.gameMode = gameMode
+        menuMusicPlayer!.stop()
         self.present(vc, animated: true, completion: nil)
     }
     
-    // MARK: - Screen Transition Function (Leaderboard)
+
     func leaderboardScreenTransition() {
         let sb = UIStoryboard(name: "Main", bundle: nil)
         let vc = sb.instantiateViewController(withIdentifier: "LeaderboardVC") as! LeaderboardVC
@@ -290,6 +294,7 @@ extension MainMenuVC{
             vc.loggedInPlayer_G = self.loggedInPlayer_MM
             vc.gameRoomData = data
             vc.role = self.role
+            self.menuMusicPlayer!.stop()
         }
         present(vc, animated: true, completion: nil)
     }
@@ -310,8 +315,44 @@ extension MainMenuVC{
             vc.loggedInPlayer_G = self.loggedInPlayer_MM
             vc.gameRoomData = data
             vc.role = self.role
+            self.menuMusicPlayer!.stop()
         }
         present(vc, animated: true, completion: nil)
+    }
+    func presentRules(){
+        let player = AVPlayer(url: URL(fileURLWithPath: Bundle.main.path(forResource: "Rules", ofType: "mp4")!))
+        let vc = AVPlayerViewController()
+        vc.player = player
+        present(vc, animated: true)
+        vc.player!.play()
+        menuMusicPlayer!.stop()
+    }
+    
+    func playBackgroundAudio(){
+        if let menuMusicPlayer = menuMusicPlayer, menuMusicPlayer.isPlaying{
+            print("Background audio is playing")
+        }
+        else {
+            let urlString = Bundle.main.path(forResource: "Stardust", ofType: "mp3")
+            do{
+                try AVAudioSession.sharedInstance().setMode(.default)
+                try AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
+                
+                guard let urlString = urlString else{
+                    return
+                }
+                menuMusicPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: urlString))
+                guard let menuMusicPlayer = menuMusicPlayer else{
+                    return
+                }
+                menuMusicPlayer.volume = 0.2
+                menuMusicPlayer.numberOfLoops = -1
+                menuMusicPlayer.play()
+            }
+            catch{
+                print("something went wrong with the audio player")
+            }
+        }
     }
 }
 

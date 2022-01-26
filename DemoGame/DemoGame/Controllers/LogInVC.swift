@@ -11,6 +11,7 @@ import MaterialComponents.MaterialButtons
 import MaterialComponents.MaterialDialogs
 import Firebase
 import IQKeyboardManager
+import AVFoundation
 
 class LogInVC: UIViewController {
     let vcIdentifier: String = "LogInVC"
@@ -21,6 +22,7 @@ class LogInVC: UIViewController {
     @IBOutlet weak var passwordTextField: MDCOutlinedTextField!
     var loggedInPlayer_SP = ""
     var loggedInPlayer: [String: Any] = [:]
+    var menuMusicPlayer: AVAudioPlayer?
     
     let firestoreDatabase = Firestore.firestore()
     // MARK: - LogInVC life cycle
@@ -32,6 +34,7 @@ class LogInVC: UIViewController {
     
     override func  viewWillAppear(_ animated: Bool) {
         GlobalLog_Display(vc_Log: vcIdentifier)
+        playBackgroundAudio()
         pageClear()
     }
     

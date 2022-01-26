@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseFirestore
+import AVFoundation
 
 class MainMenuVC: UIViewController {
     // MARK: - UI Element Declaration
@@ -20,9 +21,9 @@ class MainMenuVC: UIViewController {
     let leaderboardButton = UIView()
     let leaderboardButtonImage = UIImageView()
     let leaderboardButtonText = UILabel()
-    let profileButton = UIView()
-    let profileButtonImage = UIImageView()
-    let profileButtonText = UILabel()
+    let rulesButton = UIView()
+    let rulesButtonImage = UIImageView()
+    let rulesButtonText = UILabel()
     
     // MARK: - Gesture Recognizer Declaration
     var singlePlayerSelect = UIGestureRecognizer()
@@ -41,8 +42,8 @@ class MainMenuVC: UIViewController {
     var guestListener: ListenerRegistration?
     var gameMode: String = ""
     var loggedInPlayer_SP = ""
+    var menuMusicPlayer: AVAudioPlayer?
     
-
     // MARK: - MainMenuVC Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,6 +60,7 @@ class MainMenuVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         GlobalLog_Display(vc_Log: vcIdentifier)
+        playBackgroundAudio()
     }
     
     override func viewDidDisappear(_ animated: Bool) {

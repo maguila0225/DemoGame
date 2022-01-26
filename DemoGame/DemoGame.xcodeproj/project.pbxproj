@@ -33,6 +33,9 @@
 		5BCB8866279E4FF0004DDDB0 /* MultiplayerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCB8865279E4FF0004DDDB0 /* MultiplayerExtension.swift */; };
 		5BE6158927A17B170064C750 /* LeaderboardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE6158827A17B170064C750 /* LeaderboardVC.swift */; };
 		5BE6158B27A1A0B20064C750 /* LeaderboardExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE6158A27A1A0B20064C750 /* LeaderboardExtension.swift */; };
+		5BE6159027A1AC1C0064C750 /* Rules.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 5BE6158D27A1AC1A0064C750 /* Rules.mp4 */; };
+		5BE6159127A1AC1C0064C750 /* Stardust.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5BE6158E27A1AC1B0064C750 /* Stardust.mp3 */; };
+		5BE6159227A1AC1C0064C750 /* Battle.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5BE6158F27A1AC1C0064C750 /* Battle.mp3 */; };
 		645F0B47E0A233E09D115A87 /* Pods_DemoGame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BA35738BBAEDC0F00A4B2D0 /* Pods_DemoGame.framework */; };
 		81D1EB68627C23E73C769155 /* Pods_DemoGameTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D963144C23AACED17781DC97 /* Pods_DemoGameTests.framework */; };
 		8A1996ADB283D3A627593555 /* Pods_DemoGame_DemoGameUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C78E7534066E8A3BBC2E866 /* Pods_DemoGame_DemoGameUITests.framework */; };
@@ -89,6 +92,9 @@
 		5BCB8865279E4FF0004DDDB0 /* MultiplayerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiplayerExtension.swift; sourceTree = "<group>"; };
 		5BE6158827A17B170064C750 /* LeaderboardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardVC.swift; sourceTree = "<group>"; };
 		5BE6158A27A1A0B20064C750 /* LeaderboardExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardExtension.swift; sourceTree = "<group>"; };
+		5BE6158D27A1AC1A0064C750 /* Rules.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = Rules.mp4; sourceTree = "<group>"; };
+		5BE6158E27A1AC1B0064C750 /* Stardust.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Stardust.mp3; sourceTree = "<group>"; };
+		5BE6158F27A1AC1C0064C750 /* Battle.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Battle.mp3; sourceTree = "<group>"; };
 		862FA88F4E986AF597559C75 /* Pods-DemoGame-DemoGameUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoGame-DemoGameUITests.debug.xcconfig"; path = "Target Support Files/Pods-DemoGame-DemoGameUITests/Pods-DemoGame-DemoGameUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		AF60AF34563E0A6A6997FA9B /* Pods-DemoGame-DemoGameUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoGame-DemoGameUITests.release.xcconfig"; path = "Target Support Files/Pods-DemoGame-DemoGameUITests/Pods-DemoGame-DemoGameUITests.release.xcconfig"; sourceTree = "<group>"; };
 		C51BBE39A794E2F9B9C9F54F /* Pods-DemoGame.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoGame.release.xcconfig"; path = "Target Support Files/Pods-DemoGame/Pods-DemoGame.release.xcconfig"; sourceTree = "<group>"; };
@@ -210,6 +216,7 @@
 		5B99BFD427930A9D00E0F96E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5BE6158C27A1ABFD0064C750 /* AudioVideo */,
 				5B9F5C56279907FE0039C1A1 /* Extensions */,
 				5B99BFAA2793020400E0F96E /* Assets.xcassets */,
 				5B99BFA12793020200E0F96E /* AppDelegate.swift */,
@@ -257,6 +264,16 @@
 				5BCB8865279E4FF0004DDDB0 /* MultiplayerExtension.swift */,
 			);
 			path = GameModeExtension;
+			sourceTree = "<group>";
+		};
+		5BE6158C27A1ABFD0064C750 /* AudioVideo */ = {
+			isa = PBXGroup;
+			children = (
+				5BE6158F27A1AC1C0064C750 /* Battle.mp3 */,
+				5BE6158D27A1AC1A0064C750 /* Rules.mp4 */,
+				5BE6158E27A1AC1B0064C750 /* Stardust.mp3 */,
+			);
+			path = AudioVideo;
 			sourceTree = "<group>";
 		};
 		7E7E771BE742C95BA61FB521 /* Pods */ = {
@@ -392,8 +409,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B99BFAE2793020400E0F96E /* LaunchScreen.storyboard in Resources */,
+				5BE6159127A1AC1C0064C750 /* Stardust.mp3 in Resources */,
+				5BE6159227A1AC1C0064C750 /* Battle.mp3 in Resources */,
 				5B99BFDC27934EEE00E0F96E /* GoogleService-Info.plist in Resources */,
 				5B99BFAB2793020400E0F96E /* Assets.xcassets in Resources */,
+				5BE6159027A1AC1C0064C750 /* Rules.mp4 in Resources */,
 				5B99BFA92793020200E0F96E /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

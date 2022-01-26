@@ -7,6 +7,8 @@
 
 import Foundation
 import UIKit
+import AVFoundation
+
 // MARK: - LogInVC Functions
 extension LogInVC{
     // MARK: - Initialize Screen Elements
@@ -61,6 +63,7 @@ extension LogInVC{
         let vc = sb.instantiateViewController(withIdentifier: "MainMenuVC") as! MainMenuVC
         vc.loggedInPlayer_SP = usernameTextField.text!
         vc.loggedInPlayer_MM = loggedInPlayer
+        vc.menuMusicPlayer = menuMusicPlayer
         navigationController?.pushViewController(vc, animated: true)
     }
     @objc func screenTransitionRegister(){
@@ -73,5 +76,33 @@ extension LogInVC{
     func pageClear(){
         usernameTextField.text = ""
         passwordTextField.text = ""
+    }
+    
+    //MARK: - AudioPlayer
+    func playBackgroundAudio(){
+        if let menuMusicPlayer = menuMusicPlayer, menuMusicPlayer.isPlaying{
+            print("Background audio is playing")
+        }
+        else {
+            let urlString = Bundle.main.path(forResource: "Stardust", ofType: "mp3")
+            do{
+                try AVAudioSession.sharedInstance().setMode(.default)
+                try AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
+                
+                guard let urlString = urlString else{
+                    return
+                }
+                menuMusicPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: urlString))
+                guard let menuMusicPlayer = menuMusicPlayer else{
+                    return
+                }
+                menuMusicPlayer.volume = 0.2
+                menuMusicPlayer.numberOfLoops = -1
+                menuMusicPlayer.play()
+            }
+            catch{
+                print("something went wrong with the audio player")
+            }
+        }
     }
 }

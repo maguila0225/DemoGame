@@ -8,6 +8,7 @@
 import UIKit
 import MaterialComponents
 import FirebaseFirestore
+import AVFAudio
 
 class GameVC: UIViewController {
     // MARK: UI Element Declaration
@@ -51,6 +52,7 @@ class GameVC: UIViewController {
     var matchResult: String = ""
     var room: String = ""
     var screenUpdateListener: ListenerRegistration?
+    var gameMusicPlayer: AVAudioPlayer?
     
     
     // MARK: - Gesture Recognizers
@@ -78,11 +80,13 @@ class GameVC: UIViewController {
         GlobalLog_Display(vc_Log: vcIdentifier)
         initializePlayerName()
         initializeInputRoom()
+        playGameAudio()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         GlobalLog_Dismiss(vc_Log: vcIdentifier)
         screenUpdateListener?.remove()
+        gameMusicPlayer!.stop()
     }
     
 }

@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import MaterialComponents.MaterialDialogs
 import FirebaseFirestore
+import AVFoundation
 
 extension GameVC{
     // MARK: - Add UI Element Subviews
@@ -246,6 +247,33 @@ extension GameVC{
         }
         else if gameMode == "Multiplayer"{
             gameEngine_MP()
+        }
+    }
+    
+    func playGameAudio(){
+        if let gameMusicPlayer = gameMusicPlayer, gameMusicPlayer.isPlaying{
+            print("Game audio is playing")
+        }
+        else {
+            let urlString = Bundle.main.path(forResource: "Battle", ofType: "mp3")
+            do{
+                try AVAudioSession.sharedInstance().setMode(.default)
+                try AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
+                
+                guard let urlString = urlString else{
+                    return
+                }
+                gameMusicPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: urlString))
+                guard let gameMusicPlayer = gameMusicPlayer else{
+                    return
+                }
+                gameMusicPlayer.volume = 0.2
+                gameMusicPlayer.numberOfLoops = -1
+                gameMusicPlayer.play()
+            }
+            catch{
+                print("something went wrong with the audio player")
+            }
         }
     }
 }
