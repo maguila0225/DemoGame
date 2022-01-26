@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import FirebaseFirestore
 
 extension UIViewController{
     func encodePlayer(inputPlayer: Player) -> [String: Any]
@@ -41,3 +42,5 @@ extension UIViewController{
         }
     }
 }
+
+

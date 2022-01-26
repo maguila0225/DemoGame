@@ -12,5 +12,4 @@ struct Player: Codable{
     var matchesPlayed: Int = 0
     var wins: Int = 0
     var losses: Int = 0
-    var winRatio: Double = 0
 }

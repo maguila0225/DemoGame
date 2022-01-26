@@ -197,7 +197,7 @@ extension GameVC{
             initializePlayerNames_SP()
         case "Multiplayer":
             initializePlayerNames_MP()
-            let screenListener = addScreenUpdateListener()
+            screenUpdateListener = addScreenUpdateListener()
         default:
             NSLog("Unspecified Game Mode")
             gameAlert(alertTitle: "Game Error", alertMessage: "Unspecified Game Mode")
@@ -238,5 +238,4 @@ extension GameVC{
             NSLog("Unrecognized Gesture")
         }
     }
-    
 }

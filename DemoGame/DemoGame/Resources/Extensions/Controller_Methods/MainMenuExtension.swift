@@ -145,6 +145,7 @@ extension MainMenuVC{
         vc.gameMode = gameMode
         self.present(vc, animated: true, completion: nil)
     }
+    
     // MARK: - Multiplayer Queue Function
     func multiplayerQueue(){
         let documentReference = firestoreDatabase.document("multiplayerQueue/Lobby")
@@ -277,7 +278,8 @@ extension MainMenuVC{
             self.hostListner!.remove()
             vc.room = self.room
             vc.gameMode = self.gameMode
-            vc.loggedInPlayer_G = data
+            vc.loggedInPlayer_G = self.loggedInPlayer_MM
+            vc.gameRoomData = data
             vc.role = self.role
         }
         present(vc, animated: true, completion: nil)
@@ -296,7 +298,8 @@ extension MainMenuVC{
             self.guestListener!.remove()
             vc.room = self.room
             vc.gameMode = self.gameMode
-            vc.loggedInPlayer_G = data
+            vc.loggedInPlayer_G = self.loggedInPlayer_MM
+            vc.gameRoomData = data
             vc.role = self.role
         }
         present(vc, animated: true, completion: nil)

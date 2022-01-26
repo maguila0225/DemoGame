@@ -9,20 +9,21 @@ import Foundation
 import UIKit
 import MaterialComponents.MaterialDialogs
 import FirebaseFirestore
+import MaterialComponents.MaterialDialogs
 
 extension GameVC{
     // MARK: - Multiplayer Name Initialization
     func initializePlayerNames_MP(){
-        playerName.text = loggedInPlayer_G["hostName"] as? String
-        playerName_Score.text = loggedInPlayer_G["hostName"] as? String
-        player2Name.text = loggedInPlayer_G["guestName"] as? String
-        player2Name_Score.text = loggedInPlayer_G["guestName"] as? String
+        playerName.text = gameRoomData["hostName"] as? String
+        playerName_Score.text = gameRoomData["hostName"] as? String
+        player2Name.text = gameRoomData["guestName"] as? String
+        player2Name_Score.text = gameRoomData["guestName"] as? String
     }
     
     // MARK: - Inpitialize Input Room
     func initializeInputRoom(){
         if gameMode == "Multiplayer"{
-            let inputRoom = "input" + (loggedInPlayer_G["room"] as! String)
+            let inputRoom = "input" + (gameRoomData["room"] as! String)
             let collectionReference = firestoreDatabase.collection("multiplayerRoom")
             collectionReference.document(inputRoom).setData(["guestInputCheck":"Empty"])
             collectionReference.document(inputRoom).updateData(["hostInputCheck":"Empty"])
@@ -30,6 +31,7 @@ extension GameVC{
     }
     
     // MARK: - Add Screen Update Listener
+    
     func addScreenUpdateListener() -> ListenerRegistration{
         let docRef = firestoreDatabase.document("multiplayerRoom/\(self.room)")
         screenUpdateListener = firestoreDatabase.collection("multiplayerRoom").whereField("room", isEqualTo: self.room)
@@ -45,12 +47,8 @@ extension GameVC{
                                 NSLog("\(String(describing: error))")
                                 return
                             }
-                            self.p1SelectedImage.image = UIImage(named: (data["hostSelection"] as! String) + ".png")
-                            self.p2SelectedImage.image = UIImage(named: (data["guestSelection"] as! String) + ".png")
-                            self.resultLabel.text = data["roundResult"] as? String
-                            self.roundNumber.text = data["roundNumber"] as? String
-                            self.playerScore.text = data["hostScore"] as? String
-                            self.player2Score.text = data["guestScore"] as? String
+                            self.updateScreenElements(data)
+                            self.callMatchEnd(data)
                         }
                     }
                 }
@@ -58,6 +56,38 @@ extension GameVC{
         return screenUpdateListener!
     }
     
+    fileprivate func updateScreenElements(_ data: [String : Any]) {
+        self.p1SelectedImage.image = UIImage(named: (data["hostSelection"] as! String) + ".png")
+        self.p2SelectedImage.image = UIImage(named: (data["guestSelection"] as! String) + ".png")
+        self.resultLabel.text = data["roundResult"] as? String
+        self.roundNumber.text = data["roundNumber"] as? String
+        self.playerScore.text = data["hostScore"] as? String
+        self.player2Score.text = data["guestScore"] as? String
+    }
+    
+    fileprivate func callMatchEnd(_ data: [String : Any]) {
+        let round = (data["roundNumber"] as! NSString).intValue
+        let p1Score = data["hostScore"] as! String
+        let p2Score = data["guestScore"] as! String
+        if round >= 10 && p1Score != p2Score && data["matchWinner"] != nil{
+            NSLog("\(data)")
+            self.matchEndDialog()
+        }
+    }
+    
+    func matchEndDialog(){
+        let docRef = firestoreDatabase.document("multiplayerRoom/\(self.room)")
+        docRef.getDocument{ snapshot, error in
+            guard let data = snapshot?.data(), error == nil else{
+                NSLog("\(String(describing: error))")
+                return
+            }
+            let alertController = MDCAlertController(title: "Match Winner", message: (data["matchWinner"] as! String))
+            let action1 = MDCAlertAction(title:"Exit") { (action) in (self.dismiss(animated: false, completion: nil))}
+            alertController.addAction(action1)
+            self.present(alertController, animated:true, completion: nil)
+        }
+    }
     //MARK: - Gesture Recognizer
     func imageTapped_MP(tapGestureRecognizer: UITapGestureRecognizer){
         switch role{
@@ -117,9 +147,9 @@ extension GameVC{
     func gameEngine_MP(){
         updatePlayerInputs()
     }
-
+    
     func updatePlayerInputs(){
-        let inputRoom = "input" + (loggedInPlayer_G["room"] as! String)
+        let inputRoom = "input" + (gameRoomData["room"] as! String)
         let docRef = firestoreDatabase.document("multiplayerRoom/\(inputRoom)")
         switch role{
         case "host":
@@ -139,10 +169,7 @@ extension GameVC{
             }
             if (data["guestInputCheck"] as! String) == "Empty"{
                 docRef.updateData(["hostInputCheck":self.playerSelection])
-                // read winnerRoom if match has ended
-                // display winner
-                // update player standing
-                // exit screen
+
             } else {
                 self.updateHostInput(docRef: self.firestoreDatabase.document("multiplayerRoom/\(self.room)"))
                 self.player2Selection = (data["guestInputCheck"] as! String)
@@ -162,10 +189,7 @@ extension GameVC{
             }
             if (data["hostInputCheck"] as! String) == "Empty"{
                 docRef.updateData(["guestInputCheck":self.player2Selection])
-                // read winnerRoom if match has ended
-                // display winner
-                // update player standing
-                // exit screen
+                
             } else {
                 self.updateGuestInput(docRef: self.firestoreDatabase.document("multiplayerRoom/\(self.room)"))
                 self.playerSelection = (data["hostInputCheck"] as! String)
@@ -219,10 +243,9 @@ extension GameVC{
                 return
             }
             self.gameLogic(docRef: docRef, data: data)
-            }
-        
+        }
     }
-
+    
     fileprivate func gameLogic(docRef: DocumentReference, data: [String:Any]) {
         playerScoreValue = Int((data["hostScore"] as! NSString).intValue)
         player2ScoreValue = Int((data["guestScore"] as! NSString).intValue)
@@ -290,16 +313,18 @@ extension GameVC{
     }
     
     fileprivate func hostWins() {
-        roundResult = "\((loggedInPlayer_G["hostName"] as? String) ?? "Player")"
+        roundResult = "\((gameRoomData["hostName"] as? String) ?? "Player")"
         playerScoreValue += 1
         roundCounter += 1
     }
-
+    
     fileprivate func guestWins() {
-        roundResult = "\((loggedInPlayer_G["guestName"] as? String) ?? "Player")"
+        roundResult = "\((gameRoomData["guestName"] as? String) ?? "Player")"
         player2ScoreValue += 1
         roundCounter += 1
     }
+    
+    
     
     fileprivate func roundScoreUpdate(_ docRef: DocumentReference) {
         playerScore.text = String(playerScoreValue)
@@ -313,11 +338,15 @@ extension GameVC{
         docRef.updateData(["guestScore":p2Score])
         docRef.updateData(["roundNumber":roundCounterText])
         docRef.updateData(["roundResult":roundResult])
-    }
-    func matchEnd(){
-        //  user that runs game logic updates the inputroom (add ["matchWinner": matchWinner]
-        //  display alert message declaring the winner
-        // update player standing
-        // dismiss screen
+        if roundCounter >= 10 && playerScoreValue != player2ScoreValue{
+            let docRef = firestoreDatabase.document("multiplayerRoom/\(self.room)")
+            if playerScoreValue > player2ScoreValue{
+                docRef.updateData(["matchWinner":self.playerName.text!])
+            }
+            else{
+                docRef.updateData(["matchWinner":self.player2Name.text!])
+            }
+            
+        }
     }
 }

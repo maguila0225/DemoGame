@@ -33,6 +33,7 @@ class GameVC: UIViewController {
     //MARK: - Variables Passed in
     var gameMode: String = ""
     var role = ""
+    var gameRoomData: [String: Any] = [:]
     var loggedInPlayer_G: [String: Any] = [:]
     let firestoreDatabase = Firestore.firestore()
     var loggedInPlayer_SP = ""
@@ -50,7 +51,7 @@ class GameVC: UIViewController {
     var matchResult: String = ""
     var room: String = ""
     var screenUpdateListener: ListenerRegistration?
-
+    
     
     // MARK: - Gesture Recognizers
     var rockSelect = UIGestureRecognizer()
@@ -82,7 +83,6 @@ class GameVC: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         GlobalLog_Dismiss(vc_Log: vcIdentifier)
-        
     }
     
     //MARK: - IBAction
@@ -97,5 +97,4 @@ class GameVC: UIViewController {
             gameEngine_MP()
         }
     }
-    
 }
