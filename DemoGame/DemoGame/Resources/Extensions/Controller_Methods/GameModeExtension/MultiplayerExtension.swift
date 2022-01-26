@@ -70,7 +70,6 @@ extension GameVC{
         let p1Score = data["hostScore"] as! String
         let p2Score = data["guestScore"] as! String
         if round >= 10 && p1Score != p2Score && data["matchWinner"] != nil{
-            NSLog("\(data)")
             self.matchEndDialog()
         }
     }
@@ -342,11 +341,63 @@ extension GameVC{
             let docRef = firestoreDatabase.document("multiplayerRoom/\(self.room)")
             if playerScoreValue > player2ScoreValue{
                 docRef.updateData(["matchWinner":self.playerName.text!])
+                updateHostWin()
             }
             else{
                 docRef.updateData(["matchWinner":self.player2Name.text!])
+                updateGuestWin()
             }
             
+        }
+    }
+    
+    func updateHostWin(){
+        var p1Win: Int = 0
+        var p2Loss: Int = 0
+        let p1Name = gameRoomData["hostName"] as! String
+        let p2Name = gameRoomData["guestName"] as! String
+        let p1DocRef = firestoreDatabase.collection("playerDatabase").document(p1Name)
+        let p2DocRef = firestoreDatabase.collection("playerDatabase").document(p2Name)
+        p1DocRef.getDocument{ snapshot, error in
+            guard let data = snapshot?.data(), error == nil else{
+                NSLog("\(String(describing: error))")
+                return
+            }
+            p1Win = (data["wins"] as! Int) + 1
+            p1DocRef.updateData(["wins": p1Win])
+        }
+        p2DocRef.getDocument{ snapshot, error in
+            guard let data = snapshot?.data(), error == nil else{
+                NSLog("\(String(describing: error))")
+                return
+            }
+            p2Loss = (data["losses"] as! Int) + 1
+            p2DocRef.updateData(["losses": p2Loss])
+        }
+    }
+    
+    func updateGuestWin(){
+        var p2Win: Int = 0
+        var p1Loss: Int = 0
+        let p1Name = gameRoomData["hostName"] as! String
+        let p2Name = gameRoomData["guestName"] as! String
+        let p1DocRef = firestoreDatabase.collection("playerDatabase").document(p1Name)
+        let p2DocRef = firestoreDatabase.collection("playerDatabase").document(p2Name)
+        p2DocRef.getDocument{ snapshot, error in
+            guard let data = snapshot?.data(), error == nil else{
+                NSLog("\(String(describing: error))")
+                return
+            }
+            p2Win = (data["wins"] as! Int) + 1
+            p2DocRef.updateData(["wins": p2Win])
+        }
+        p1DocRef.getDocument{ snapshot, error in
+            guard let data = snapshot?.data(), error == nil else{
+                NSLog("\(String(describing: error))")
+                return
+            }
+            p1Loss = (data["losses"] as! Int) + 1
+            p1DocRef.updateData(["losses": p1Loss])
         }
     }
 }

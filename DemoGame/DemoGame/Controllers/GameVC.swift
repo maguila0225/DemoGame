@@ -83,11 +83,11 @@ class GameVC: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         GlobalLog_Dismiss(vc_Log: vcIdentifier)
+        screenUpdateListener?.remove()
     }
     
     //MARK: - IBAction
     @objc func buttonClicked(){
-        NSLog("button Clicked")
         if gameMode == "Single Player"{
             botEngine()
             gameEngine_SP(playerInput: playerSelection, botInput: botSelection)
