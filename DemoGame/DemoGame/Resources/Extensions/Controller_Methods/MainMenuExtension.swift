@@ -66,13 +66,14 @@ extension MainMenuVC{
         switch tapGestureRecognizer{
         case singlePlayerSelect:
             gameMode = "Single Player"
-            screenTransition(gameMode: gameMode)
+            singlePlayerScreenTransition(gameMode: gameMode)
             NSLog("Single Player Button Tapped")
         case multiplayerSelect:
             gameMode = "Multiplayer"
             multiplayerQueue()
             NSLog("Multiplayer Button Tapped \(gameMode)")
         case leaderboardSelect:
+            leaderboardScreenTransition()
             NSLog("Leaderboard Button Tapped")
         case profileSelect:
             NSLog("Profile Button Tapped")
@@ -137,12 +138,20 @@ extension MainMenuVC{
     }
     
     // MARK: - Screen Transition Function (Single Player)
-    func screenTransition (gameMode: String) {
+    func singlePlayerScreenTransition (gameMode: String) {
         let sb = UIStoryboard(name: "Main", bundle: nil)
         let vc = sb.instantiateViewController(withIdentifier: "GameVC") as! GameVC
         vc.modalPresentationStyle = .fullScreen
         vc.loggedInPlayer_SP = loggedInPlayer_SP
         vc.gameMode = gameMode
+        self.present(vc, animated: true, completion: nil)
+    }
+    
+    // MARK: - Screen Transition Function (Leaderboard)
+    func leaderboardScreenTransition() {
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        let vc = sb.instantiateViewController(withIdentifier: "LeaderboardVC") as! LeaderboardVC
+        vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true, completion: nil)
     }
     

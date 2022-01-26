@@ -164,11 +164,10 @@ extension GameVC{
         fightButton.frame = CGRect(x: 5,
                                    y: spockButton.bottom + 8,
                                    width: screenWidth - 10,
-                                   height: screenHeight * 0.05)
+                                   height: 52)
         fightButton.setTitle("Fight", for: .normal)
-        fightButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .largeTitle)
         fightButton.layer.cornerRadius = 12
-        
+        fightButton.addTarget(self, action: #selector(buttonClicked), for: .touchUpInside)
     }
     //MARK: - Layout Functions
     func textSubviewLayout(labelName: UILabel, xOrigin: Double, yOrigin: Double, labelWidth: Double, labelHeight: Double, contents: String, fontSize: Double){
@@ -236,6 +235,17 @@ extension GameVC{
             imageTapped_MP(tapGestureRecognizer: tapGestureRecognizer)
         default:
             NSLog("Unrecognized Gesture")
+        }
+    }
+    
+    @objc func buttonClicked(){
+        if gameMode == "Single Player"{
+            botEngine()
+            gameEngine_SP(playerInput: playerSelection, botInput: botSelection)
+            matchEnd_SP(counter: roundCounter)
+        }
+        else if gameMode == "Multiplayer"{
+            gameEngine_MP()
         }
     }
 }

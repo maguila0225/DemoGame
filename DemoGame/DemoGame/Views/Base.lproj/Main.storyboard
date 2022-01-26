@@ -185,6 +185,67 @@
             </objects>
             <point key="canvasLocation" x="3055" y="72"/>
         </scene>
+        <!--LeaderboardVC-->
+        <scene sceneID="Su2-gV-LXd">
+            <objects>
+                <viewController storyboardIdentifier="LeaderboardVC" id="MzZ-xE-dmp" customClass="LeaderboardVC" customModule="DemoGame" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="zPP-Je-hIj">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Oxx-Cx-jWX">
+                                <rect key="frame" x="0.0" y="94" width="414" height="768"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="TYB-ZR-0AH">
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="TYB-ZR-0AH" id="8oJ-Pc-qNI">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Leaderboard" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bfb-PZ-MQn">
+                                <rect key="frame" x="155" y="51" width="104" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="x2w-jh-RF7"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xQX-WV-fJc">
+                                <rect key="frame" x="0.0" y="55.5" width="108" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="chevron.left" catalog="system" title="Main Menu" titleAlignment="trailing"/>
+                                <connections>
+                                    <action selector="returnToMainMenu:" destination="MzZ-xE-dmp" eventType="touchUpInside" id="woH-I2-ms3"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="aMi-Qw-Zcu"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Bfb-PZ-MQn" firstAttribute="centerX" secondItem="aMi-Qw-Zcu" secondAttribute="centerX" id="1Zy-vq-NZ4"/>
+                            <constraint firstItem="Bfb-PZ-MQn" firstAttribute="top" secondItem="aMi-Qw-Zcu" secondAttribute="top" constant="7" id="4O0-Mr-dUe"/>
+                            <constraint firstItem="Oxx-Cx-jWX" firstAttribute="leading" secondItem="aMi-Qw-Zcu" secondAttribute="leading" id="975-4m-kQZ"/>
+                            <constraint firstItem="aMi-Qw-Zcu" firstAttribute="trailing" secondItem="Oxx-Cx-jWX" secondAttribute="trailing" id="9Yn-R0-0cr"/>
+                            <constraint firstItem="aMi-Qw-Zcu" firstAttribute="bottom" secondItem="Oxx-Cx-jWX" secondAttribute="bottom" id="Ss6-PH-BiK"/>
+                            <constraint firstItem="Oxx-Cx-jWX" firstAttribute="top" secondItem="aMi-Qw-Zcu" secondAttribute="top" constant="50" id="TzK-uk-eOQ"/>
+                            <constraint firstItem="xQX-WV-fJc" firstAttribute="leading" secondItem="aMi-Qw-Zcu" secondAttribute="leading" id="YVN-C4-cMn"/>
+                            <constraint firstItem="xQX-WV-fJc" firstAttribute="centerY" secondItem="Bfb-PZ-MQn" secondAttribute="centerY" id="oWQ-XJ-esB"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="leaderboardTableView" destination="Oxx-Cx-jWX" id="MzO-sC-Eq0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zmh-hd-qfD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3818.8405797101454" y="71.651785714285708"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="hau-gn-4qS">
             <objects>
@@ -205,6 +266,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="chevron.left" catalog="system" width="96" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

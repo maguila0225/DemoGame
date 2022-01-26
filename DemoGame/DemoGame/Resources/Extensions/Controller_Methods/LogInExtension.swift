@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 // MARK: - LogInVC Functions
 extension LogInVC{
-    // MARK: - Initializing Functions
+    // MARK: - Initialize Screen Elements
     func initializeScreenElements(){
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Register",
                                                             style: .done,

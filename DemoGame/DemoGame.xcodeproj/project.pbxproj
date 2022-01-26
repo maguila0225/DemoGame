@@ -31,6 +31,8 @@
 		5B9FCB7D27970E3A004F5E0E /* SizeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9FCB7C27970E3A004F5E0E /* SizeExtension.swift */; };
 		5BCB8864279E4FC3004DDDB0 /* SinglePlayerExtenstion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCB8863279E4FC3004DDDB0 /* SinglePlayerExtenstion.swift */; };
 		5BCB8866279E4FF0004DDDB0 /* MultiplayerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCB8865279E4FF0004DDDB0 /* MultiplayerExtension.swift */; };
+		5BE6158927A17B170064C750 /* LeaderboardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE6158827A17B170064C750 /* LeaderboardVC.swift */; };
+		5BE6158B27A1A0B20064C750 /* LeaderboardExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE6158A27A1A0B20064C750 /* LeaderboardExtension.swift */; };
 		645F0B47E0A233E09D115A87 /* Pods_DemoGame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BA35738BBAEDC0F00A4B2D0 /* Pods_DemoGame.framework */; };
 		81D1EB68627C23E73C769155 /* Pods_DemoGameTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D963144C23AACED17781DC97 /* Pods_DemoGameTests.framework */; };
 		8A1996ADB283D3A627593555 /* Pods_DemoGame_DemoGameUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C78E7534066E8A3BBC2E866 /* Pods_DemoGame_DemoGameUITests.framework */; };
@@ -85,6 +87,8 @@
 		5B9FCB7C27970E3A004F5E0E /* SizeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizeExtension.swift; sourceTree = "<group>"; };
 		5BCB8863279E4FC3004DDDB0 /* SinglePlayerExtenstion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePlayerExtenstion.swift; sourceTree = "<group>"; };
 		5BCB8865279E4FF0004DDDB0 /* MultiplayerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiplayerExtension.swift; sourceTree = "<group>"; };
+		5BE6158827A17B170064C750 /* LeaderboardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardVC.swift; sourceTree = "<group>"; };
+		5BE6158A27A1A0B20064C750 /* LeaderboardExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardExtension.swift; sourceTree = "<group>"; };
 		862FA88F4E986AF597559C75 /* Pods-DemoGame-DemoGameUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoGame-DemoGameUITests.debug.xcconfig"; path = "Target Support Files/Pods-DemoGame-DemoGameUITests/Pods-DemoGame-DemoGameUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		AF60AF34563E0A6A6997FA9B /* Pods-DemoGame-DemoGameUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoGame-DemoGameUITests.release.xcconfig"; path = "Target Support Files/Pods-DemoGame-DemoGameUITests/Pods-DemoGame-DemoGameUITests.release.xcconfig"; sourceTree = "<group>"; };
 		C51BBE39A794E2F9B9C9F54F /* Pods-DemoGame.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoGame.release.xcconfig"; path = "Target Support Files/Pods-DemoGame/Pods-DemoGame.release.xcconfig"; sourceTree = "<group>"; };
@@ -198,6 +202,7 @@
 				5B99BFD72793186F00E0F96E /* RegistrationVC.swift */,
 				5B488AE82793FD5500A463E6 /* MainMenuVC.swift */,
 				5B9F5C10279869BB0039C1A1 /* GameVC.swift */,
+				5BE6158827A17B170064C750 /* LeaderboardVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -228,6 +233,7 @@
 				5B9F5C5727990D490039C1A1 /* LogInExtension.swift */,
 				5B9F5C5927990DA90039C1A1 /* RegistrationExtension.swift */,
 				5B9F5C5B27990DF70039C1A1 /* MainMenuExtension.swift */,
+				5BE6158A27A1A0B20064C750 /* LeaderboardExtension.swift */,
 				5B9F5C5D27990E6C0039C1A1 /* GameExtension.swift */,
 				5BE61581279E71E70064C750 /* GameModeExtension */,
 			);
@@ -516,6 +522,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BE6158927A17B170064C750 /* LeaderboardVC.swift in Sources */,
 				5B9F5C532799003A0039C1A1 /* AlertExtension.swift in Sources */,
 				5B99BFA62793020200E0F96E /* LogInVC.swift in Sources */,
 				5BCB8866279E4FF0004DDDB0 /* MultiplayerExtension.swift in Sources */,
@@ -532,6 +539,7 @@
 				5B99BFD82793187000E0F96E /* RegistrationVC.swift in Sources */,
 				5B9FCB7D27970E3A004F5E0E /* SizeExtension.swift in Sources */,
 				5B9F5C11279869BB0039C1A1 /* GameVC.swift in Sources */,
+				5BE6158B27A1A0B20064C750 /* LeaderboardExtension.swift in Sources */,
 				5B488AEF2795693600A463E6 /* PlayerModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

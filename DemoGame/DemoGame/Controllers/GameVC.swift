@@ -67,9 +67,8 @@ class GameVC: UIViewController {
         GlobalLog_Load(vc_Log: vcIdentifier)
         addUIElementSubViews()
         initializeImageTapGestures()
-        fightButton.addTarget(self, action: #selector(buttonClicked), for: .touchUpInside)
-        
     }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         subviewLayout()
@@ -86,15 +85,4 @@ class GameVC: UIViewController {
         screenUpdateListener?.remove()
     }
     
-    //MARK: - IBAction
-    @objc func buttonClicked(){
-        if gameMode == "Single Player"{
-            botEngine()
-            gameEngine_SP(playerInput: playerSelection, botInput: botSelection)
-            matchEnd_SP(counter: roundCounter)
-        }
-        else if gameMode == "Multiplayer"{
-            gameEngine_MP()
-        }
-    }
 }
