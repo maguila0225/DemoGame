@@ -11,6 +11,7 @@ import AVFoundation
 
 class MainMenuVC: UIViewController {
     // MARK: - UI Element Declaration
+    @IBOutlet weak var menuSpinner: UIActivityIndicatorView!
     let imageView = UIImageView()
     let onePlayerButton = UIView()
     let onePlayerButtonImage = UIImageView()
@@ -43,6 +44,7 @@ class MainMenuVC: UIViewController {
     var gameMode: String = ""
     var loggedInPlayer_SP = ""
     var menuMusicPlayer: AVAudioPlayer?
+    var spinner: UIActivityIndicatorView?
     
     // MARK: - MainMenuVC Life Cycle
     override func viewDidLoad() {
@@ -61,6 +63,8 @@ class MainMenuVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         GlobalLog_Display(vc_Log: vcIdentifier)
         playBackgroundAudio()
+        menuSpinner.stopAnimating()
+        menuSpinner.isHidden = true
     }
     
     override func viewDidDisappear(_ animated: Bool) {

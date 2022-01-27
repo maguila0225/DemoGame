@@ -52,6 +52,12 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <activityIndicatorView hidden="YES" opaque="NO" alpha="0.29999999999999999" contentMode="scaleAspectFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="syX-q3-57y">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" red="0.2353312373" green="0.32384532690000001" blue="0.53335624930000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="color" red="0.2353312373" green="0.32384532690000001" blue="0.53335624930000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -63,9 +69,13 @@
                             <constraint firstItem="lQ5-qr-D7f" firstAttribute="top" secondItem="T0A-fM-lrR" secondAttribute="bottom" constant="20" id="JXk-sd-OQQ"/>
                             <constraint firstItem="T0A-fM-lrR" firstAttribute="top" secondItem="l6Q-Wa-0RV" secondAttribute="bottom" constant="15" id="LG8-6v-cx0"/>
                             <constraint firstItem="T0A-fM-lrR" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="R1s-Yt-HG3"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="syX-q3-57y" secondAttribute="trailing" id="XKJ-gL-jzh"/>
+                            <constraint firstItem="syX-q3-57y" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="ZpI-Db-R7D"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="l6Q-Wa-0RV" secondAttribute="trailing" constant="20" id="bW4-gb-4WJ"/>
                             <constraint firstItem="26b-lg-QTA" firstAttribute="top" secondItem="lQ5-qr-D7f" secondAttribute="bottom" constant="20" id="fJS-H0-X3Q"/>
+                            <constraint firstItem="syX-q3-57y" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="gmU-bI-cfG"/>
                             <constraint firstItem="l6Q-Wa-0RV" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="nX8-aI-pPi"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="syX-q3-57y" secondAttribute="bottom" id="qGr-OZ-Orc"/>
                             <constraint firstItem="26b-lg-QTA" firstAttribute="width" secondItem="lQ5-qr-D7f" secondAttribute="width" id="xHt-Dx-qDO"/>
                             <constraint firstItem="l6Q-Wa-0RV" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="yPs-qT-wHq"/>
                         </constraints>
@@ -74,6 +84,7 @@
                     <connections>
                         <outlet property="logoImage" destination="l6Q-Wa-0RV" id="gNj-Dx-7hz"/>
                         <outlet property="passwordTextField" destination="lQ5-qr-D7f" id="XaA-xr-JXZ"/>
+                        <outlet property="spinner" destination="syX-q3-57y" id="tVd-Qu-oUi"/>
                         <outlet property="usernameTextField" destination="T0A-fM-lrR" id="nsf-XV-obV"/>
                     </connections>
                 </viewController>
@@ -162,9 +173,25 @@
                     <view key="view" contentMode="scaleToFill" id="MiM-7z-bQs">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <activityIndicatorView hidden="YES" opaque="NO" alpha="0.29999999999999999" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="FWL-zA-jKY">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="color" red="0.2353312373" green="0.32384532690000001" blue="0.53335624930000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </activityIndicatorView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="eqD-vJ-QMz"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="FWL-zA-jKY" firstAttribute="top" secondItem="eqD-vJ-QMz" secondAttribute="top" id="FbT-xC-Xfe"/>
+                            <constraint firstItem="FWL-zA-jKY" firstAttribute="leading" secondItem="eqD-vJ-QMz" secondAttribute="leading" id="FlF-cg-Kgq"/>
+                            <constraint firstItem="eqD-vJ-QMz" firstAttribute="trailing" secondItem="FWL-zA-jKY" secondAttribute="trailing" id="hRM-1O-FmH"/>
+                            <constraint firstItem="eqD-vJ-QMz" firstAttribute="bottom" secondItem="FWL-zA-jKY" secondAttribute="bottom" id="rgX-KP-eGi"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="menuSpinner" destination="FWL-zA-jKY" id="Bhl-c6-nn3"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iOr-ZA-vl8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

@@ -24,6 +24,7 @@ extension MainMenuVC{
         leaderboardButtonText.text = "LEADERBOARD"
         rulesButtonImage.image = UIImage(named: "Spock.png")
         rulesButtonText.text = "RULES"
+        self.view.isUserInteractionEnabled = true
     }
     
     //MARK: - Add Subviews
@@ -41,6 +42,7 @@ extension MainMenuVC{
         leaderboardButton.addSubview(leaderboardButtonText)
         rulesButton.addSubview(rulesButtonImage)
         rulesButton.addSubview(rulesButtonText)
+        menuSpinner.isHidden = true
     }
     
     //MARK: - Add Tap Gestures
@@ -161,6 +163,9 @@ extension MainMenuVC{
     
     // MARK: - Multiplayer Queue Function
     func multiplayerQueue(){
+        menuSpinner.isHidden = false
+        menuSpinner.startAnimating()
+        self.view.isUserInteractionEnabled = false
         let documentReference = firestoreDatabase.document("multiplayerQueue/Lobby")
         documentReference.getDocument{ snapshot, error in
             guard let data = snapshot?.data(), error == nil else{
@@ -279,6 +284,8 @@ extension MainMenuVC{
     }
     //MARK: - Screen Transition Functions (Multipalyer)
     func hostScreenTransition(){
+        menuSpinner.stopAnimating()
+        self.view.isUserInteractionEnabled = true
         let sb = UIStoryboard(name: "Main", bundle: nil)
         let vc = sb.instantiateViewController(withIdentifier: "GameVC") as! GameVC
         vc.modalPresentationStyle = .fullScreen
@@ -300,6 +307,7 @@ extension MainMenuVC{
     }
     
     func guestScreenTransition(){
+        self.view.isUserInteractionEnabled = true
         let sb = UIStoryboard(name: "Main", bundle: nil)
         let vc = sb.instantiateViewController(withIdentifier: "GameVC") as! GameVC
         vc.modalPresentationStyle = .fullScreen
@@ -345,7 +353,7 @@ extension MainMenuVC{
                 guard let menuMusicPlayer = menuMusicPlayer else{
                     return
                 }
-                menuMusicPlayer.volume = 0.2
+                menuMusicPlayer.volume = 0.3
                 menuMusicPlayer.numberOfLoops = -1
                 menuMusicPlayer.play()
             }

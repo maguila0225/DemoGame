@@ -20,6 +20,9 @@ class LogInVC: UIViewController {
     @IBOutlet weak var logoImage: UIImageView!
     @IBOutlet weak var usernameTextField: MDCOutlinedTextField!
     @IBOutlet weak var passwordTextField: MDCOutlinedTextField!
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
+    
+    
     var loggedInPlayer_SP = ""
     var loggedInPlayer: [String: Any] = [:]
     var menuMusicPlayer: AVAudioPlayer?
@@ -36,8 +39,10 @@ class LogInVC: UIViewController {
         GlobalLog_Display(vc_Log: vcIdentifier)
         playBackgroundAudio()
         pageClear()
+        spinner.isHidden = true
+        spinner.stopAnimating()
     }
-    
+
     override func viewDidDisappear(_ animated: Bool) {
         GlobalLog_Dismiss(vc_Log: vcIdentifier)
     }

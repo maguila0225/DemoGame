@@ -25,15 +25,21 @@ extension LogInVC{
         passwordTextField.label.text = "Password"
         passwordTextField.leadingAssistiveLabel.text = ""
         passwordTextField.isSecureTextEntry = true
+        spinner.isHidden = true
+        spinner.sizeToFit()
+        
     }
     
     // MARK: - Log In Attempt
     func logInAttempt()
     {
+        spinner.startAnimating()
+        spinner.isHidden = false
         NSLog("Log in Attempted")
         guard usernameTextField.text?.isEmpty == false
                 && passwordTextField.text?.isEmpty == false
         else{
+            spinner.isHidden = true
             gameAlert(alertTitle: "Log In Error", alertMessage: "Empty username/Password")
             NSLog("Empty Username/Password")
             return
@@ -41,12 +47,14 @@ extension LogInVC{
         let documentReference = firestoreDatabase.document("playerDatabase/\(usernameTextField.text!)")
         documentReference.getDocument{ snapshot, error in
             guard let data = snapshot?.data(), error == nil else{
+                self.spinner.isHidden = true
                 self.gameAlert(alertTitle: "Log In Error", alertMessage: "Invalid User")
                 NSLog("Invalid User")
                 return
             }
             guard data["password"] as! String == self.passwordTextField.text!
             else{
+                self.spinner.isHidden = true
                 self.gameAlert(alertTitle: "Log In Error", alertMessage: "Incorrect Password")
                 NSLog("Incorrect Password")
                 return
@@ -64,12 +72,14 @@ extension LogInVC{
         vc.loggedInPlayer_SP = usernameTextField.text!
         vc.loggedInPlayer_MM = loggedInPlayer
         vc.menuMusicPlayer = menuMusicPlayer
+        vc.spinner = spinner
         navigationController?.pushViewController(vc, animated: true)
     }
     @objc func screenTransitionRegister(){
         let sb = UIStoryboard(name: "Main", bundle: nil)
         let vc = sb.instantiateViewController(withIdentifier: "RegistrationVC")
         navigationController?.pushViewController(vc, animated: true)
+        
     }
     
     //MARK: - Page Clear Function
