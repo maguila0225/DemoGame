@@ -43,6 +43,9 @@ class LogInVC: UIViewController {
         spinner.stopAnimating()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        playBackgroundAudio()
+    }
     override func viewDidDisappear(_ animated: Bool) {
         GlobalLog_Dismiss(vc_Log: vcIdentifier)
     }
