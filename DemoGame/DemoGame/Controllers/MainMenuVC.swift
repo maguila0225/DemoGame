@@ -54,7 +54,7 @@ class MainMenuVC: UIViewController {
         addUIElementSubViews()
         initializeImageTapGestures()
     }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         subviewLayout()

@@ -138,6 +138,7 @@ extension GameVC{
         default:
             NSLog("Draw")
         }
+        fightButton.isUserInteractionEnabled = true
         NSLog("Player: \(playerSelection) \n Bot: \(botSelection) \n Result: \(roundResult)")
         playerScore.text = String(playerScoreValue)
         player2Score.text = String(botScoreValue)
@@ -145,17 +146,26 @@ extension GameVC{
         resultLabel.text = roundResult
     }
     
+   
+    
     func matchEnd_SP(counter: Int){
         if counter >= 10 && playerScoreValue != botScoreValue{
             matchResult = winnerSelect_SP()
-            let alertController = MDCAlertController(title: "Match Ended", message: matchResult)
-            let action1 = MDCAlertAction(title:"Rematch") { (action) in self.matchReset_SP() }
-            let action2 = MDCAlertAction(title:"Exit") { (action) in (self.dismiss(animated: false, completion: nil))}
-            alertController.addAction(action2)
-            alertController.addAction(action1)
-            self.present(alertController, animated:true, completion: nil)
+            matchEndAlert()
         }
     }
+    
+    fileprivate func matchEndAlert() {
+        let alertController = MDCAlertController(title: "Match Ended", message: matchResult)
+        let action1 = MDCAlertAction(title:"Rematch") { (action) in self.matchReset_SP() }
+        let action2 = MDCAlertAction(title:"Exit") { (action) in
+            self.dismiss(animated: false, completion: nil)
+            self.view.isUserInteractionEnabled = false}
+        alertController.addAction(action2)
+        alertController.addAction(action1)
+        self.present(alertController, animated:true, completion: nil)
+    }
+
     func winnerSelect_SP() -> String{
         if playerScoreValue > botScoreValue{
             matchResult = "\(loggedInPlayer_SP) Wins"

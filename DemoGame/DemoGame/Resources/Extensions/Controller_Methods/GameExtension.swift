@@ -241,6 +241,7 @@ extension GameVC{
     
     @objc func buttonClicked(){
         if gameMode == "Single Player"{
+            fightButton.isUserInteractionEnabled = false
             botEngine()
             gameEngine_SP(playerInput: playerSelection, botInput: botSelection)
             matchEnd_SP(counter: roundCounter)
@@ -277,3 +278,4 @@ extension GameVC{
         }
     }
 }
+
