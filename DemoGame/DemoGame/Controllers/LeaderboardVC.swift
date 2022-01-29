@@ -11,11 +11,13 @@ import FirebaseFirestore
 class LeaderboardVC: UIViewController{
     // MARK: - UI Element Declaration
     @IBOutlet weak var leaderboardTableView: UITableView!
+    @IBOutlet weak var backgroundImage: UIImageView!
     
     //MARK: - Variable and Constant Declaration
     let firestoreDatabase = Firestore.firestore()
     var playerData: [Player] = []
     let vcIdentifier = "LeaderboardVC"
+    var bgImage = ""
     
     //MARK: - LeaderboardVC Life Cycle
     override func viewDidLoad() {
@@ -23,6 +25,7 @@ class LeaderboardVC: UIViewController{
         GlobalLog_Load(vc_Log: vcIdentifier)
         leaderboardTableView.delegate = self
         leaderboardTableView.dataSource = self
+        setupBackground()
         getUserData()
     }
     

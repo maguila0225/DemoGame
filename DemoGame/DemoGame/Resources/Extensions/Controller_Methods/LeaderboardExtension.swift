@@ -10,6 +10,10 @@ import FirebaseFirestore
 
 extension LeaderboardVC{
     //MARK: - Get User Data and Sort
+    func setupBackground(){
+        backgroundImage.image = UIImage(named: bgImage)
+        leaderboardTableView.backgroundColor = .systemBackground.withAlphaComponent(0.5)
+    }
     func getUserData(){
         let collectionRef = firestoreDatabase.collection("playerDatabase")
         collectionRef.getDocuments{ snapshot, error in
@@ -46,6 +50,7 @@ extension LeaderboardVC: UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.textLabel?.text = "\(indexPath.row + 1).) \(playerData[indexPath.row].username) W: \(playerData[indexPath.row].wins) L: \(playerData[indexPath.row].losses)"
+        cell.backgroundColor = .systemBackground.withAlphaComponent(0.3)
         return cell
     }
 }

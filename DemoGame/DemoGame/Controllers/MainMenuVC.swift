@@ -12,6 +12,7 @@ import AVFoundation
 class MainMenuVC: UIViewController {
     // MARK: - UI Element Declaration
     @IBOutlet weak var menuSpinner: UIActivityIndicatorView!
+    let backgroundImage = UIImageView()
     let imageView = UIImageView()
     let onePlayerButton = UIView()
     let onePlayerButtonImage = UIImageView()
@@ -45,6 +46,8 @@ class MainMenuVC: UIViewController {
     var loggedInPlayer_SP = ""
     var menuMusicPlayer: AVAudioPlayer?
     var spinner: UIActivityIndicatorView?
+    var bgImage = ""
+    var themeColor = UIColor()
     
     // MARK: - MainMenuVC Life Cycle
     override func viewDidLoad() {

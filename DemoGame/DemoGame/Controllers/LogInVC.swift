@@ -17,15 +17,17 @@ class LogInVC: UIViewController {
     let vcIdentifier: String = "LogInVC"
     
     // MARK: - LogInVC variable declaration
+    @IBOutlet weak var backgroundImage: UIImageView!
     @IBOutlet weak var logoImage: UIImageView!
     @IBOutlet weak var usernameTextField: MDCOutlinedTextField!
     @IBOutlet weak var passwordTextField: MDCOutlinedTextField!
     @IBOutlet weak var spinner: UIActivityIndicatorView!
-    
+    @IBOutlet weak var logInButton: MDCButton!
     
     var loggedInPlayer_SP = ""
     var loggedInPlayer: [String: Any] = [:]
     var menuMusicPlayer: AVAudioPlayer?
+    var bgImage = ""
     
     let firestoreDatabase = Firestore.firestore()
     // MARK: - LogInVC life cycle

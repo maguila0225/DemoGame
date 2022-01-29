@@ -24,6 +24,14 @@ extension RegistrationVC{
         passwordConfirmation.leadingAssistiveLabel.text = ""
         passwordConfirmation.isSecureTextEntry = true
         
+        backgroundImage.image = UIImage(named: bgImage)
+        
+        if self.traitCollection.userInterfaceStyle == .dark{
+            registerButton.backgroundColor = .systemRed
+        }
+        else{
+            registerButton.backgroundColor = .systemBlue
+        }
     }
 
 //MARK: - Register Attempt

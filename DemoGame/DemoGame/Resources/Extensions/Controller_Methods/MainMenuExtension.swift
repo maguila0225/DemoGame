@@ -29,6 +29,7 @@ extension MainMenuVC{
     
     //MARK: - Add Subviews
     func addUIElementSubViews(){
+        view.addSubview(backgroundImage)
         view.addSubview(imageView)
         view.addSubview(onePlayerButton)
         view.addSubview(multiplayerButton)
@@ -47,7 +48,7 @@ extension MainMenuVC{
     
     //MARK: - Add Tap Gestures
     func initializeImageTapGestures(){
-        
+
         singlePlayerSelect = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
         onePlayerButton.isUserInteractionEnabled = true
         onePlayerButton.addGestureRecognizer(singlePlayerSelect)
@@ -89,6 +90,10 @@ extension MainMenuVC{
     
     func subviewLayout(){
         let size = view.frame.size.width/2
+        
+        backgroundImage.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height)
+        backgroundImage.image = UIImage(named: bgImage)
+        
         imageView.frame = CGRect(x: (view.width - size)/2,
                                  y: 0.1 * view.frame.size.height,
                                  width: size,
@@ -119,13 +124,21 @@ extension MainMenuVC{
         let displayHeight = view.frame.size.height
         let displayWidth = view.frame.size.width
         
+        if self.traitCollection.userInterfaceStyle == .dark{
+            themeColor = .systemRed
+        }
+        else{
+            themeColor = .systemBlue
+        }
+        
         base.frame = CGRect(x: 5,
                             y: y,
                             width: displayWidth - 10,
                             height: displayHeight / 9)
         base.layer.borderWidth = 3
-        base.layer.borderColor = UIColor.systemBlue.cgColor
+        base.layer.borderColor = themeColor.cgColor
         base.layer.cornerRadius = 24
+        base.backgroundColor = themeColor.withAlphaComponent(0.3)
         
         image.frame = CGRect(x: base.width * 0.08,
                              y: 5,
@@ -138,7 +151,7 @@ extension MainMenuVC{
                             width: base.width - image.width - 15,
                             height: base.height - 10)
         text.font = UIFont(name: "Verdana-Bold", size: base.height * 0.25)
-        text.textColor = .systemBlue
+        text.textColor = themeColor
         
     }
     
@@ -149,6 +162,7 @@ extension MainMenuVC{
         vc.modalPresentationStyle = .fullScreen
         vc.loggedInPlayer_SP = loggedInPlayer_SP
         vc.gameMode = gameMode
+        vc.bgImage = bgImage
         menuMusicPlayer!.stop()
         self.present(vc, animated: true, completion: nil)
     }
@@ -157,6 +171,7 @@ extension MainMenuVC{
     func leaderboardScreenTransition() {
         let sb = UIStoryboard(name: "Main", bundle: nil)
         let vc = sb.instantiateViewController(withIdentifier: "LeaderboardVC") as! LeaderboardVC
+        vc.bgImage = bgImage
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true, completion: nil)
     }
@@ -301,6 +316,7 @@ extension MainMenuVC{
             vc.loggedInPlayer_G = self.loggedInPlayer_MM
             vc.gameRoomData = data
             vc.role = self.role
+            vc.bgImage = self.bgImage
             self.menuMusicPlayer!.stop()
         }
         present(vc, animated: true, completion: nil)
@@ -323,6 +339,7 @@ extension MainMenuVC{
             vc.loggedInPlayer_G = self.loggedInPlayer_MM
             vc.gameRoomData = data
             vc.role = self.role
+            vc.bgImage = self.bgImage
             self.menuMusicPlayer!.stop()
         }
         present(vc, animated: true, completion: nil)
@@ -353,7 +370,7 @@ extension MainMenuVC{
                 guard let menuMusicPlayer = menuMusicPlayer else{
                     return
                 }
-                menuMusicPlayer.volume = 0.3
+                menuMusicPlayer.volume = 0.5
                 menuMusicPlayer.numberOfLoops = -1
                 menuMusicPlayer.play()
             }

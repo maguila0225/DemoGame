@@ -31,6 +31,8 @@
 		5B9FCB7D27970E3A004F5E0E /* SizeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9FCB7C27970E3A004F5E0E /* SizeExtension.swift */; };
 		5BCB8864279E4FC3004DDDB0 /* SinglePlayerExtenstion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCB8863279E4FC3004DDDB0 /* SinglePlayerExtenstion.swift */; };
 		5BCB8866279E4FF0004DDDB0 /* MultiplayerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCB8865279E4FF0004DDDB0 /* MultiplayerExtension.swift */; };
+		5BD93D8E27A5496200F0C9B9 /* LightModeBG.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 5BD93D8D27A5496200F0C9B9 /* LightModeBG.jpeg */; };
+		5BD93D9027A5496700F0C9B9 /* DarkModeBG.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 5BD93D8F27A5496700F0C9B9 /* DarkModeBG.jpeg */; };
 		5BE6158927A17B170064C750 /* LeaderboardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE6158827A17B170064C750 /* LeaderboardVC.swift */; };
 		5BE6158B27A1A0B20064C750 /* LeaderboardExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE6158A27A1A0B20064C750 /* LeaderboardExtension.swift */; };
 		5BE6159027A1AC1C0064C750 /* Rules.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 5BE6158D27A1AC1A0064C750 /* Rules.mp4 */; };
@@ -90,6 +92,8 @@
 		5B9FCB7C27970E3A004F5E0E /* SizeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizeExtension.swift; sourceTree = "<group>"; };
 		5BCB8863279E4FC3004DDDB0 /* SinglePlayerExtenstion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePlayerExtenstion.swift; sourceTree = "<group>"; };
 		5BCB8865279E4FF0004DDDB0 /* MultiplayerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiplayerExtension.swift; sourceTree = "<group>"; };
+		5BD93D8D27A5496200F0C9B9 /* LightModeBG.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = LightModeBG.jpeg; sourceTree = "<group>"; };
+		5BD93D8F27A5496700F0C9B9 /* DarkModeBG.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = DarkModeBG.jpeg; sourceTree = "<group>"; };
 		5BE6158827A17B170064C750 /* LeaderboardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardVC.swift; sourceTree = "<group>"; };
 		5BE6158A27A1A0B20064C750 /* LeaderboardExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardExtension.swift; sourceTree = "<group>"; };
 		5BE6158D27A1AC1A0064C750 /* Rules.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = Rules.mp4; sourceTree = "<group>"; };
@@ -216,6 +220,8 @@
 		5B99BFD427930A9D00E0F96E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5BD93D8D27A5496200F0C9B9 /* LightModeBG.jpeg */,
+				5BD93D8F27A5496700F0C9B9 /* DarkModeBG.jpeg */,
 				5BE6158C27A1ABFD0064C750 /* AudioVideo */,
 				5B9F5C56279907FE0039C1A1 /* Extensions */,
 				5B99BFAA2793020400E0F96E /* Assets.xcassets */,
@@ -410,6 +416,8 @@
 			files = (
 				5B99BFAE2793020400E0F96E /* LaunchScreen.storyboard in Resources */,
 				5BE6159127A1AC1C0064C750 /* Stardust.mp3 in Resources */,
+				5BD93D8E27A5496200F0C9B9 /* LightModeBG.jpeg in Resources */,
+				5BD93D9027A5496700F0C9B9 /* DarkModeBG.jpeg in Resources */,
 				5BE6159227A1AC1C0064C750 /* Battle.mp3 in Resources */,
 				5B99BFDC27934EEE00E0F96E /* GoogleService-Info.plist in Resources */,
 				5B99BFAB2793020400E0F96E /* Assets.xcassets in Resources */,

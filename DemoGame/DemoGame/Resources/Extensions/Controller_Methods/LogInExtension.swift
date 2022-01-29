@@ -27,7 +27,15 @@ extension LogInVC{
         passwordTextField.isSecureTextEntry = true
         spinner.isHidden = true
         spinner.sizeToFit()
-        
+        if self.traitCollection.userInterfaceStyle == .dark{
+            bgImage = "DarkModeBG.jpeg"
+            logInButton.backgroundColor = .systemRed
+        }
+        else{
+            bgImage = "LightModeBG.jpeg"
+            logInButton.backgroundColor = .systemBlue
+        }
+        backgroundImage.image = UIImage(named: bgImage)
     }
     
     // MARK: - Log In Attempt
@@ -72,12 +80,14 @@ extension LogInVC{
         vc.loggedInPlayer_SP = usernameTextField.text!
         vc.loggedInPlayer_MM = loggedInPlayer
         vc.menuMusicPlayer = menuMusicPlayer
+        vc.bgImage = bgImage
         vc.spinner = spinner
         navigationController?.pushViewController(vc, animated: true)
     }
     @objc func screenTransitionRegister(){
         let sb = UIStoryboard(name: "Main", bundle: nil)
-        let vc = sb.instantiateViewController(withIdentifier: "RegistrationVC")
+        let vc = sb.instantiateViewController(withIdentifier: "RegistrationVC") as! RegistrationVC
+        vc.bgImage = bgImage
         navigationController?.pushViewController(vc, animated: true)
         
     }
@@ -106,7 +116,7 @@ extension LogInVC{
                 guard let menuMusicPlayer = menuMusicPlayer else{
                     return
                 }
-                menuMusicPlayer.volume = 0.2
+                menuMusicPlayer.volume = 0.5
                 menuMusicPlayer.numberOfLoops = -1
                 menuMusicPlayer.play()
             }

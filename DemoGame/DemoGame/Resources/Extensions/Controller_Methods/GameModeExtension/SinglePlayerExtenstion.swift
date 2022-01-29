@@ -90,6 +90,7 @@ extension GameVC{
             case "Paper":
                 roundResult = "\(loggedInPlayer_SP)"
                 playerScoreValue += 1
+                roundCounter += 1
             case "Lizard":
                 roundResult = "\(loggedInPlayer_SP)"
                 playerScoreValue += 1

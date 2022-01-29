@@ -17,12 +17,14 @@ class RegistrationVC: UIViewController {
     @IBOutlet weak var usernameRegistration: MDCOutlinedTextField!
     @IBOutlet weak var passwordRegistration: MDCOutlinedTextField!
     @IBOutlet weak var passwordConfirmation: MDCOutlinedTextField!
-    
+    @IBOutlet weak var backgroundImage: UIImageView!
+    @IBOutlet weak var registerButton: MDCButton!
     // MARK: - Variable/Constant Declaration
     let vcIdentifier = "RegistrationVC"
     let firestoreDatabase = Firestore.firestore()
     var playerID: String = ""
     var newPlayer = Player()
+    var bgImage = ""
     
     // MARK: - RegistrationVC life cycle
     override func viewDidLoad() {

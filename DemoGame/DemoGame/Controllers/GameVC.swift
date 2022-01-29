@@ -30,6 +30,7 @@ class GameVC: UIViewController {
     let lizardButton = UIImageView()
     let spockButton = UIImageView()
     let fightButton = MDCButton()
+    let backgroundImage = UIImageView()
     
     //MARK: - Variables Passed in
     var gameMode: String = ""
@@ -38,6 +39,7 @@ class GameVC: UIViewController {
     var loggedInPlayer_G: [String: Any] = [:]
     let firestoreDatabase = Firestore.firestore()
     var loggedInPlayer_SP = ""
+    var bgImage = ""
     
     //MARK: - Class variables
     let vcIdentifier = "GameVC"

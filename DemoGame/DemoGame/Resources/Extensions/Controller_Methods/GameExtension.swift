@@ -14,6 +14,7 @@ import AVFoundation
 extension GameVC{
     // MARK: - Add UI Element Subviews
     func addUIElementSubViews(){
+        view.addSubview(backgroundImage)
         view.addSubview(playerName)
         view.addSubview(player2Name)
         view.addSubview(p1SelectedImage)
@@ -37,6 +38,9 @@ extension GameVC{
     func subviewLayout(){
         let screenHeight = view.frame.size.height
         let screenWidth = view.frame.size.width
+        backgroundImage.frame = CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight)
+        backgroundImage.image = UIImage(named: bgImage)
+        
         textSubviewLayout(labelName: playerName,
                           xOrigin: 5,
                           yOrigin: 0.05 * screenHeight,
@@ -169,6 +173,12 @@ extension GameVC{
         fightButton.setTitle("Fight", for: .normal)
         fightButton.layer.cornerRadius = 12
         fightButton.addTarget(self, action: #selector(buttonClicked), for: .touchUpInside)
+        if self.traitCollection.userInterfaceStyle == .dark{
+            fightButton.backgroundColor = .systemRed
+        }
+        else{
+            fightButton.backgroundColor = .systemBlue
+        }
     }
     //MARK: - Layout Functions
     func textSubviewLayout(labelName: UILabel, xOrigin: Double, yOrigin: Double, labelWidth: Double, labelHeight: Double, contents: String, fontSize: Double){
