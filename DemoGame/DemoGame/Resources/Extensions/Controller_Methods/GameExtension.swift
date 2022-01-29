@@ -76,7 +76,7 @@ extension GameVC{
                           yOrigin: p1SelectedImage.bottom,
                           labelWidth: screenWidth - 10,
                           labelHeight: 0.1 * screenHeight,
-                          contents: "Winner",
+                          contents: "",
                           fontSize: 0.5 * screenHeight * 0.1)
         
         textSubviewLayout(labelName: playerName_Score,

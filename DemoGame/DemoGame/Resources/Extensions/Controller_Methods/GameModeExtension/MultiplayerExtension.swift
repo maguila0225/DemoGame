@@ -18,6 +18,7 @@ extension GameVC{
         playerName_Score.text = gameRoomData["hostName"] as? String
         player2Name.text = gameRoomData["guestName"] as? String
         player2Name_Score.text = gameRoomData["guestName"] as? String
+        backgroundImage.image = UIImage(named: bgImage)
     }
     
     // MARK: - Inpitialize Input Room

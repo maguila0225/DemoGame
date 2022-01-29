@@ -26,14 +26,17 @@ extension LogInVC{
         passwordTextField.leadingAssistiveLabel.text = ""
         passwordTextField.isSecureTextEntry = true
         spinner.isHidden = true
+        spinner.backgroundColor = .systemBackground.withAlphaComponent(0.9)
         spinner.sizeToFit()
         if self.traitCollection.userInterfaceStyle == .dark{
             bgImage = "DarkModeBG.jpeg"
             logInButton.backgroundColor = .systemRed
+            spinner.tintColor = .systemRed
         }
         else{
             bgImage = "LightModeBG.jpeg"
             logInButton.backgroundColor = .systemBlue
+            spinner.tintColor = .systemBlue
         }
         backgroundImage.image = UIImage(named: bgImage)
     }

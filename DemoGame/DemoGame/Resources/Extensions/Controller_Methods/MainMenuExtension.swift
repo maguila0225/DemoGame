@@ -43,6 +43,7 @@ extension MainMenuVC{
         leaderboardButton.addSubview(leaderboardButtonText)
         rulesButton.addSubview(rulesButtonImage)
         rulesButton.addSubview(rulesButtonText)
+        view.bringSubviewToFront(menuSpinner)
         menuSpinner.isHidden = true
     }
     
@@ -90,7 +91,12 @@ extension MainMenuVC{
     
     func subviewLayout(){
         let size = view.frame.size.width/2
-        
+        if self.traitCollection.userInterfaceStyle == .dark{
+            menuSpinner.tintColor = .systemRed
+        }
+        else{
+            menuSpinner.tintColor = .systemBlue
+        }
         backgroundImage.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height)
         backgroundImage.image = UIImage(named: bgImage)
         
@@ -138,7 +144,7 @@ extension MainMenuVC{
         base.layer.borderWidth = 3
         base.layer.borderColor = themeColor.cgColor
         base.layer.cornerRadius = 24
-        base.backgroundColor = themeColor.withAlphaComponent(0.3)
+        base.backgroundColor = themeColor.withAlphaComponent(0.2)
         
         image.frame = CGRect(x: base.width * 0.08,
                              y: 5,
