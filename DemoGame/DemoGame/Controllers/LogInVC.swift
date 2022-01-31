@@ -26,8 +26,9 @@ class LogInVC: UIViewController {
     
     var loggedInPlayer_SP = ""
     var loggedInPlayer: [String: Any] = [:]
-    var menuMusicPlayer: AVAudioPlayer?
     var bgImage = ""
+    var menuMusicPlayer: AVAudioPlayer?
+    var signInCheck = UserDefaults.standard.bool(forKey: "isSignedIn")
     
     let firestoreDatabase = Firestore.firestore()
     // MARK: - LogInVC life cycle
@@ -39,21 +40,24 @@ class LogInVC: UIViewController {
     
     override func  viewWillAppear(_ animated: Bool) {
         GlobalLog_Display(vc_Log: vcIdentifier)
-        playBackgroundAudio()
         pageClear()
         spinner.isHidden = true
         spinner.stopAnimating()
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        playBackgroundAudio()
+        GlobalLog_Display(vc_Log: vcIdentifier)
     }
+    
     override func viewDidDisappear(_ animated: Bool) {
         GlobalLog_Dismiss(vc_Log: vcIdentifier)
     }
     // MARK: - LogInVC IBAction
     @IBAction func logInAttempt(_ sender: Any) {
         logInAttempt()
+    }
+    @IBAction func signUp(_ sender: Any) {
+        screenTransitionRegister()
     }
 }
 

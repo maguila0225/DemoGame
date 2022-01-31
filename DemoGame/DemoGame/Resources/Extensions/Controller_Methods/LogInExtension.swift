@@ -13,10 +13,6 @@ import AVFoundation
 extension LogInVC{
     // MARK: - Initialize Screen Elements
     func initializeScreenElements(){
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Register",
-                                                            style: .done,
-                                                            target: self,
-                                                            action: #selector(screenTransitionRegister))
         logoImage.image = UIImage(named: "Logo.png")
         
         usernameTextField.label.text = "Username"
@@ -72,6 +68,10 @@ extension LogInVC{
             }
             NSLog("User: \(self.usernameTextField.text!) logged in")
             self.loggedInPlayer = data
+            UserDefaults.standard.set(true, forKey: "isSignedIn")
+            UserDefaults.standard.set(self.usernameTextField.text, forKey: "demoGameUsername")
+            UserDefaults.standard.synchronize()
+            NSLog("Login Screen: isSignedIn: \(UserDefaults.standard.set(true, forKey: "demoGameIsSignedIn"))")
             self.screenTransitionMainMenu()
         }
     }
@@ -80,18 +80,18 @@ extension LogInVC{
     func screenTransitionMainMenu() {
         let sb = UIStoryboard(name: "Main", bundle: nil)
         let vc = sb.instantiateViewController(withIdentifier: "MainMenuVC") as! MainMenuVC
-        vc.loggedInPlayer_SP = usernameTextField.text!
-        vc.loggedInPlayer_MM = loggedInPlayer
-        vc.menuMusicPlayer = menuMusicPlayer
-        vc.bgImage = bgImage
         vc.spinner = spinner
-        navigationController?.pushViewController(vc, animated: true)
+        vc.menuMusicPlayer = menuMusicPlayer
+        vc.modalPresentationStyle = .fullScreen
+        present(vc,animated: true)
     }
-    @objc func screenTransitionRegister(){
+
+    func screenTransitionRegister(){
         let sb = UIStoryboard(name: "Main", bundle: nil)
         let vc = sb.instantiateViewController(withIdentifier: "RegistrationVC") as! RegistrationVC
         vc.bgImage = bgImage
-        navigationController?.pushViewController(vc, animated: true)
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true, completion: nil)
         
     }
     
@@ -99,33 +99,5 @@ extension LogInVC{
     func pageClear(){
         usernameTextField.text = ""
         passwordTextField.text = ""
-    }
-    
-    //MARK: - AudioPlayer
-    func playBackgroundAudio(){
-        if let menuMusicPlayer = menuMusicPlayer, menuMusicPlayer.isPlaying{
-            print("Background audio is playing")
-        }
-        else {
-            let urlString = Bundle.main.path(forResource: "Stardust", ofType: "mp3")
-            do{
-                try AVAudioSession.sharedInstance().setMode(.default)
-                try AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
-                
-                guard let urlString = urlString else{
-                    return
-                }
-                menuMusicPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: urlString))
-                guard let menuMusicPlayer = menuMusicPlayer else{
-                    return
-                }
-                menuMusicPlayer.volume = 0.5
-                menuMusicPlayer.numberOfLoops = -1
-                menuMusicPlayer.play()
-            }
-            catch{
-                print("something went wrong with the audio player")
-            }
-        }
     }
 }

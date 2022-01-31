@@ -26,6 +26,7 @@ class MainMenuVC: UIViewController {
     let rulesButton = UIView()
     let rulesButtonImage = UIImageView()
     let rulesButtonText = UILabel()
+    let signOutButton = UIButton()
     
     // MARK: - Gesture Recognizer Declaration
     var singlePlayerSelect = UIGestureRecognizer()
@@ -46,8 +47,10 @@ class MainMenuVC: UIViewController {
     var loggedInPlayer_SP = ""
     var menuMusicPlayer: AVAudioPlayer?
     var spinner: UIActivityIndicatorView?
-    var bgImage = ""
+    var bgImage: String = ""
     var themeColor = UIColor()
+    var signInCheck = UserDefaults.standard.bool(forKey: "demoGameIsSignedIn")
+    var demoGameUsername = UserDefaults.standard.string(forKey: "demoGameUsername")
     
     // MARK: - MainMenuVC Life Cycle
     override func viewDidLoad() {
@@ -56,6 +59,7 @@ class MainMenuVC: UIViewController {
         initializeUIElements()
         addUIElementSubViews()
         initializeImageTapGestures()
+        playBackgroundAudio()
     }
 
     override func viewDidLayoutSubviews() {
@@ -65,6 +69,8 @@ class MainMenuVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         GlobalLog_Display(vc_Log: vcIdentifier)
+        signedInCheck()
+        loadUserDataFromFirebase()
         playBackgroundAudio()
         menuSpinner.stopAnimating()
         menuSpinner.isHidden = true

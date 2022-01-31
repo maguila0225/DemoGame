@@ -12,6 +12,7 @@ import AVFoundation
 import AVKit
 
 extension MainMenuVC{
+
     //MARK: - Initialize UI Elements
     func initializeUIElements(){
         title = "Main Menu"
@@ -28,8 +29,21 @@ extension MainMenuVC{
     }
     
     //MARK: - Add Subviews
+    func selectMenuTheme() -> String {
+        if self.traitCollection.userInterfaceStyle == .dark{
+            bgImage = "DarkModeBG.jpeg"
+            menuSpinner.tintColor = .systemRed
+        }
+        else{
+            bgImage = "LightModeBG.jpeg"
+            menuSpinner.tintColor = .systemBlue
+        }
+        return bgImage
+    }
+    
     func addUIElementSubViews(){
         view.addSubview(backgroundImage)
+        view.addSubview(signOutButton)
         view.addSubview(imageView)
         view.addSubview(onePlayerButton)
         view.addSubview(multiplayerButton)
@@ -49,7 +63,6 @@ extension MainMenuVC{
     
     //MARK: - Add Tap Gestures
     func initializeImageTapGestures(){
-
         singlePlayerSelect = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
         onePlayerButton.isUserInteractionEnabled = true
         onePlayerButton.addGestureRecognizer(singlePlayerSelect)
@@ -91,20 +104,25 @@ extension MainMenuVC{
     
     func subviewLayout(){
         let size = view.frame.size.width/2
-        if self.traitCollection.userInterfaceStyle == .dark{
-            menuSpinner.tintColor = .systemRed
-        }
-        else{
-            menuSpinner.tintColor = .systemBlue
-        }
-        backgroundImage.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height)
-        backgroundImage.image = UIImage(named: bgImage)
+        backgroundImage.frame = CGRect(x: 0,
+                                       y: 0,
+                                       width: view.frame.size.width,
+                                       height: view.frame.size.height)
+        backgroundImage.image = UIImage(named: selectMenuTheme())
         
         imageView.frame = CGRect(x: (view.width - size)/2,
                                  y: 0.1 * view.frame.size.height,
                                  width: size,
                                  height: size)
         
+        signOutButton.frame = CGRect(x: view.frame.size.width * 0.003,
+                                     y: view.frame.size.height * 0.05,
+                                     width: view.frame.size.width * 0.30,
+                                     height: view.frame.size.height * 0.05)
+        signOutButton.setTitle("Sign Out", for: .normal)
+        signOutButton.setTitleColor(.link, for: .normal)
+        signOutButton.addTarget(self, action: #selector(signOut), for: .touchUpInside)
+
         initializeButtonSubviewLayout(base: onePlayerButton,
                                       image: onePlayerButtonImage,
                                       text: onePlayerButtonText,
@@ -125,6 +143,7 @@ extension MainMenuVC{
                                       text: rulesButtonText,
                                       y: leaderboardButton.bottom + 3)
     }
+    
     // MARK: - Screen Layout Function
     func initializeButtonSubviewLayout(base: UIView, image: UIImageView, text: UILabel, y: Double){
         let displayHeight = view.frame.size.height
@@ -159,6 +178,46 @@ extension MainMenuVC{
         text.font = UIFont(name: "Verdana-Bold", size: base.height * 0.25)
         text.textColor = themeColor
         
+    }
+    
+    //MARK: - User Authentication
+    @objc func signOut(){
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        let vc = sb.instantiateViewController(withIdentifier: "LogInVC") as! LogInVC
+        UserDefaults.standard.set(false, forKey: "demoGameIsSignedIn")
+        UserDefaults.standard.set(nil, forKey: "demoGameUsername")
+        UserDefaults.standard.synchronize()
+        vc.menuMusicPlayer = menuMusicPlayer
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true, completion: nil)
+    }
+    
+    func signedInCheck(){
+        if signInCheck != true {
+            NSLog("Main Menu Sign In Check: \(signInCheck)")
+            let sb = UIStoryboard(name: "Main", bundle: nil)
+            let vc = sb.instantiateViewController(withIdentifier: "LogInVC") as! LogInVC
+            vc.modalPresentationStyle = .fullScreen
+            vc.menuMusicPlayer = menuMusicPlayer
+            present(vc, animated: false, completion: nil)
+        } 
+    }
+    // MARK: - Load User Data from Firebase
+    func loadUserDataFromFirebase(){
+        guard demoGameUsername != nil else{
+            return
+        }
+        let docRef = firestoreDatabase.collection("playerDatabase").document(demoGameUsername!)
+        docRef.getDocument{ snapshot, error in
+            guard let data = snapshot?.data(), error == nil else{
+                NSLog("\(String(describing: error))")
+                return
+            }
+            self.loggedInPlayer_MM = data
+            self.loggedInPlayer_SP = data["username"] as! String
+            NSLog("singInCheck: \(self.signInCheck) \n demoGameUsername \(self.demoGameUsername ?? "no User")")
+            NSLog("userData: \(self.loggedInPlayer_MM)")
+        }
     }
     
     // MARK: - Screen Transition Functions
@@ -364,6 +423,7 @@ extension MainMenuVC{
             print("Background audio is playing")
         }
         else {
+            print("Start Audio")
             let urlString = Bundle.main.path(forResource: "Stardust", ofType: "mp3")
             do{
                 try AVAudioSession.sharedInstance().setMode(.default)

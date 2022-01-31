@@ -17,7 +17,7 @@ class RegistrationVC: UIViewController {
     @IBOutlet weak var usernameRegistration: MDCOutlinedTextField!
     @IBOutlet weak var passwordRegistration: MDCOutlinedTextField!
     @IBOutlet weak var passwordConfirmation: MDCOutlinedTextField!
-    @IBOutlet weak var backgroundImage: UIImageView!
+    var backgroundImage = UIImageView()
     @IBOutlet weak var registerButton: MDCButton!
     // MARK: - Variable/Constant Declaration
     let vcIdentifier = "RegistrationVC"
@@ -35,6 +35,7 @@ class RegistrationVC: UIViewController {
     
     override func  viewWillAppear(_ animated: Bool) {
         GlobalLog_Display(vc_Log: vcIdentifier)
+        setupBackground()
         pageClear()
     }
     
@@ -45,6 +46,9 @@ class RegistrationVC: UIViewController {
     // MARK: - RegistrationVC IBAction
     @IBAction func registerUser(_ sender: Any) {
         registerAttempt()
+    }
+    @IBAction func back(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
     }
 }
     

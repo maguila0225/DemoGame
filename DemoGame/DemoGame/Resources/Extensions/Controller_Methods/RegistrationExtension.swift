@@ -7,12 +7,11 @@
 
 import Foundation
 import UIKit
+import MaterialComponents.MaterialDialogs
 
 extension RegistrationVC{
 // MARK: - Screen Initialization Functions
     func initializeScreenElements(){
-        title = "Create User"
-        
         usernameRegistration.label.text = "Username"
         usernameRegistration.leadingAssistiveLabel.text = ""
         
@@ -23,8 +22,7 @@ extension RegistrationVC{
         passwordConfirmation.label.text = "Password"
         passwordConfirmation.leadingAssistiveLabel.text = ""
         passwordConfirmation.isSecureTextEntry = true
-        
-        backgroundImage.image = UIImage(named: bgImage)
+
         
         if self.traitCollection.userInterfaceStyle == .dark{
             registerButton.backgroundColor = .systemRed
@@ -33,7 +31,16 @@ extension RegistrationVC{
             registerButton.backgroundColor = .systemBlue
         }
     }
-
+//MARK: - Setup Background
+    func setupBackground(){
+        backgroundImage.image = UIImage(named: bgImage)
+        backgroundImage.frame = CGRect(x: 0,
+                                       y: 0,
+                                       width: view.frame.size.width,
+                                       height: view.frame.size.height)
+        view.addSubview(backgroundImage)
+        view.sendSubviewToBack(backgroundImage)
+    }
 //MARK: - Register Attempt
     func registerAttempt(){
         NSLog("User Registration Attempt")
@@ -68,7 +75,7 @@ extension RegistrationVC{
                 }
                 self.newPlayer.username = username
                 self.newPlayer.password = password
-                self.gameAlert(alertTitle: "Registration Successful", alertMessage: "Proceed to Log In")
+                self.registrationSuccess(alertTitle: "Registration Successful", alertMessage: "Proceed to Log In")
                 NSLog("\(self.usernameRegistration.text!):\(self.passwordConfirmation.text!) Registered")
                 let encodedPlayer = self.encodePlayer(inputPlayer: self.newPlayer)
                 documentReference.setData(encodedPlayer)
@@ -83,5 +90,13 @@ extension RegistrationVC{
             passwordRegistration.text = ""
             passwordConfirmation.text = ""
         }
+    
+    //MARK: - Registration Success
+    func registrationSuccess(alertTitle: String, alertMessage: String){
+        let alertController = MDCAlertController(title: alertTitle, message: alertMessage)
+        let action = MDCAlertAction(title:"OK") { (action) in self.dismiss(animated: true, completion: nil) }
+        alertController.addAction(action)
+        self.present(alertController, animated:true, completion: nil)
+    }
 }
 
