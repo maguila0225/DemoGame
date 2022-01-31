@@ -25,12 +25,12 @@ class LeaderboardVC: UIViewController{
         GlobalLog_Load(vc_Log: vcIdentifier)
         leaderboardTableView.delegate = self
         leaderboardTableView.dataSource = self
-        setupBackground()
         getUserData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         GlobalLog_Display(vc_Log: vcIdentifier)
+        setupBackground()
     }
     
     override func viewDidDisappear(_ animated: Bool) {

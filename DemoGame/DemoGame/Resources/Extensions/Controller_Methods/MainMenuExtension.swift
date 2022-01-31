@@ -32,16 +32,19 @@ extension MainMenuVC{
     func selectMenuTheme() -> String {
         if self.traitCollection.userInterfaceStyle == .dark{
             bgImage = "DarkModeBG.jpeg"
-            menuSpinner.tintColor = .systemRed
+            themeColor = .systemIndigo
         }
         else{
             bgImage = "LightModeBG.jpeg"
-            menuSpinner.tintColor = .systemBlue
+            themeColor = .systemBlue
         }
         return bgImage
     }
     
     func addUIElementSubViews(){
+        view.addSubview(curtains)
+        curtains.addSubview(curtainsImage)
+        curtains.addSubview(curtainsText)
         view.addSubview(backgroundImage)
         view.addSubview(signOutButton)
         view.addSubview(imageView)
@@ -57,8 +60,7 @@ extension MainMenuVC{
         leaderboardButton.addSubview(leaderboardButtonText)
         rulesButton.addSubview(rulesButtonImage)
         rulesButton.addSubview(rulesButtonText)
-        view.bringSubviewToFront(menuSpinner)
-        menuSpinner.isHidden = true
+        view.bringSubviewToFront(curtains)
     }
     
     //MARK: - Add Tap Gestures
@@ -101,20 +103,51 @@ extension MainMenuVC{
             NSLog("Unrecognized Gesture")
         }
     }
-    
+    // MARK: - Screen Layout
     func subviewLayout(){
         let size = view.frame.size.width/2
+        layoutCurtains()
+        layoutBackground()
+        layoutLogo(size)
+        layoutSignOutButton()
+        layoutMenuButtons()
+    }
+    
+    fileprivate func layoutCurtains() {
+        curtains.frame = CGRect(x: 0,
+                                y: 0,
+                                width: view.frame.size.width,
+                                height: view.frame.size.height)
+        curtains.backgroundColor = .systemBackground
+        
+        curtainsImage.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+        curtainsImage.center = curtains.center
+        curtainsImage.image = UIImage(named: "Logo.png")
+        curtainsText.text = "LOADING"
+        curtainsText.frame = CGRect(x: (view.frame.size.width - 200) / 2,
+                                    y: curtainsImage.bottom + 10,
+                                    width: 200,
+                                    height: 30)
+        curtainsText.font = .systemFont(ofSize: 30, weight: .heavy)
+        curtainsText.textAlignment = .center
+    }
+    
+    fileprivate func layoutBackground() {
         backgroundImage.frame = CGRect(x: 0,
                                        y: 0,
                                        width: view.frame.size.width,
                                        height: view.frame.size.height)
         backgroundImage.image = UIImage(named: selectMenuTheme())
-        
+    }
+    
+    fileprivate func layoutLogo(_ size: CGFloat) {
         imageView.frame = CGRect(x: (view.width - size)/2,
                                  y: 0.1 * view.frame.size.height,
                                  width: size,
                                  height: size)
-        
+    }
+    
+    fileprivate func layoutSignOutButton() {
         signOutButton.frame = CGRect(x: view.frame.size.width * 0.003,
                                      y: view.frame.size.height * 0.05,
                                      width: view.frame.size.width * 0.30,
@@ -122,7 +155,9 @@ extension MainMenuVC{
         signOutButton.setTitle("Sign Out", for: .normal)
         signOutButton.setTitleColor(.link, for: .normal)
         signOutButton.addTarget(self, action: #selector(signOut), for: .touchUpInside)
-
+    }
+    
+    fileprivate func layoutMenuButtons() {
         initializeButtonSubviewLayout(base: onePlayerButton,
                                       image: onePlayerButtonImage,
                                       text: onePlayerButtonText,
@@ -144,18 +179,10 @@ extension MainMenuVC{
                                       y: leaderboardButton.bottom + 3)
     }
     
-    // MARK: - Screen Layout Function
     func initializeButtonSubviewLayout(base: UIView, image: UIImageView, text: UILabel, y: Double){
         let displayHeight = view.frame.size.height
         let displayWidth = view.frame.size.width
-        
-        if self.traitCollection.userInterfaceStyle == .dark{
-            themeColor = .systemRed
-        }
-        else{
-            themeColor = .systemBlue
-        }
-        
+
         base.frame = CGRect(x: 5,
                             y: y,
                             width: displayWidth - 10,
@@ -200,8 +227,11 @@ extension MainMenuVC{
             vc.modalPresentationStyle = .fullScreen
             vc.menuMusicPlayer = menuMusicPlayer
             present(vc, animated: false, completion: nil)
-        } 
+        } else {
+            curtains.isHidden = true
+        }
     }
+    
     // MARK: - Load User Data from Firebase
     func loadUserDataFromFirebase(){
         guard demoGameUsername != nil else{
@@ -231,7 +261,6 @@ extension MainMenuVC{
         menuMusicPlayer!.stop()
         self.present(vc, animated: true, completion: nil)
     }
-    
 
     func leaderboardScreenTransition() {
         let sb = UIStoryboard(name: "Main", bundle: nil)
@@ -243,8 +272,7 @@ extension MainMenuVC{
     
     // MARK: - Multiplayer Queue Function
     func multiplayerQueue(){
-        menuSpinner.isHidden = false
-        menuSpinner.startAnimating()
+        curtains.isHidden = false
         self.view.isUserInteractionEnabled = false
         let documentReference = firestoreDatabase.document("multiplayerQueue/Lobby")
         documentReference.getDocument{ snapshot, error in
@@ -306,6 +334,7 @@ extension MainMenuVC{
             NSLog("Error, no room/role assigend")
         }
     }
+    
     //MARK: - Multiplayer Game Initialization Functions
     func initializeHost(){
         let collectionReference = firestoreDatabase.collection("multiplayerRoom")
@@ -316,7 +345,6 @@ extension MainMenuVC{
         collectionReference.document(self.room).setData(encodedGame)
         NSLog("connected to room: \(self.room) as \(self.role)")
         hostListner = listenForGuest(documentName: self.room)
-        
     }
     
     func initializeGuest(){
@@ -364,7 +392,6 @@ extension MainMenuVC{
     }
     //MARK: - Screen Transition Functions (Multipalyer)
     func hostScreenTransition(){
-        menuSpinner.stopAnimating()
         self.view.isUserInteractionEnabled = true
         let sb = UIStoryboard(name: "Main", bundle: nil)
         let vc = sb.instantiateViewController(withIdentifier: "GameVC") as! GameVC
@@ -376,6 +403,7 @@ extension MainMenuVC{
                 return
             }
             self.hostListner!.remove()
+            self.curtains.isHidden = true
             vc.room = self.room
             vc.gameMode = self.gameMode
             vc.loggedInPlayer_G = self.loggedInPlayer_MM
@@ -398,6 +426,7 @@ extension MainMenuVC{
                 NSLog("\(String(describing: error))")
                 return
             }
+            self.curtains.isHidden = true
             self.guestListener!.remove()
             vc.room = self.room
             vc.gameMode = self.gameMode

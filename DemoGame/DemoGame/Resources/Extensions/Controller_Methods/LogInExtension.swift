@@ -12,41 +12,60 @@ import AVFoundation
 // MARK: - LogInVC Functions
 extension LogInVC{
     // MARK: - Initialize Screen Elements
+
     func initializeScreenElements(){
         logoImage.image = UIImage(named: "Logo.png")
-        
         usernameTextField.label.text = "Username"
         usernameTextField.leadingAssistiveLabel.text = ""
-        
         passwordTextField.label.text = "Password"
         passwordTextField.leadingAssistiveLabel.text = ""
         passwordTextField.isSecureTextEntry = true
-        spinner.isHidden = true
-        spinner.backgroundColor = .systemBackground.withAlphaComponent(0.9)
-        spinner.sizeToFit()
+        themeSelect()
+        backgroundImage.image = UIImage(named: bgImage)
+        layoutCurtains()
+        curtains.isHidden = true
+    }
+    
+    fileprivate func themeSelect() {
         if self.traitCollection.userInterfaceStyle == .dark{
             bgImage = "DarkModeBG.jpeg"
-            logInButton.backgroundColor = .systemRed
-            spinner.tintColor = .systemRed
+            logInButton.backgroundColor = .systemIndigo
         }
         else{
             bgImage = "LightModeBG.jpeg"
             logInButton.backgroundColor = .systemBlue
-            spinner.tintColor = .systemBlue
         }
-        backgroundImage.image = UIImage(named: bgImage)
+    }
+    
+    func layoutCurtains(){
+        curtains.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height)
+        curtains.backgroundColor = .systemBackground
+        curtainsImage.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+        curtainsImage.center = curtains.center
+        curtainsImage.image = UIImage(named: "Logo.png")
+        curtainsText.text = "LOADING"
+        curtainsText.frame = CGRect(x: (view.frame.size.width - 200) / 2,
+                                    y: curtainsImage.bottom + 10,
+                                    width: 200,
+                                    height: 30)
+        curtainsText.font = .systemFont(ofSize: 30, weight: .heavy)
+        curtainsText.textAlignment = .center
+        view.addSubview(curtains)
+        curtains.addSubview(curtainsImage)
+        curtains.addSubview(curtainsText)
+        
+        view.bringSubviewToFront(curtains)
     }
     
     // MARK: - Log In Attempt
     func logInAttempt()
     {
-        spinner.startAnimating()
-        spinner.isHidden = false
+        curtains.isHidden = false
         NSLog("Log in Attempted")
         guard usernameTextField.text?.isEmpty == false
                 && passwordTextField.text?.isEmpty == false
         else{
-            spinner.isHidden = true
+
             gameAlert(alertTitle: "Log In Error", alertMessage: "Empty username/Password")
             NSLog("Empty Username/Password")
             return
@@ -54,14 +73,14 @@ extension LogInVC{
         let documentReference = firestoreDatabase.document("playerDatabase/\(usernameTextField.text!)")
         documentReference.getDocument{ snapshot, error in
             guard let data = snapshot?.data(), error == nil else{
-                self.spinner.isHidden = true
+
                 self.gameAlert(alertTitle: "Log In Error", alertMessage: "Invalid User")
                 NSLog("Invalid User")
                 return
             }
             guard data["password"] as! String == self.passwordTextField.text!
             else{
-                self.spinner.isHidden = true
+
                 self.gameAlert(alertTitle: "Log In Error", alertMessage: "Incorrect Password")
                 NSLog("Incorrect Password")
                 return
@@ -80,10 +99,10 @@ extension LogInVC{
     func screenTransitionMainMenu() {
         let sb = UIStoryboard(name: "Main", bundle: nil)
         let vc = sb.instantiateViewController(withIdentifier: "MainMenuVC") as! MainMenuVC
-        vc.spinner = spinner
+
         vc.menuMusicPlayer = menuMusicPlayer
         vc.modalPresentationStyle = .fullScreen
-        present(vc,animated: true)
+        present(vc,animated: false)
     }
 
     func screenTransitionRegister(){

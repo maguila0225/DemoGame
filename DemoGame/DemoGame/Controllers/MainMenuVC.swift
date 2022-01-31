@@ -11,7 +11,6 @@ import AVFoundation
 
 class MainMenuVC: UIViewController {
     // MARK: - UI Element Declaration
-    @IBOutlet weak var menuSpinner: UIActivityIndicatorView!
     let backgroundImage = UIImageView()
     let imageView = UIImageView()
     let onePlayerButton = UIView()
@@ -27,6 +26,9 @@ class MainMenuVC: UIViewController {
     let rulesButtonImage = UIImageView()
     let rulesButtonText = UILabel()
     let signOutButton = UIButton()
+    let curtains = UIView()
+    let curtainsImage = UIImageView()
+    let curtainsText = UILabel()
     
     // MARK: - Gesture Recognizer Declaration
     var singlePlayerSelect = UIGestureRecognizer()
@@ -46,7 +48,6 @@ class MainMenuVC: UIViewController {
     var gameMode: String = ""
     var loggedInPlayer_SP = ""
     var menuMusicPlayer: AVAudioPlayer?
-    var spinner: UIActivityIndicatorView?
     var bgImage: String = ""
     var themeColor = UIColor()
     var signInCheck = UserDefaults.standard.bool(forKey: "demoGameIsSignedIn")
@@ -60,6 +61,7 @@ class MainMenuVC: UIViewController {
         addUIElementSubViews()
         initializeImageTapGestures()
         playBackgroundAudio()
+        
     }
 
     override func viewDidLayoutSubviews() {
@@ -67,13 +69,14 @@ class MainMenuVC: UIViewController {
         subviewLayout()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        curtains.isHidden = true
+    }
     override func viewDidAppear(_ animated: Bool) {
         GlobalLog_Display(vc_Log: vcIdentifier)
         signedInCheck()
         loadUserDataFromFirebase()
         playBackgroundAudio()
-        menuSpinner.stopAnimating()
-        menuSpinner.isHidden = true
     }
     
     override func viewDidDisappear(_ animated: Bool) {

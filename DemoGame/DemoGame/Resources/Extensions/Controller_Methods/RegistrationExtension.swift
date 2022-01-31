@@ -25,7 +25,7 @@ extension RegistrationVC{
 
         
         if self.traitCollection.userInterfaceStyle == .dark{
-            registerButton.backgroundColor = .systemRed
+            registerButton.backgroundColor = .systemIndigo
         }
         else{
             registerButton.backgroundColor = .systemBlue

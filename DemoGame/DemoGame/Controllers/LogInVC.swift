@@ -21,9 +21,10 @@ class LogInVC: UIViewController {
     @IBOutlet weak var logoImage: UIImageView!
     @IBOutlet weak var usernameTextField: MDCOutlinedTextField!
     @IBOutlet weak var passwordTextField: MDCOutlinedTextField!
-    @IBOutlet weak var spinner: UIActivityIndicatorView!
     @IBOutlet weak var logInButton: MDCButton!
-    
+    let curtains = UIView()
+    let curtainsImage = UIImageView()
+    let curtainsText = UILabel()
     var loggedInPlayer_SP = ""
     var loggedInPlayer: [String: Any] = [:]
     var bgImage = ""
@@ -41,8 +42,7 @@ class LogInVC: UIViewController {
     override func  viewWillAppear(_ animated: Bool) {
         GlobalLog_Display(vc_Log: vcIdentifier)
         pageClear()
-        spinner.isHidden = true
-        spinner.stopAnimating()
+        curtains.isHidden = true
     }
 
     override func viewDidAppear(_ animated: Bool) {
