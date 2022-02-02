@@ -29,7 +29,7 @@ extension LogInVC{
     fileprivate func themeSelect() {
         if self.traitCollection.userInterfaceStyle == .dark{
             bgImage = "DarkModeBG.jpeg"
-            logInButton.backgroundColor = .systemIndigo
+            logInButton.backgroundColor = .systemRed
         }
         else{
             bgImage = "LightModeBG.jpeg"
@@ -65,7 +65,7 @@ extension LogInVC{
         guard usernameTextField.text?.isEmpty == false
                 && passwordTextField.text?.isEmpty == false
         else{
-
+            curtains.isHidden = true
             gameAlert(alertTitle: "Log In Error", alertMessage: "Empty username/Password")
             NSLog("Empty Username/Password")
             return
@@ -73,14 +73,14 @@ extension LogInVC{
         let documentReference = firestoreDatabase.document("playerDatabase/\(usernameTextField.text!)")
         documentReference.getDocument{ snapshot, error in
             guard let data = snapshot?.data(), error == nil else{
-
+                self.curtains.isHidden = true
                 self.gameAlert(alertTitle: "Log In Error", alertMessage: "Invalid User")
                 NSLog("Invalid User")
                 return
             }
             guard data["password"] as! String == self.passwordTextField.text!
             else{
-
+                self.curtains.isHidden = true
                 self.gameAlert(alertTitle: "Log In Error", alertMessage: "Incorrect Password")
                 NSLog("Incorrect Password")
                 return
@@ -99,7 +99,6 @@ extension LogInVC{
     func screenTransitionMainMenu() {
         let sb = UIStoryboard(name: "Main", bundle: nil)
         let vc = sb.instantiateViewController(withIdentifier: "MainMenuVC") as! MainMenuVC
-
         vc.menuMusicPlayer = menuMusicPlayer
         vc.modalPresentationStyle = .fullScreen
         present(vc,animated: false)

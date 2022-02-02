@@ -32,7 +32,7 @@ extension MainMenuVC{
     func selectMenuTheme() -> String {
         if self.traitCollection.userInterfaceStyle == .dark{
             bgImage = "DarkModeBG.jpeg"
-            themeColor = .systemIndigo
+            themeColor = .systemRed
         }
         else{
             bgImage = "LightModeBG.jpeg"
@@ -203,7 +203,7 @@ extension MainMenuVC{
                             width: base.width - image.width - 15,
                             height: base.height - 10)
         text.font = UIFont(name: "Verdana-Bold", size: base.height * 0.25)
-        text.textColor = themeColor
+//        text.textColor = .white
         
     }
     
